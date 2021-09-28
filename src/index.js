@@ -3,10 +3,31 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter, Route } from 'react-router-dom'
+import Detail from './components/Detail.js'
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+{/* 
+      <Switch>
+        <Route path="/" component={App}/>
+      </Switch>
+
+      <Switch>
+        <Route path="/detail/:slug" component={Detail}/>
+      </Switch> */}
+
+    <Route exact path="/">
+      <App />
+    </Route>
+    <Route exact path="/detail/:id">
+      <Detail />
+    </Route>
+
+
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
