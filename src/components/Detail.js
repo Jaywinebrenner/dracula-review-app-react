@@ -10,7 +10,8 @@ import { Link } from "react-router-dom";
 // import _ from "lodash";
 import useCollapse from 'react-collapsed';
 import AddReviewModal from './AddReviewModal'
-import Rate from './Rate.js'
+import AverageRating from './AverageRating'
+
 
  /* eslint-disable */ 
 
@@ -72,7 +73,7 @@ function Detail() {
             <div className="detail-header">
                 <img className="dracula-detail-image" src={thisDracula ? thisDracula[0].image_url : ''}/>
                 <h2>{thisDracula[0].name}</h2>
-                {starAverage && <Rate count={starAverage}/>}
+                {starAverage ? <AverageRating count={5} rating={starAverage}/> : <div>No Rating Yet</div>}
             </div>
         )
     }
@@ -118,7 +119,7 @@ function Detail() {
                         </div>
                     </div>
                 </div>
-                {thisDracsReviews.map( rev =>
+                {thisDracsReviews.length > 0 ? thisDracsReviews.map( rev =>
                     <div id="card" className="dracula-review-card" key={rev.id}>
                         <hr/>
                         <div className="review-top"
@@ -129,12 +130,13 @@ function Detail() {
                             <h3>{ rev.title }</h3>
                             <FontAwesomeIcon className="chevron" size='1x' icon={faChevronLeft} />
                         </div>
-                        {<section {...getCollapseProps()}>   
-                            <p><strong>Score: {rev.score}</strong></p>
+                        {<section className="review-bottom" {...getCollapseProps()}>   
+                            <AverageRating rating={rev.score} size={'1x'}/>
+                            {/* <p><strong>Score: {rev.score}</strong></p> */}
                             <p>{rev.description}</p>
                         </section>}
                     </div>
-                )}
+                ) : <div><hr/><div style={{textAlign: "center"}}className="review-top">No one has reviewed this Dracula</div></div>}
                 
 
 

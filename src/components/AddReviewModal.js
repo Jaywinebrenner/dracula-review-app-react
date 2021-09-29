@@ -4,22 +4,26 @@ import axios from 'axios'
 import Rate from './Rate.js'
  /* eslint-disable */ 
 
-
-
-
 function AddReviewModal({toggleModal, thisDraculaId}) {
 
     const [reviewTitle, setReviewTitle] = useState('')
     const [reviewBody, setReviewBody] = useState('')
     const [rating, setRating] = useState(0)
 
-
-
       const refreshPage = () => {
         window.location.reload(false);
       }
 
     const submitForm = () => {
+        if(!reviewTitle){
+            return alert("Add a title!")
+        }
+        if(!reviewBody){
+            return alert("Add a review!")
+        }
+        if(!rating){
+            return alert("Rate that Draucla first!")
+        }
         const review = { title: reviewTitle, description: reviewBody, score: rating, dracula_id: thisDraculaId}
         axios.post(
             `http://localhost:3000/api/v1/reviews`, {review})
@@ -71,16 +75,10 @@ function AddReviewModal({toggleModal, thisDraculaId}) {
                         
                         <button onClick={submitForm} className="submit-review-button" type="button">Submit Review</button>
                     </div>
-                        
                     </div>
-
-                    
-                    
 
                 </div>
             </div>
-
-
       </div>
   );
 }

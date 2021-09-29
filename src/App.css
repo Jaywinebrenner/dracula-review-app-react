@@ -1,10 +1,15 @@
 #root {
-  height: 100vh;
+  /* height: 100vh; */
+}
+
+body {
+  background-color: black;
 }
 
 .App {
   text-align: center;
-  height: 100vh;
+  /* height: 100vh; */
+  background-color: black;
 }
 
 .title-wrapper{
@@ -14,7 +19,7 @@
 .title-wrapper h2 {
   margin: 0;
   padding-bottom: 20px;
-  color: white;
+  color: #f8f8ff;
 }
 
 .app-title{
@@ -42,7 +47,7 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #f8f8ff;
 }
 
 .App-link {
@@ -66,8 +71,16 @@
   height: 100vh;
 }
 
+.home h1 {
+  color: #f8f8ff;
+}
+
 .subheader {
   font-size: 3rem;
+}
+
+.subheader-wrapper {
+  position: relative;
 }
 
 .dracula-wrap {
@@ -77,19 +90,57 @@
   grid-gap: 25px;
 }
 
+.dracula-wrap p{
+color: #f8f8ff;
+}
+
+.plus-drac {
+  position: absolute;
+  color: white;
+  top: 10px;
+  right: 180px;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 940px) {
+  .plus-drac {
+    position: relative;
+    top: 0;
+    right: 0;
+  }
+  .subheader-wrapper h1 {
+    margin-bottom: 5px;
+  }
+}
+
+
 .dracula-image {
   max-width:230px;
-  max-height:95px;
+  max-height:155px;
   width: auto;
   height: auto;
   box-shadow: rgb(0 0 0 / 69%) 0px 26px 30px -10px, 
   rgb(0 0 0 / 73%) 0px 16px 10px -10px;
 }
 
+@media only screen and (max-width: 800px) {
+  .dracula-wrap {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  .dracula-image {
+    width: 75%;
+    max-width: 75%; 
+     max-height: 75%; 
+     width: 75%; 
+     height: 75%;
+     background-color: #f8f8ff;
+  }
+}
+
 /* DETAIL */
 
 .detail {
-  margin: 20%;
+  margin: 15%;
   border: 1px solid black;
   border-radius: 3px;
 }
@@ -100,6 +151,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #f8f8ff;
 }
 
 .detail-header h6 {
@@ -135,7 +187,7 @@ hr {
 
 .arrow {
   cursor:pointer;
-  color: black;
+  color: #f8f8ff;
   transition: .3s;
 }
 .arrow:hover {
@@ -145,6 +197,11 @@ hr {
 .review-top {
   cursor: pointer;
   padding: 3px;
+  background-color: #f8f8ff;
+}
+
+.review-bottom {
+  background-color: #f8f8ff;
 }
 
 .review-top h3{
@@ -166,6 +223,11 @@ hr {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  background-color: #f8f8ff;
+}
+
+.add-wrapper p {
+  margin-right: 5px;
 }
 
 .plus {
@@ -187,6 +249,10 @@ hr {
   position: absolute;
   top: 20px;
   right: 20px;
+}
+
+.modal-top h1 {
+  color: black;
 }
 
 .modal-wrapper {
@@ -225,7 +291,7 @@ hr {
   width: 100%;
   margin-top: 15%;
   height: 100vh;
-  /* background: white; */
+  /* background: #f8f8ff; */
   box-shadow: -2rem 2rem 2rem rgba(black, 0.2);
   background-color: black;
 }
@@ -235,7 +301,7 @@ hr {
   width: 70%;
   height: 60%;
   margin: auto;
-  background-color: white;
+  background-color: #f8f8ff;
 }
 
 .modal-top {
@@ -274,7 +340,7 @@ hr {
   padding: 10px;
   width: 120px;
   border: 1px solid black;
-  background-color: white;
+  background-color: #f8f8ff;
   transition: .3s;
   cursor: pointer;
 }

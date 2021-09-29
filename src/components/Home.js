@@ -1,7 +1,9 @@
 
 import React, { useEffect, useState} from 'react'
-// import axios from 'axios'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import { Link } from "react-router-dom";
+import AddDraculaModal from './AddDraculaModal';
 
  /* eslint-disable */ 
 
@@ -9,9 +11,14 @@ import { Link } from "react-router-dom";
 function Home() {
 
     const [ allDraculas, setAllDraculas] = useState('')
+    const [ isAddDraculaModalShowing, setIsAddDraculaModalShowing] = useState(false)
+
+    const toggleAddDraculaModal = () => {
+      setIsAddDraculaModalShowing((prevExpanded) => !prevExpanded)
+  } 
 
     useEffect(() => {
-      
+
         const fetchData = async () => {
           const response = await fetch(`http://localhost:3000/api/v1/draculas`);
 
@@ -24,17 +31,12 @@ function Home() {
       }, []);
 
 
-    // const renderDraculas = () => {
-    //     console.log("All Dracs",allDraculas)
-   
-    //         allDraculas.map((dracula)=> {
-    //             console.log(dracula.name)
-    //         })
-    // }
-
   return (
     <div className="home">
-      <h1 className="subheader">Draculas to Review</h1>
+      <div className="subheader-wrapper">
+        <h1 className="subheader">Draculas to Review</h1>
+        <FontAwesomeIcon onClick={toggleAddDraculaModal} className="plus-drac" size='3x' icon={faPlusCircle} />
+      </div>
       <div className="dracula-wrap">
         {allDraculas && allDraculas.map((dracula) => (
           <div  key={dracula.id}>
@@ -52,6 +54,7 @@ function Home() {
           </div>
      ))}
         </div>
+      {isAddDraculaModalShowing && <AddDraculaModal toggleAddDraculaModal={toggleAddDraculaModal}/>}
       </div>
   );
 }

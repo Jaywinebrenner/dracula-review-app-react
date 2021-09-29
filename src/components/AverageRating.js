@@ -4,13 +4,10 @@ import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 
-function Rate({count, rating, color, onRating}) {
+function AverageRating({count, rating, color, size, onRating}) {
 
-    const [hoverRating, setHoverRating] = useState()
     const getColor = index => {
-        if(hoverRating >= index) {
-            return color.filled
-        } else if(!hoverRating && rating >= index) {
+        if(rating >= index) {
             return color.filled
         } else {
             return color.unfilled
@@ -26,31 +23,28 @@ function Rate({count, rating, color, onRating}) {
             <FontAwesomeIcon 
                 key={idx}
                 className="start" 
-                size='3x' 
+                size={size}
                 icon={faStar} 
                 style={{ color: getColor(idx)}}
-                onClick={() => onRating(idx)}
-                onMouseEnter={() => setHoverRating(idx)}
-                onMouseLeave={()=> setHoverRating(0) }
             />
         ))
-    }, [count, rating, hoverRating])
+    }, [count, rating])
 
 
   return <div>{starRating}</div>
 
 }
-Rate.prototype = {
+AverageRating.prototype = {
     count: PropTypes.number,
     rating: PropTypes.number,
-    onRateChange: PropTypes.func,
     color: {
         filled: PropTypes.string,
         unfilled: PropTypes.string
-    }
+    },
+    size: PropTypes.string
 }
 
-Rate.defaultProps = {
+AverageRating.defaultProps = {
     count: 5,
     rating: 0,
     color: {
@@ -59,4 +53,4 @@ Rate.defaultProps = {
     }
 }
 
-export default Rate;
+export default AverageRating;
