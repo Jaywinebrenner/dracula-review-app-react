@@ -73,7 +73,7 @@ function Detail() {
             <div className="detail-header">
                 <img className="dracula-detail-image" src={thisDracula ? thisDracula[0].image_url : ''}/>
                 <h2>{thisDracula[0].name}</h2>
-                {starAverage ? <AverageRating count={5} rating={starAverage}/> : <div>No Rating Yet</div>}
+                {starAverage ? <AverageRating count={5} rating={starAverage} size={"3x"}/> : <div>No Rating Yet</div>}
             </div>
         )
     }

@@ -364,7 +364,7 @@ hr {
 /* REGISRATION */
 
 .registration {
-  background-color: white;
+  background-color: darkgray;
 
 }
 
@@ -391,4 +391,18 @@ hr {
 
 .reg-password-confirmation {
 
+}
+
+.nav-top {
+  background-color: darkgray;
+}
+
+.nav-top h3 {
+  margin: 0;
+  padding: 1px;
+  cursor: pointer;
+}
+
+.nav-bottom {
+  background-color: darkgray;
 }

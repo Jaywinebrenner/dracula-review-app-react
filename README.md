@@ -5,5 +5,7 @@ nav to root of ruby backend
 rails s
 
 
-AUTH LINK
-https://www.youtube.com/user/edutechional/videos
+git hub//
+
+FRONT END, this: dracula-review-front-end
+BACK END: dracula-review-app-rails-react
