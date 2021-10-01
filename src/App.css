@@ -393,16 +393,70 @@ hr {
 
 }
 
-.nav-top {
+.subnav-top {
   background-color: darkgray;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.nav-top h3 {
+.subnav-top h3 {
   margin: 0;
   padding: 1px;
   cursor: pointer;
+  grid-column: 1;
 }
 
-.nav-bottom {
+.subnav-bottom {
   background-color: darkgray;
+}
+
+.nav {
+  background-color: darkgray;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: right;
+  align-items: right;
+  padding-right: 10px;
+}
+
+.user-icon {
+  height: 20px;
+  padding: 3px;
+  cursor: pointer;
+}
+
+
+.hover-wrapper {
+  background-color: black;
+  width: 350px;
+  position: absolute;
+  right: 10px;
+  border-radius: 5px;
+  transition: .3s;
+  z-index: 5;
+
+}
+
+.login-button, .logout-button, .signup-button {
+  color: white;
+  font-size: 20px;
+  padding: 8px 0;
+
+}
+
+.login-button:hover, .logout-button:hover, .signup-button:hover {
+  background-color: gray;
+  cursor: pointer;
+
+}
+
+.user-icon:hover + .hover-wrapper {
+  display: block;
+}
+
+
+.test-wrapper {
+  background-color: white;
 }
