@@ -25,12 +25,12 @@ function App() {
   const [isLoginModalShowing, setIsLoginModalShowing] = useState(false);
   const [ isHoverDivShowing, setIsHoverDivShowing ] = useState(false);
   const [options, setOptions ]= useState([
-    'All Draculas', 'Most Popular Draculas', 'Least Popular Draculas', 'Most Commented on Draucla'
+    'Alphabetize Draculas', 'All Draculas', 'Most Popular Draculas', 'Least Popular Draculas'
   ]);
 
-  const [dropDownValue, setDropdownValue] = useState('one')
+  const [dropDownValue, setDropdownValue] = useState('Filter Draculas')
 
-  const defaultOption = 'All Draculas'
+  const defaultOption = 'Filter Draculas'
 
   const handleDropdownChange = (e) => {
     setDropdownValue(e.value);
@@ -41,9 +41,6 @@ function App() {
   }
 
   getInitialDropdownState()
-
-
-  
 
   const toggleSignupModal = () => {
     setIsSignupModalShowing((prevExpanded) => !prevExpanded)
@@ -56,12 +53,9 @@ function App() {
   const toggleHoverDiv = () => {
     setIsHoverDivShowing((prevExpanded) => !prevExpanded)
   } 
-  const openNav = () => {
-    setExpanded((prevExpanded) => !prevExpanded)
-  }
-
-
-
+  // const openNav = () => {
+  //   setExpanded((prevExpanded) => !prevExpanded)
+  // }
 
   return (
 
@@ -94,7 +88,7 @@ function App() {
           <div className="subnav-top"> 
           <div className="filter-wrapper">
               <Dropdown 
-              className="dropdown"
+                className="dropdown"
                 options={options} 
                 onChange={handleDropdownChange} 
                 value={defaultOption} 
@@ -122,7 +116,7 @@ function App() {
 
 
 
-      <Home/>
+      <Home dropDownValue={dropDownValue}/>
       {isLoginModalShowing && <LoginModal toggleLoginModal={toggleLoginModal}/>}
       {isSignupModalShowing && <SignupModal toggleSignupModal={toggleSignupModal}/>}
     </div>

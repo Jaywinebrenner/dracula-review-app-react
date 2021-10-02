@@ -8,7 +8,7 @@ import AddDraculaModal from './AddDraculaModal';
  /* eslint-disable */ 
 
 
-function Home() {
+function Home({dropDownValue}) {
 
     const [ allDraculas, setAllDraculas] = useState('')
     const [ isAddDraculaModalShowing, setIsAddDraculaModalShowing] = useState(false)
@@ -26,9 +26,46 @@ function Home() {
           console.log("dracula res", draculas)
           setAllDraculas(draculas);
         };
-        fetchData();
+        fetchData()
+
+        const fetchAllReviews = async () => {
+          try {
+              const response = await fetch(`http://localhost:3000/api/v1/reviews`);
+              const reviews = await response.json();
+              // let dracReviews = await reviews.filter((rev) => rev.dracula_id === thisDraculaId)
+              // setThisDracsReviews([...dracReviews])
+              console.log("ALL REVIEWS", reviews)
+              let scores = await reviews.map((rev) => rev.score)
+              console.log("ALL SCROES", scores)
+          } catch (error) {
+              console.log(error)
+          }
+
+        }
+        fetchAllReviews()
     
       }, []);
+
+      console.log("dropdown", dropDownValue)
+
+      const filterSet = () => {
+        if(dropDownValue === "Alphabetize Draculas") {
+          allDraculas.sort(function(a, b){
+            if(a.name < b.name) { return -1; }
+            if(a.name > b.name) { return 1; }
+            return 0;
+        })
+          // setAllDraculas(allDraculas);
+        }
+        if(dropDownValue === "Most Popular Draculas") {
+          console.log("all dracs", allDraculas)
+          // setAllDraculas(draculas);
+        }        
+        if(dropDownValue === "Least Popular Draculas") {
+          setAllDraculas(draculas);
+        }
+      }
+      filterSet();
 
 
   return (

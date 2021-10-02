@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 // import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { Link } from "react-router-dom";
 // import _ from "lodash";
@@ -100,6 +101,10 @@ function Detail() {
         setIsModalShowing((prevExpanded) => !prevExpanded)
     } 
 
+    const deleteDracula = () => {
+        console.log("delete")
+    }
+
 
   return (
       <div>
@@ -116,6 +121,9 @@ function Detail() {
                         <p>Add Review</p>
                         <div className="plus-wrapper" onClick={() => toggleModal()}>
                             <FontAwesomeIcon className="plus" size='3x' icon={faPlusCircle} />
+                        </div>
+                        <div className="plus-wrapper" onClick={() => deleteDracula()}>
+                            <FontAwesomeIcon className="trash" size='1x' icon={faTrashAlt} />
                         </div>
                     </div>
                 </div>
