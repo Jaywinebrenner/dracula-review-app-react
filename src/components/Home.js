@@ -58,8 +58,11 @@ function Home({dropDownValue}) {
           // setAllDraculas(allDraculas);
         }
         if(dropDownValue === "Most Popular Draculas") {
-          console.log("all dracs", allDraculas)
-          // setAllDraculas(draculas);
+          allDraculas.sort(function(a, b){
+            if(a.scores < b.scores) { return -1; }
+            if(a.scores > b.score) { return 1; }
+            return 0;
+        })
         }        
         if(dropDownValue === "Least Popular Draculas") {
           setAllDraculas(draculas);

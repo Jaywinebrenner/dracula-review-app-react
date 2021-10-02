@@ -4,17 +4,18 @@ import axios from 'axios'
 import Rate from './Rate.js'
  /* eslint-disable */ 
 
-function AddReviewModal({toggleModal, thisDraculaId}) {
+function AddReviewModal({toggleModal, thisDraculaId, thisDracula,starAverage}) {
 
     const [reviewTitle, setReviewTitle] = useState('')
     const [reviewBody, setReviewBody] = useState('')
     const [rating, setRating] = useState(0)
 
+
       const refreshPage = () => {
         window.location.reload(false);
       }
 
-    const submitForm = () => {
+    const submitForm = async () => {
         if(!reviewTitle){
             return alert("Add a title!")
         }
@@ -30,9 +31,30 @@ function AddReviewModal({toggleModal, thisDraculaId}) {
         .then(response => {
           console.log(response);
           refreshPage()
-        
         })
         .catch(error => console.log(error))
+
+        const getNewAverage = () => {
+            let newAverage = null;
+            if(!starAverage){
+                newAverage = rating;
+                return newAverage
+            } else {
+                newAverage = (starAverage + rating) / 2
+                return newAverage 
+            }
+        }
+        let newAverage = getNewAverage()
+
+        //Put New Star Average in DB
+        axios.put(
+            `http://localhost:3000/api/v1/draculas/${thisDraculaId}`, {scores: newAverage})
+        .then(response => {
+          console.log(response);
+          refreshPage()
+        })
+        .catch(error => console.log(error))
+
       }
 
   return (

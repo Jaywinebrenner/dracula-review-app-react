@@ -25,7 +25,7 @@ function Detail() {
     const [isExpanded, setExpanded] = useState(true);
     const [clickedDivIsExpanded, setClickedDivIsExpanded] = useState(false)
     const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded, setExpanded });
-    const [starAverage, setStarAverage] = useState(null)
+    const [starAverage, setStarAverage] = useState(null);
 
     useEffect(() => {
 
@@ -49,7 +49,9 @@ function Detail() {
                 const reviews = await response.json();
                 let dracReviews = await reviews.filter((rev) => rev.dracula_id === thisDraculaId)
                 setThisDracsReviews([...dracReviews])
-                console.log("ALL REVIEWS", thisDracsReviews)
+                let length = dracReviews.length
+                setHowManyThisDracsReviews(length)
+                console.log("HOWE MANY REVIEWS", howManyThisDracsReviews)
             } catch (error) {
                 console.log(error)
             }
@@ -60,7 +62,7 @@ function Detail() {
 
     const getAverageRating = async () => {
         thisDracsReviews.map((rev) => {
-            console.log("SOCRE",rev.score)
+            // console.log("SOCRE",rev.score)
         })
         const total = await thisDracsReviews.reduce((total, obj) => obj.score + total,0)
         const length = thisDracsReviews.length
@@ -149,7 +151,12 @@ function Detail() {
 
 
         </div>
-        {isModalShowing &&<AddReviewModal toggleModal={toggleModal} thisDraculaId={thisDraculaId}/>}
+        {isModalShowing &&<AddReviewModal 
+        toggleModal={toggleModal} 
+        thisDraculaId={thisDraculaId} 
+        thisDracula={thisDracula}
+        starAverage={starAverage}
+        />}
       </div>
   );
 }
