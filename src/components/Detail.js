@@ -1,5 +1,6 @@
 
 import React, { useEffect, useState } from 'react'
+import Review from './Review'
 import { useLocation } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
@@ -9,7 +10,7 @@ import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 // import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { Link } from "react-router-dom";
 // import _ from "lodash";
-import useCollapse from 'react-collapsed';
+// import useCollapse from 'react-collapsed';
 import AddReviewModal from './AddReviewModal'
 import AverageRating from './AverageRating'
 
@@ -22,14 +23,14 @@ function Detail() {
     
     const [thisDracula, setThisDracula] = useState({name: '', image_url: ''})
     const [thisDracsReviews, setThisDracsReviews] = useState([]);
-    const [isExpanded, setExpanded] = useState(true);
-    const [clickedDivIsExpanded, setClickedDivIsExpanded] = useState(false)
-    const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded, setExpanded });
+    // const [isExpanded, setExpanded] = useState(true);
+    // const [clickedDivIsExpanded, setClickedDivIsExpanded] = useState(false)
+    // const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded, setExpanded });
     const [starAverage, setStarAverage] = useState(null);
 
     useEffect(() => {
 
-        setExpanded(false)
+        // setExpanded(false)
 
         const fetchAllDraculas = async () => {
             try{
@@ -130,22 +131,27 @@ function Detail() {
                     </div>
                 </div>
                 {thisDracsReviews.length > 0 ? thisDracsReviews.map( rev =>
-                    <div id="card" className="dracula-review-card" key={rev.id}>
-                        <hr/>
-                        <div className="review-top"
-                            {...getToggleProps({
-                                onClick: () => openReview(rev.id),
-                                })}
-                        > 
-                            <h3>{ rev.title }</h3>
-                            <FontAwesomeIcon className="chevron" size='1x' icon={faChevronLeft} />
-                        </div>
-                        {<section className="review-bottom" {...getCollapseProps()}>   
-                            <AverageRating rating={rev.score} size={'1x'}/>
-                            {/* <p><strong>Score: {rev.score}</strong></p> */}
-                            <p>{rev.description}</p>
-                        </section>}
-                    </div>
+                    // <div id="card" className="dracula-review-card" key={rev.id}>
+                    //     <hr/>
+                    //     <div className="review-top"
+                    //         {...getToggleProps({
+                    //             onClick: () => openReview(rev.id),
+                    //             })}
+                    //     > 
+                    //         <h3>{ rev.title }</h3>
+                    //         <FontAwesomeIcon className="chevron" size='1x' icon={faChevronLeft} />
+                    //     </div>
+                    //     {<section className="review-bottom" {...getCollapseProps()}>   
+                    //         <AverageRating rating={rev.score} size={'1x'}/>
+                    //         {/* <p><strong>Score: {rev.score}</strong></p> */}
+                    //         <p>{rev.description}</p>
+                    //     </section>}
+                    // </div>
+                    <Review 
+                    key={rev.id}
+                    rev={rev} 
+
+                    />
                 ) : <div><hr/><div style={{textAlign: "center"}}className="review-top">No one has reviewed this Dracula</div></div>}
                 
 
