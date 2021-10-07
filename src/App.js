@@ -25,7 +25,7 @@ function App() {
   const [isLoginModalShowing, setIsLoginModalShowing] = useState(false);
   const [ isHoverDivShowing, setIsHoverDivShowing ] = useState(false);
   const [options, setOptions ]= useState([
-    'Alphabetize Draculas', 'All Draculas', 'Most Popular Draculas', 'Least Popular Draculas'
+    'Alphabetize Draculas', 'Most Popular Draculas', 'Least Popular Draculas'
   ]);
 
   const [dropDownValue, setDropdownValue] = useState('Filter Draculas')

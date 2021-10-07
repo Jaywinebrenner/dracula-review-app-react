@@ -120,6 +120,7 @@ function Detail() {
             thisDraculaId={thisDraculaId} 
             thisDracula={thisDracula}
             starAverage={starAverage}
+            size={"x3"}
         />}
       </div>
   );

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import { Link } from "react-router-dom";
 import AddDraculaModal from './AddDraculaModal';
+import AverageRating from './AverageRating';
 
  /* eslint-disable */ 
 
@@ -59,13 +60,17 @@ function Home({dropDownValue}) {
         }
         if(dropDownValue === "Most Popular Draculas") {
           allDraculas.sort(function(a, b){
-            if(a.scores < b.scores) { return -1; }
-            if(a.scores > b.score) { return 1; }
+            if(b.scores < a.scores) { return -1; }
+            if(b.scores > a.score) { return 1; }
             return 0;
         })
         }        
         if(dropDownValue === "Least Popular Draculas") {
-          setAllDraculas(draculas);
+          allDraculas.sort(function(a, b){
+            if(a.scores < b.scores) { return -1; }
+            if(a.scores > b.score) { return 1; }
+            return 0;
+        })
         }
       }
       filterSet();
@@ -79,7 +84,7 @@ function Home({dropDownValue}) {
       </div>
       <div className="dracula-wrap">
         {allDraculas && allDraculas.map((dracula) => (
-          <div  key={dracula.id}>
+          <div key={dracula.id}>
             <Link to={{
               pathname: `/detail/${dracula.id}`,
               state: {
@@ -91,6 +96,7 @@ function Home({dropDownValue}) {
             <img className="dracula-image" src={dracula.image_url} />
             </Link>
             <p>{dracula.name}</p>
+            <AverageRating size={"1x"} rating={dracula.scores}/>
           </div>
      ))}
         </div>

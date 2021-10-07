@@ -4,7 +4,7 @@ import axios from 'axios'
 import Rate from './Rate.js'
  /* eslint-disable */ 
 
-function AddReviewModal({toggleModal, thisDraculaId, thisDracula,starAverage}) {
+function AddReviewModal({toggleModal, thisDraculaId, thisDracula,starAverage, size}) {
 
     const [reviewTitle, setReviewTitle] = useState('')
     const [reviewBody, setReviewBody] = useState('')

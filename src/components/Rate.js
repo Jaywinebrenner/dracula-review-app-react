@@ -26,7 +26,7 @@ function Rate({count, rating, color, onRating}) {
             <FontAwesomeIcon 
                 key={idx}
                 className="start" 
-                size='1x' 
+                size='3x' 
                 icon={faStar} 
                 style={{ color: getColor(idx)}}
                 onClick={() => onRating(idx)}

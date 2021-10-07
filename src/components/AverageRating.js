@@ -23,7 +23,7 @@ function AverageRating({count, rating, color, size, onRating}) {
             <FontAwesomeIcon 
                 key={idx}
                 className="average-rating" 
-                size={"3x"}
+                size={size}
                 icon={faStar} 
                 style={{ color: getColor(idx)}}
             />

@@ -98,7 +98,8 @@ body {
 }
 
 .dracula-wrap p{
-color: #f8f8ff;
+  color: #f8f8ff;
+  margin-bottom: 5px;
 }
 
 .plus-drac {
