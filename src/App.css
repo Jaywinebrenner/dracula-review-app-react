@@ -153,6 +153,15 @@ body {
   border-radius: 3px;
 }
 
+.detail-page {
+  position: absolute;
+  background: black;
+  margin: 0 auto;
+  top: 0;
+  width: 100vw;
+  height: 100vh
+}
+
 
 .detail-header {
   padding: 10px;

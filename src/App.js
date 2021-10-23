@@ -78,7 +78,7 @@ function App() {
       <div className="title-wrapper">
         <h1 className="app-title">Dracula Review</h1>
         <h2>Find, Rate and Upload Draculas</h2>
-        <p>Full CRUD Portfolio piece powered by Ruby on Rails and React</p>
+        <p>Full CRUD Portfolio piece powered by Firebase and React by Jay Winebrenner</p>
       </div>
             {/* <select defaultValue={"one"} 
             onChange={handleDropdownChange} 

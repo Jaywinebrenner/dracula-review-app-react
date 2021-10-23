@@ -4,7 +4,7 @@ import 'firebase/compat/firestore';
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDKIAiprzYz1GT7QFoCTgZNvaoVjW-Tcb4",
+    apiKey: process.env.REACT_APP_API_KEY,
     authDomain: "dracula-review.firebaseapp.com",
     projectId: "dracula-review",
     storageBucket: "dracula-review.appspot.com",

@@ -100,7 +100,7 @@ function Detail() {
 
 
   return (
-      <div>
+      <div className="detail-page">
         <Link className="arrow-link" to={{ pathname: `/` }}>
             <FontAwesomeIcon className="arrow" size='3x' icon={faArrowLeft} />
         </Link>
