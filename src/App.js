@@ -2,6 +2,7 @@
 import './App.css';
 import Home from './components/Home.js'
 import Registration from './components/Registration';
+import Loading from './components/Loading';
 import useCollapse from 'react-collapsed';
 import React, {useState, useEffect} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -11,10 +12,6 @@ import LoginModal from './components/LoginModal';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 
-
-
-
- /* eslint-disable */ 
 
 
 function App() {
@@ -27,10 +24,16 @@ function App() {
   const [options, setOptions ]= useState([
     'Alphabetize Draculas', 'Most Popular Draculas', 'Least Popular Draculas'
   ]);
+  const [loading, setLoading] = useState(false);
 
-  const [dropDownValue, setDropdownValue] = useState('Filter Draculas')
+  const [dropDownValue, setDropdownValue] = useState('Filter Draculas');
 
-  const defaultOption = 'Filter Draculas'
+  const defaultOption = 'Filter Draculas';
+
+
+  const handleLoading = (toggle) => {
+    setLoading(toggle)
+  }
 
   const handleDropdownChange = (e) => {
     setDropdownValue(e.value);
@@ -116,7 +119,8 @@ function App() {
 
 
 
-      <Home dropDownValue={dropDownValue}/>
+      {!loading && <Home dropDownValue={dropDownValue} handleLoading={handleLoading}/>}
+      {loading && <Loading/>}
       {isLoginModalShowing && <LoginModal toggleLoginModal={toggleLoginModal}/>}
       {isSignupModalShowing && <SignupModal toggleSignupModal={toggleSignupModal}/>}
     </div>

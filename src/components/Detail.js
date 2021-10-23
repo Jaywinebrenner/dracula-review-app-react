@@ -10,6 +10,7 @@ import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { Link } from "react-router-dom";
 import AddReviewModal from './AddReviewModal'
 import AverageRating from './AverageRating'
+import firebase from "./firebase"
 
 
  /* eslint-disable */ 
@@ -22,18 +23,32 @@ function Detail() {
     const [thisDracsReviews, setThisDracsReviews] = useState([]);
     const [starAverage, setStarAverage] = useState(null);
 
+    const draculasRef = firebase.firestore().collection("draculas")
+    const reviewsRef = firebase.firestore().collection("reviews")
+
     useEffect(() => {
-        const fetchAllDraculas = async () => {
-            try{
-                const response = await fetch(`http://localhost:3000/api/v1/draculas`);
-                const draculas = await response.json();
-                let thisDrac = await draculas.filter((drac) => drac.id === thisDraculaId)
+        // const fetchAllDraculas = async () => {
+        //     try{
+        //         const response = await fetch(`http://localhost:3000/api/v1/draculas`);
+        //         const draculas = await response.json();
+        //         let thisDrac = await draculas.filter((drac) => drac.id === thisDraculaId)
+        //         setThisDracula(thisDrac)
+        //     } catch (error) {
+        //         console.log(error)
+        //     }
+        //   };
+        //   fetchAllDraculas();
+        console.log("THIS DRAC ID", thisDraculaId)
+        const getDraculas = async () => {
+            draculasRef.onSnapshot(snap => {
+                const draculas = snap.docs.map(doc => doc.data())
+                let thisDrac = draculas.filter((drac) => drac.id === thisDraculaId)
                 setThisDracula(thisDrac)
-            } catch (error) {
-                console.log(error)
-            }
-          };
-          fetchAllDraculas();
+                });
+        }
+        getDraculas();
+
+
 
         const fetchAllReviews = async () => {
             try {

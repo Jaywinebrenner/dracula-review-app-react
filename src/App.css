@@ -612,3 +612,31 @@ hr {
 .trash {
   margin-left: 30px;
 }
+
+.upload-buttons-wrapper {
+  display: flex;
+    justify-content: center;
+}
+
+.upload-image-button-left, .upload-image-button-right {
+  background-color: #f2f9fc;;
+  border-radius: 2px;
+  border: 1px black solid;
+  padding: 5px 3px;
+  width: 160px;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.upload-image-button-left:hover, .upload-image-button-right:hover {
+ background-color: lightgray;
+}
+
+.upload-image-button-left {
+  margin-right: 25px;
+}
+
+.loading-text {
+  color: white;
+  font-size: 5rem;
+}

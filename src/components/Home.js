@@ -5,11 +5,12 @@ import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import { Link } from "react-router-dom";
 import AddDraculaModal from './AddDraculaModal';
 import AverageRating from './AverageRating';
+import firebase from "./firebase"
 
  /* eslint-disable */ 
 
 
-function Home({dropDownValue}) {
+function Home({dropDownValue, handleLoading}) {
 
     const [ allDraculas, setAllDraculas] = useState('')
     const [ isAddDraculaModalShowing, setIsAddDraculaModalShowing] = useState(false)
@@ -17,35 +18,81 @@ function Home({dropDownValue}) {
     const toggleAddDraculaModal = () => {
       setIsAddDraculaModalShowing((prevExpanded) => !prevExpanded)
   } 
+  const draculasRef = firebase.firestore().collection("draculas")
+  const reviewsRef = firebase.firestore().collection("reviews")
+
+
+  
+  const getDraculas = () => {
+    handleLoading(true)
+    ref.onSnapshot((querySnapshot) => {
+      const items = [];
+      querySnapshot.forEach((doc) => {
+        items.push(doc.data())
+      })
+      setAllDraculas(items)
+      console.log("FB DRACULAS", allDraculas)
+      handleLoading(false)
+    })
+  }
 
     useEffect(() => {
 
-        const fetchData = async () => {
-          const response = await fetch(`http://localhost:3000/api/v1/draculas`);
+      draculasRef.onSnapshot(snap => {
+      const data = snap.docs.map(doc => doc.data())
+      setAllDraculas(data)
+      console.log("ALL DRACULAS", allDraculas)
+      handleLoading(false)
+      });
 
-          const draculas = await response.json();
-          console.log("dracula res", draculas)
-          setAllDraculas(draculas);
-        };
-        fetchData()
+      reviewsRef.onSnapshot(snap => {
+        const data = snap.docs.map(doc => doc.data())
+        // let dracReviews = await reviews.filter((rev) => rev.dracula_id === thisDraculaId)
+        // setThisDracsReviews([...dracReviews])
+        // console.log("FB reviews", allDraculas)
+        // handleLoading(false)
+        });
 
-        const fetchAllReviews = async () => {
-          try {
-              const response = await fetch(`http://localhost:3000/api/v1/reviews`);
-              const reviews = await response.json();
-              // let dracReviews = await reviews.filter((rev) => rev.dracula_id === thisDraculaId)
-              // setThisDracsReviews([...dracReviews])
-              console.log("ALL REVIEWS", reviews)
-              let scores = await reviews.map((rev) => rev.score)
-              console.log("ALL SCROES", scores)
-          } catch (error) {
-              console.log(error)
-          }
+      
 
-        }
-        fetchAllReviews()
+
+
+      return null
+   
+      // getDraculas()
+
+
+      // handleLoading(true)
+      // const fetchData = async () => {
+      //     const response = await fetch(`http://localhost:3000/api/v1/draculas`);
+
+      //     const draculas = await response.json();
+      //     console.log("dracula res", draculas)
+      //     setAllDraculas(draculas);
+         
+      //   };
+      //   fetchData()
+      //   const fetchAllReviews = async () => {
+      //     try {
+      //         const response = await fetch(`http://localhost:3000/api/v1/reviews`);
+      //         const reviews = await response.json();
+      //         // let dracReviews = await reviews.filter((rev) => rev.dracula_id === thisDraculaId)
+      //         // setThisDracsReviews([...dracReviews])
+      //         console.log("ALL REVIEWS", reviews)
+      //         let scores = await reviews.map((rev) => rev.score)
+      //         console.log("ALL SCROES", scores)
+
+      //     } catch (error) {
+      //         console.log(error)
+      //     }
+
+      //   }
+      //   fetchAllReviews()
+      //   handleLoading(false)
     
       }, []);
+
+
 
       console.log("dropdown", dropDownValue)
 
