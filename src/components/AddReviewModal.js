@@ -3,17 +3,16 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import Rate from './Rate.js'
  /* eslint-disable */ 
+ import firebase from "./firebase"
 
-function AddReviewModal({toggleModal, thisDraculaId, thisDracula,starAverage, size}) {
+function AddReviewModal({toggleModal, thisDraculaId, thisDracula, starAverage, size}) {
 
     const [reviewTitle, setReviewTitle] = useState('')
     const [reviewBody, setReviewBody] = useState('')
     const [rating, setRating] = useState(0)
 
-
-      const refreshPage = () => {
-        window.location.reload(false);
-      }
+    const draculasRef = firebase.firestore().collection("draculas")
+    const reviewsRef = firebase.firestore().collection("reviews")
 
     const submitForm = async () => {
         if(!reviewTitle){
@@ -26,13 +25,12 @@ function AddReviewModal({toggleModal, thisDraculaId, thisDracula,starAverage, si
             return alert("Rate that Draucla first!")
         }
         const review = { title: reviewTitle, description: reviewBody, score: rating, dracula_id: thisDraculaId}
-        axios.post(
-            `http://localhost:3000/api/v1/reviews`, {review})
-        .then(response => {
-          console.log(response);
-          refreshPage()
-        })
-        .catch(error => console.log(error))
+
+        reviewsRef.doc().set(review)
+            .catch(function(error) {
+                console.error("Error adding review: ", error);
+            });
+        toggleModal();
 
         const getNewAverage = () => {
             let newAverage = null;
@@ -46,15 +44,12 @@ function AddReviewModal({toggleModal, thisDraculaId, thisDracula,starAverage, si
         }
         let newAverage = getNewAverage()
 
-        //Put New Star Average in DB
-        axios.put(
-            `http://localhost:3000/api/v1/draculas/${thisDraculaId}`, {scores: newAverage})
-        .then(response => {
-          console.log(response);
-          refreshPage()
+        draculasRef.doc(thisDraculaId).update({
+            scores: newAverage
         })
-        .catch(error => console.log(error))
-
+        .catch(function(error) {
+            console.error("Error adding Star Average to the Dracula: ", error);
+        });
       }
 
   return (

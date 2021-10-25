@@ -1,16 +1,22 @@
 
 import React, { useState } from 'react'
-import axios from 'axios'
 import Rate from './Rate.js'
+import firebase from "./firebase"
+import { useAuth } from '../contexts/AuthContext';
+
+
 
  /* eslint-disable */ 
 
 function AddDraculaModal({toggleAddDraculaModal}) {
 
+    const { currentUser } = useAuth();
     const [name, setName] = useState('')
     const [imageUrl, setImageUrl] = useState('')
     const [image, setImage] = useState(null)
+    const [uploadedImageUrl, setUploadedImageUrl] = useState()
     const [imageUrlIsShowing, setImageUrlIsShowing] = useState('display')
+    const draculasRef = firebase.firestore().collection("draculas")
 
     const toggleImageUpload = (input) => {
         setImageUrlIsShowing(input)
@@ -18,39 +24,75 @@ function AddDraculaModal({toggleAddDraculaModal}) {
 
     const fileSelectedHandler = (event) => {
         setImage(event.target.files[0])
+ 
     }
 
-    const refreshPage = () => {
-        window.location.reload(false);
-      }
-
-    const submitForm = (event) => {
+    const submitForm = async (event) => {
         event.preventDefault();
+
+        console.log("name", name)
         console.log("image", image)
+
         if(!name){
             return alert("Add a dracula name!")
         }
-        // if(!imageUrl){
-        //     return alert("Add a url of a dracula image!")
-        // }
+        if(!image){
+            return alert("Add a cool dracula pic!")
+        }
 
-        // if (imageUrl){
-        //     setImage("https://www.costumerusuk.com/wp-content/uploads/images/products/p-25361-5549.jpg")
-        // }
-        const dracula = { name: name, image_url: imageUrl, dracula_image: image}
+        let file = image;
+        console.log("file", file)
+        if(image) {
+            let storageRef = firebase.storage().ref('/dracula_image/' + file.name);
+            await storageRef.put(file);
+        }
        
-        for (var key of dracula.entries()) {
-			console.log(key[0] + ', ' + key[1])
-		}
+        let dracUrl = await getImageUrl(file.name);
+     
+        console.log("drac url", dracUrl)
+        const dracula = { 
+            name: name, 
+            image_url: dracUrl, 
+            // dracula_image: image,
+            userId: currentUser.uid
+        }   
+        console.log("drac object", dracula)
 
-         axios.post(
-            `http://localhost:3000/api/v1/draculas`, {dracula})
-        .then(response => {
-            alert("response", response)
-          console.log("RESPONSE AFTER DRACULA UPLOAD",response);
-          refreshPage()
+        // Add dracula, then add Firebase ID to the dracula document
+        draculasRef.add(dracula)
+        .then(function(docRef) {
+            console.log("Document written with ID: ", docRef.id);
+            draculasRef.doc(docRef.id).update({
+                id: docRef.id
             })
-            .catch(error => console.log(error))
+        })
+        .catch(function(error) {
+            console.error("Error adding document: ", error);
+        });
+        setUploadedImageUrl(null);
+        setName('')
+        toggleAddDraculaModal();
+    }
+
+    const getImageUrl = async (img) => {
+        let storageRef =  firebase.storage().ref();
+        let imgRef =  storageRef.child('dracula_image/' + img);
+    
+      // Get the download URL
+        await imgRef.getDownloadURL()
+        .then((url) => {
+          console.log("DOWNLOAD URL", url)
+            let newUrl = url
+        //   this.formData.userUploadedTreeImage = url;
+        //   this.userUploadedImageState = url;
+        //   return this.formData.userUploadedTreeImage ;
+            setUploadedImageUrl(newUrl)
+            return url;
+         
+        })
+        .catch((error) => {
+            console.log("Error", error)
+         });
         }
 
   return (

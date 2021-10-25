@@ -649,3 +649,21 @@ hr {
   color: white;
   font-size: 5rem;
 }
+
+.welcome {
+  margin: 0;
+}
+
+.trash-wrapper {
+  /* display: inline-block; */
+}
+.drac-trash {
+  color: white;
+  display: inline-block;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.drac-name {
+  display: inline-block; 
+}

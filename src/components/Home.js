@@ -6,95 +6,59 @@ import { Link } from "react-router-dom";
 import AddDraculaModal from './AddDraculaModal';
 import AverageRating from './AverageRating';
 import firebase from "./firebase"
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { useAuth } from '../contexts/AuthContext';
 
  /* eslint-disable */ 
 
 
 function Home({dropDownValue, handleLoading}) {
 
-    const [ allDraculas, setAllDraculas] = useState('')
-    const [ isAddDraculaModalShowing, setIsAddDraculaModalShowing] = useState(false)
+  const { currentUser } = useAuth();
+  const [ allDraculas, setAllDraculas] = useState('')
+  const [ isAddDraculaModalShowing, setIsAddDraculaModalShowing] = useState(false)
+  const [allReviews, setAllReviews] = useState()
 
-    const toggleAddDraculaModal = () => {
+  const toggleAddDraculaModal = () => {
       setIsAddDraculaModalShowing((prevExpanded) => !prevExpanded)
   } 
-  const draculasRef = firebase.firestore().collection("draculas")
-  const reviewsRef = firebase.firestore().collection("reviews")
-
-
+  const draculasRef = firebase.firestore().collection("draculas");
+  const reviewsRef = firebase.firestore().collection("reviews");
+  const auth = firebase.auth();
   
-  const getDraculas = () => {
-    handleLoading(true)
-    ref.onSnapshot((querySnapshot) => {
-      const items = [];
-      querySnapshot.forEach((doc) => {
-        items.push(doc.data())
-      })
-      setAllDraculas(items)
-      console.log("FB DRACULAS", allDraculas)
-      handleLoading(false)
-    })
-  }
-
     useEffect(() => {
 
       draculasRef.onSnapshot(snap => {
-      const data = snap.docs.map(doc => doc.data())
-      setAllDraculas(data)
-      console.log("ALL DRACULAS", allDraculas)
-      handleLoading(false)
+        const data = snap.docs.map(doc => doc.data() )
+        setAllDraculas(data)
+        allDraculas && console.log("ALL DRACULAS", allDraculas)
+        handleLoading(false)
       });
 
       reviewsRef.onSnapshot(snap => {
-        const data = snap.docs.map(doc => doc.data())
-        // let dracReviews = await reviews.filter((rev) => rev.dracula_id === thisDraculaId)
+        const reviews = snap.docs.map(doc => doc.data())
+        setAllReviews(reviews)
+        console.log("all reviews", allReviews)
+        // console.log("this Drac ID", thisDraculaId)
+        let scores = reviews.map((rev) => rev.score)
+        console.log("scores", scores)
+        // let dracReviews = reviews.filter((rev) => rev.dracula_id === thisDraculaId)
         // setThisDracsReviews([...dracReviews])
         // console.log("FB reviews", allDraculas)
         // handleLoading(false)
         });
-
-      
-
-
-
+    
       return null
-   
-      // getDraculas()
-
-
-      // handleLoading(true)
-      // const fetchData = async () => {
-      //     const response = await fetch(`http://localhost:3000/api/v1/draculas`);
-
-      //     const draculas = await response.json();
-      //     console.log("dracula res", draculas)
-      //     setAllDraculas(draculas);
-         
-      //   };
-      //   fetchData()
-      //   const fetchAllReviews = async () => {
-      //     try {
-      //         const response = await fetch(`http://localhost:3000/api/v1/reviews`);
-      //         const reviews = await response.json();
-      //         // let dracReviews = await reviews.filter((rev) => rev.dracula_id === thisDraculaId)
-      //         // setThisDracsReviews([...dracReviews])
-      //         console.log("ALL REVIEWS", reviews)
-      //         let scores = await reviews.map((rev) => rev.score)
-      //         console.log("ALL SCROES", scores)
-
-      //     } catch (error) {
-      //         console.log(error)
-      //     }
-
-      //   }
-      //   fetchAllReviews()
-      //   handleLoading(false)
     
       }, []);
 
+        const deleteDracula = (id) => {
+          console.log("id", id)
+          draculasRef.doc(id).delete();
+          const revs = allReviews.filter((rev) => rev.dracula_id === id)
+          console.log("REVS", revs)
+        }
 
-
-      console.log("dropdown", dropDownValue)
 
       const filterSet = () => {
         if(dropDownValue === "Alphabetize Draculas") {
@@ -122,7 +86,6 @@ function Home({dropDownValue, handleLoading}) {
       }
       filterSet();
 
-
   return (
     <div className="home">
       <div className="subheader-wrapper">
@@ -142,7 +105,18 @@ function Home({dropDownValue, handleLoading}) {
             }}>
             <img className="dracula-image" src={dracula.image_url} />
             </Link>
-            <p>{dracula.name}</p>
+            <div className="trash-wrapper" onClick={() => deleteDracula(dracula.id)}>
+                <p className="drac-name">{dracula.name}</p>
+                {/* {currentuser && currentUser.uid === dracula.userId ? <FontAwesomeIcon className="drac-trash" size='1x' icon={faTrashAlt}/> : null } */}
+           
+                  { 
+                    currentUser &&
+                    (currentUser.uid === dracula.userId)
+                      ? <FontAwesomeIcon className="drac-trash" size='1x' icon={faTrashAlt}/>
+                      : null
+                  }
+              
+            </div>
             <AverageRating size={"1x"} rating={dracula.scores}/>
           </div>
      ))}

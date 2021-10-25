@@ -1,10 +1,9 @@
 
 import React, { useState } from 'react'
-import axios from 'axios'
-
+import {useAuth} from '../contexts/AuthContext'
 
 function LoginModal({toggleLoginModal}) {
-
+    const {login} = useAuth()
 
 
       const refreshPage = () => {
@@ -14,25 +13,33 @@ function LoginModal({toggleLoginModal}) {
       const [email, setEmail] = useState('')
       const [password, setPassword] = useState('')
       const [passwordConfirmation, setPasswordConfirmation] = useState('')
+      const [loading, setLoading] = useState(false)
   
-      const signup = () => {
-  
-          axios.post("http://localhost3000/api/v1/registrations", {
-              user: {
-                  email: email,
-                  password: password,
-                  password_confirmation: passwordConfirmation
-              }
-          },
-          { withCredentials: true }
-          ).then(res => {
-              console.log("reg res", res)
-              refreshPage();
-          }).catch((err) => {
-              console.log("err", err)
-          })
-  
-      }
+      const handleLogin = async() => {
+        if(!email){
+            alert("Put in an email")
+            return;
+        }
+        if(!password){
+            alert("Put in a password")
+            return;
+        }
+        if(password !== passwordConfirmation){
+            alert("Passwords don't match. Darn it.")
+            return;
+        }
+        try {
+            setLoading(true)
+            await login(email, password)
+
+        } catch(error){
+            alert("It didn't work. Try again please.")
+            setLoading(false)
+            return;
+        }
+        setLoading(false)
+        toggleLoginModal()
+    }
   
 
   return (
@@ -72,7 +79,7 @@ function LoginModal({toggleLoginModal}) {
                                 required
                             />
 
-                            <button onClick={signup} className="submit-review-button" type="button">Submit Review</button>
+                            <button onClick={handleLogin} className="submit-review-button" type="button">Submit Review</button>
                         </div>
                     </div>
 

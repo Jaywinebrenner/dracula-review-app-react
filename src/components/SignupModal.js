@@ -1,38 +1,55 @@
 
 import React, { useState } from 'react'
 import axios from 'axios'
+import {useAuth} from '../contexts/AuthContext';
+import firebase from "./firebase"
 
 
 function SignupModal({toggleSignupModal}) {
 
+    const {signup, currentUser} = useAuth()
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [passwordConfirmation, setPasswordConfirmation] = useState('')
+    const [loading, setLoading] = useState(false)
+    const [nickname, setNickname] = useState('')
 
 
-      const refreshPage = () => {
-        window.location.reload(false);
-      }
+    const handleSignup = async() => {
+        if(!nickname){
+            setNickname("Generic Dracula Review User")
+        }
+        if(!email){
+            alert("Put in an email")
+            return;
+        }
+        if(!password){
+            alert("Put in a password")
+            return;
+        }
+        if(password !== passwordConfirmation){
+            alert("Passwords don't match. Darn it.")
+            return;
+        }
+        try {
+            setLoading(true)
+            await signup(email, password)
+            .then(function(result) {
+                return result.user.updateProfile({
+                  displayName: nickname
+                })
+              }).catch(function(error) {
+                console.log(error);
+              });
 
-      const [email, setEmail] = useState('')
-      const [password, setPassword] = useState('')
-      const [passwordConfirmation, setPasswordConfirmation] = useState('')
-  
-      const signup = () => {
-  
-          axios.post("http://localhost3000/api/v1/registrations", {
-              user: {
-                  email: email,
-                  password: password,
-                  password_confirmation: passwordConfirmation
-              }
-          },
-          { withCredentials: true }
-          ).then(res => {
-              console.log("reg res", res)
-              refreshPage();
-          }).catch((err) => {
-              console.log("err", err)
-          })
-  
-      }
+        } catch(error){
+            alert("It didn't work. Try again please.")
+            setLoading(false)
+            return;
+        }
+        setLoading(false)
+        toggleSignupModal()
+    }
   
 
   return (
@@ -45,8 +62,17 @@ function SignupModal({toggleSignupModal}) {
                    </div>
 
                    <div className="modal-body">
-                      
+                      <h3>Dracula lovers unite!</h3>
                     <div className="reg-form">
+                        <input
+                            className="reg-nickname"
+                                type="text"
+                                placeholder="Nick Name, ex Count Reggie"
+                                value={nickname}
+                                onChange={e => setNickname(e.target.value)}
+                                required
+                            />
+                        
                         <input
                             className="reg-email"
                                 type="text"
@@ -72,7 +98,7 @@ function SignupModal({toggleSignupModal}) {
                                 required
                             />
 
-                            <button onClick={signup} className="submit-review-button" type="button">Submit Review</button>
+                            <button disabled={loading} onClick={handleSignup} className="submit-review-button" type="button">Sign Up</button>
                         </div>
                     </div>
 

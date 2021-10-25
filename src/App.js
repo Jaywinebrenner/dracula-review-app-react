@@ -11,7 +11,7 @@ import SignupModal from './components/SignupModal';
 import LoginModal from './components/LoginModal';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
-
+import { useAuth } from './contexts/AuthContext';
 
 
 function App() {
@@ -29,7 +29,8 @@ function App() {
   const [dropDownValue, setDropdownValue] = useState('Filter Draculas');
 
   const defaultOption = 'Filter Draculas';
-
+  const { currentUser, logout } = useAuth();
+  console.log("CURRENT USER", currentUser);
 
   const handleLoading = (toggle) => {
     setLoading(toggle)
@@ -56,12 +57,12 @@ function App() {
   const toggleHoverDiv = () => {
     setIsHoverDivShowing((prevExpanded) => !prevExpanded)
   } 
-  // const openNav = () => {
-  //   setExpanded((prevExpanded) => !prevExpanded)
-  // }
+  const handleLogout = () => {
+    logout()
+  }
 
   return (
-
+  
     <div className="App">
       <div onMouseEnter={toggleHoverDiv} onMouseLeave={toggleHoverDiv} className="nav">
         <div className="user-icon-wrapper">
@@ -70,12 +71,13 @@ function App() {
       </div>
       {isHoverDivShowing && 
       <div onMouseEnter={toggleHoverDiv} onMouseLeave={toggleHoverDiv} className="hover-wrapper">
-        <div onClick={() => toggleLoginModal()} className="login-button"><p>Login</p></div>
-        <div onClick={() => alert("SUP")} className="logout-button"><p>Logout</p></div>
-        <div onClick={() => toggleSignupModal()} className="signup-button"><p>Sign Up</p></div>
+        {!currentUser && <div onClick={() => toggleLoginModal()} className="login-button"><p>Login</p></div>}
+        {currentUser && <div onClick={() => handleLogout()} className="logout-button"><p>Logout</p></div>}
+        {!currentUser && <div onClick={() => toggleSignupModal()} className="signup-button"><p>Sign Up</p></div>}
       </div>}
   
       <div className="title-wrapper">
+        {currentUser && <h5 className="welcome">Welcome {currentUser.displayName}</h5>}
         <h1 className="app-title">Dracula Review</h1>
         <h2>Find, Rate and Upload Draculas</h2>
         <p>Full CRUD Portfolio piece powered by Firebase and React by Jay Winebrenner</p>
@@ -124,6 +126,7 @@ function App() {
       {isLoginModalShowing && <LoginModal toggleLoginModal={toggleLoginModal}/>}
       {isSignupModalShowing && <SignupModal toggleSignupModal={toggleSignupModal}/>}
     </div>
+
  
   );
 }

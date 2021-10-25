@@ -5,12 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Detail from './components/Detail.js'
+import {AuthProvider} from './contexts/AuthContext'
 
 
 ReactDOM.render(
+  
   <React.StrictMode>
     <BrowserRouter>
-
+    <AuthProvider>
       <Switch>
         <Route path="/" component={App}/>
       </Switch>
@@ -26,7 +28,7 @@ ReactDOM.render(
       <Detail />
     </Route> */}
 
-
+</AuthProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
