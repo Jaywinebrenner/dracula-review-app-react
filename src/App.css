@@ -14,6 +14,8 @@ body {
 
 .title-wrapper{
   background-color: maroon;
+  text-align: left;
+  padding-left: 30px;
 }
 
 .title-wrapper h2 {
@@ -22,6 +24,7 @@ body {
   color: #f8f8ff;
   font-size: 20px;
 }
+
 .title-wrapper p {
   margin: 0;
   padding-bottom: 20px;
@@ -193,6 +196,10 @@ hr {
   margin: 0px;
 }
 
+.review-top:hover {
+  background-color: rgb(233, 230, 230) ;
+}
+
 .dracula-review-card p {
   display: inline-block;
   margin-left: 5px;
@@ -215,6 +222,7 @@ hr {
   cursor: pointer;
   padding: 3px;
   background-color: #f8f8ff;
+  transition: .3s
 }
 
 .review-bottom {
@@ -230,10 +238,6 @@ hr {
   float: right;
   margin-top: 3px;
   margin-right: 5px;
-}
-
-.review-top:hover {
-  /* background-color: lightgray; */
 }
 
 .review-subheader, .add-wrapper {
@@ -277,6 +281,8 @@ hr {
   height: 100vh;
   background-color: lightgray;
 }
+
+
 
 .x {
   font-size: 2.5rem;
@@ -667,3 +673,104 @@ hr {
 .drac-name {
   display: inline-block; 
 }
+
+.loading-gif {
+  width: 20vw;
+}
+
+.review-number {
+  color: maroon;
+}
+
+.popup {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.7);
+  width: 30vw;
+  border-radius: 5px;
+  top: 60px;
+  right: 30px;
+  padding: 5px;
+}
+
+.popup h3  {
+  padding: 0;
+  margin: 0;
+}
+
+.popup p  {
+  padding: 0;
+  margin: 0;
+}
+
+.padding-x {
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  line-height: .5;
+}
+
+.are-you-sure {
+  background-color: white;
+  position: absolute;
+  width: 80vw;
+  height: 50vh;
+}
+
+.yes-button {
+  background-color: maroon;
+  width: 20%;
+  height: 100px;
+  border-radius: 5px;
+  text-align: center;
+  transition: .3s;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.4);
+  margin: 10px;
+}
+
+.no-button {
+  background-color: gray;
+  width: 20%;
+  height: 100px;
+  border-radius: 5px;
+  text-align: center;
+  transition: .3s;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.4);
+  margin: 10px;
+}
+
+.yes-button:hover {
+  background-color: rgb(63, 4, 4);
+}
+
+.no-button:hover {
+  background-color: rgb(80, 79, 79);
+}
+
+.cancel-button {
+
+}
+
+
+.yes-text {
+
+}
+
+.are-you-sure-modal-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15%;
+}
+
+

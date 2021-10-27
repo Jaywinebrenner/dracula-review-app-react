@@ -1,10 +1,10 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-import 'firebase/compat/storage'
+import 'firebase/storage';
 
 const firebaseConfig = {
-    apiKey: process.env.REACT_APP_API_KEY,
+    apiKey: "",
     authDomain: "dracula-review.firebaseapp.com",
     projectId: "dracula-review",
     storageBucket: "dracula-review.appspot.com",
@@ -13,11 +13,11 @@ const firebaseConfig = {
     measurementId: "G-NT76L3X19F"
   };
 
-  firebase.initializeApp(firebaseConfig)
+  firebase.initializeApp(firebaseConfig);
 
-  export const auth = firebase.auth()
+  export const auth = firebase.auth();
 
-  export const storage = firebase.storage()
+  export const storage = firebase.storage();
 
   export default firebase;
 

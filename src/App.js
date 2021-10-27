@@ -12,6 +12,7 @@ import LoginModal from './components/LoginModal';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import { useAuth } from './contexts/AuthContext';
+import Popup from './components/Popup';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
     'Alphabetize Draculas', 'Most Popular Draculas', 'Least Popular Draculas'
   ]);
   const [loading, setLoading] = useState(false);
+  const [popupOpen, setPopupOpen] = useState(true)
 
   const [dropDownValue, setDropdownValue] = useState('Filter Draculas');
 
@@ -40,11 +42,9 @@ function App() {
     setDropdownValue(e.value);
   }
 
-  const getInitialDropdownState = () => {
-    return {selectValue:'all'};
+  const handleOpenPopup = () => {
+    setPopupOpen(false)
   }
-
-  getInitialDropdownState()
 
   const toggleSignupModal = () => {
     setIsSignupModalShowing((prevExpanded) => !prevExpanded)
@@ -64,6 +64,7 @@ function App() {
   return (
   
     <div className="App">
+      {popupOpen && <Popup handleOpenPopup={handleOpenPopup}/>}
       <div onMouseEnter={toggleHoverDiv} onMouseLeave={toggleHoverDiv} className="nav">
         <div className="user-icon-wrapper">
             <FontAwesomeIcon  className="user-icon" size='2x' icon={faUser} />
@@ -82,13 +83,7 @@ function App() {
         <h2>Find, Rate and Upload Draculas</h2>
         <p>Full CRUD Portfolio piece powered by Firebase and React by Jay Winebrenner</p>
       </div>
-            {/* <select defaultValue={"one"} 
-            onChange={handleDropdownChange} 
-            >
-                <option className="option"  value="all">All Draculas</option>
-                <option className="option" value="popular">Most Popular Draculas</option>
-                <option className="option" value="unpopular">Most Unpopular Draculas</option>
-              </select> */}
+
       <div id="subnav" className="subnav-bar">
           <div className="subnav-top"> 
           <div className="filter-wrapper">

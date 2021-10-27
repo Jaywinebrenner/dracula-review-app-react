@@ -36,7 +36,8 @@ function SignupModal({toggleSignupModal}) {
             await signup(email, password)
             .then(function(result) {
                 return result.user.updateProfile({
-                  displayName: nickname
+                  displayName: nickname,
+                  photoURL: 3
                 })
               }).catch(function(error) {
                 console.log(error);
@@ -47,6 +48,7 @@ function SignupModal({toggleSignupModal}) {
             setLoading(false)
             return;
         }
+
         setLoading(false)
         toggleSignupModal()
     }
@@ -83,7 +85,7 @@ function SignupModal({toggleSignupModal}) {
                             />
                         <input
                             className="reg-password"
-                                type="text"
+                                type="password"
                                 placeholder="Password"
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
@@ -91,7 +93,7 @@ function SignupModal({toggleSignupModal}) {
                             />
                         <input
                             className="reg-password-confirmation"
-                                type="text"
+                                type="password"
                                 placeholder="Password Confirmation"
                                 value={passwordConfirmation}
                                 onChange={e => setPasswordConfirmation(e.target.value)}

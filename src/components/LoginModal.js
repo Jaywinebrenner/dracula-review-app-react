@@ -64,7 +64,7 @@ function LoginModal({toggleLoginModal}) {
                             />
                         <input
                             className="reg-password"
-                                type="text"
+                                type="password"
                                 placeholder="Password"
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
@@ -72,14 +72,14 @@ function LoginModal({toggleLoginModal}) {
                             />
                         <input
                             className="reg-password-confirmation"
-                                type="text"
+                                type="password"
                                 placeholder="Password Confirmation"
                                 value={passwordConfirmation}
                                 onChange={e => setPasswordConfirmation(e.target.value)}
                                 required
                             />
 
-                            <button onClick={handleLogin} className="submit-review-button" type="button">Submit Review</button>
+                            <button onClick={handleLogin} className="submit-review-button" type="button">Login</button>
                         </div>
                     </div>
 

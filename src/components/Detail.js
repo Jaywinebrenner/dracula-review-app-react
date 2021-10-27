@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+
 import { Link } from "react-router-dom";
 import AddReviewModal from './AddReviewModal'
 import AverageRating from './AverageRating'
@@ -131,9 +131,7 @@ function Detail() {
                         <div className="plus-wrapper" onClick={() => toggleModal()}>
                             <FontAwesomeIcon className="plus" size='3x' icon={faPlusCircle} />
                         </div>
-                        <div className="plus-wrapper" onClick={() => deleteDracula()}>
-                            <FontAwesomeIcon className="trash" size='1x' icon={faTrashAlt} />
-                        </div>
+  
                     </div>
                 </div>
                 {thisDracsReviews.length > 0 ? thisDracsReviews.map( rev =>

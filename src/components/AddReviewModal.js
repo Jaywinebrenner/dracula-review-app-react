@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react'
-import axios from 'axios'
+import {useAuth} from '../contexts/AuthContext';
 import Rate from './Rate.js'
  /* eslint-disable */ 
  import firebase from "./firebase"
@@ -10,7 +10,7 @@ function AddReviewModal({toggleModal, thisDraculaId, thisDracula, starAverage, s
     const [reviewTitle, setReviewTitle] = useState('')
     const [reviewBody, setReviewBody] = useState('')
     const [rating, setRating] = useState(0)
-
+    const {currentUser} = useAuth()
     const draculasRef = firebase.firestore().collection("draculas")
     const reviewsRef = firebase.firestore().collection("reviews")
 
@@ -50,6 +50,16 @@ function AddReviewModal({toggleModal, thisDraculaId, thisDracula, starAverage, s
         .catch(function(error) {
             console.error("Error adding Star Average to the Dracula: ", error);
         });
+
+
+        // photoURL field on the currentUser object is what acutally stores the amout of reviews a user had made.
+        let reviewNumber = null
+        if(currentUser.photoURL){
+            reviewNumber = parseInt(currentUser.photoURL) - 1;
+            currentUser.updateProfile({
+                photoURL: reviewNumber
+            })
+        } 
       }
 
   return (

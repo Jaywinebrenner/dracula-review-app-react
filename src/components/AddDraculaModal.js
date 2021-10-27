@@ -1,43 +1,45 @@
 
-import React, { useState } from 'react'
-import Rate from './Rate.js'
+import React, { useState, useEffect } from 'react'
 import firebase from "./firebase"
 import { useAuth } from '../contexts/AuthContext';
-
-
-
+import loadingGif from '../assets/loadingGif.gif'
+<img src={loadingGif} alt="loading..." /> 
  /* eslint-disable */ 
 
 function AddDraculaModal({toggleAddDraculaModal}) {
 
     const { currentUser } = useAuth();
-    const [name, setName] = useState('')
-    const [imageUrl, setImageUrl] = useState('')
-    const [image, setImage] = useState(null)
-    const [uploadedImageUrl, setUploadedImageUrl] = useState()
-    const [imageUrlIsShowing, setImageUrlIsShowing] = useState('display')
-    const draculasRef = firebase.firestore().collection("draculas")
+    const [name, setName] = useState('');
+    const [image, setImage] = useState(null);
+    const [isLoading, setIsLoading] = useState(false)
 
-    const toggleImageUpload = (input) => {
-        setImageUrlIsShowing(input)
-    }
+    const draculasRef = firebase.firestore().collection("draculas");
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, []);
 
     const fileSelectedHandler = (event) => {
         setImage(event.target.files[0])
- 
     }
 
     const submitForm = async (event) => {
+        setIsLoading(true);
         event.preventDefault();
 
-        console.log("name", name)
-        console.log("image", image)
-
         if(!name){
+            setIsLoading(false);
             return alert("Add a dracula name!")
         }
         if(!image){
+            setIsLoading(false);
             return alert("Add a cool dracula pic!")
+        }
+        if (name.toLowerCase().indexOf("dracula") === -1 && name.toLowerCase().indexOf("draculas") === -1) {
+            console.log("DOES")
+            alert('Sorry, your dracula name needs to contain the word "Dracula" or "Draculas". This is Dracula Review after all.')
+            setIsLoading(false);
+            return;
         }
 
         let file = image;
@@ -47,16 +49,27 @@ function AddDraculaModal({toggleAddDraculaModal}) {
             await storageRef.put(file);
         }
        
-        let dracUrl = await getImageUrl(file.name);
-     
-        console.log("drac url", dracUrl)
+        let storageRef =  firebase.storage().ref();
+        let imgRef =  storageRef.child('dracula_image/' + file.name);
+    
+      // Get the download URL
+        let dracUrl = null;
+        await imgRef.getDownloadURL()
+        .then((url) => {
+          console.log("DOWNLOAD URL", url)
+            dracUrl = url
+            return url;
+        })
+        .catch((error) => {
+            console.log("Error", error)
+         });
+
         const dracula = { 
             name: name, 
             image_url: dracUrl, 
-            // dracula_image: image,
-            userId: currentUser.uid
+            userId: currentUser.uid,
+            scores: 0
         }   
-        console.log("drac object", dracula)
 
         // Add dracula, then add Firebase ID to the dracula document
         draculasRef.add(dracula)
@@ -69,41 +82,30 @@ function AddDraculaModal({toggleAddDraculaModal}) {
         .catch(function(error) {
             console.error("Error adding document: ", error);
         });
-        setUploadedImageUrl(null);
+        setIsLoading(false);
         setName('')
         toggleAddDraculaModal();
     }
 
-    const getImageUrl = async (img) => {
-        let storageRef =  firebase.storage().ref();
-        let imgRef =  storageRef.child('dracula_image/' + img);
+    const renderReviewRequirements = () => {
+        return (
+            <div className="add-drac-subheader">
+                <h3>You need to review <span className="review-number">{currentUser && currentUser.photoURL} </span> Draculas in order to create a Dracula of your own</h3>
+                <p>Just to ensure you are a real Dracula Lover</p>
+            </div>
+        )
+    }
     
-      // Get the download URL
-        await imgRef.getDownloadURL()
-        .then((url) => {
-          console.log("DOWNLOAD URL", url)
-            let newUrl = url
-        //   this.formData.userUploadedTreeImage = url;
-        //   this.userUploadedImageState = url;
-        //   return this.formData.userUploadedTreeImage ;
-            setUploadedImageUrl(newUrl)
-            return url;
-         
-        })
-        .catch((error) => {
-            console.log("Error", error)
-         });
-        }
 
-  return (
-      <div className="modal-page">
+    return (
+         <div className="modal-page">
             <div className="modal-wrapper">
-                <div className="modal-content">
-                   <div className="modal-top">
+                {!isLoading && <div className="modal-content">
+                    <div className="modal-top">
                         <h1>Add a Dracula</h1>
                         <div onClick={() => toggleAddDraculaModal()} className="x">x</div>
-                   </div>
-
+                    </div>
+                    {(currentUser.photoURL === "1" || currentUser.photoURL === "2" || currentUser.photoURL === "3")  && renderReviewRequirements()}
                    <div className="modal-body">
                       
                    <div className="form">
@@ -114,23 +116,8 @@ function AddDraculaModal({toggleAddDraculaModal}) {
                             value={name}
                             onChange={e => setName(e.target.value)}
                         />
-                        <div className="upload-buttons-wrapper">
 
-                            <div onClick={() => toggleImageUpload('url')} className="upload-image-button-left">Upload Image Url</div>
-
-                            <div onClick={() =>toggleImageUpload('image')}className="upload-image-button-right">Upload Image File</div>
-                        </div>
-
-                        {imageUrlIsShowing === 'url' && <div>
-                            <p>Image URL</p>
-                                <input
-                                className="review-title-textbox"
-                                    type="text"
-                                    value={imageUrl}
-                                    onChange={e => setImageUrl(e.target.value)}
-                            />
-                        </div>}
-                        {imageUrlIsShowing === 'image' && <div>
+                        {<div>
                             <p>Image from Computer</p>
                                 <input
                                     className="review-title-textbox"
@@ -139,13 +126,14 @@ function AddDraculaModal({toggleAddDraculaModal}) {
                             />
                         </div>}
                             
-                            {/* {imageUrlIsShowing === 'url' || imageUrlIsShowing === 'image' &&  */}
-                            <button onClick={submitForm} className="submit-review-button" type="button">Submit Dracula</button>
-                            {/* } */}
+                        {/* <button disabled={isLoading || ((currentUser.photoURL === "1" || currentUser.photoURL === "2" || currentUser.photoURL === "3"))} onClick={submitForm} className="submit-review-button" type="button">Submit Dracula</button> */}
+                        <button onClick={submitForm} className="submit-review-button" type="button">Submit Dracula</button> 
+                
                         </div>
                     </div>
 
-                </div>
+                </div>}
+                {isLoading &&<div className="modal-content"><img className="loading-gif" src={loadingGif} alt="loading..." /> </div>}
             </div>
       </div>
   );

@@ -15,7 +15,13 @@ function Review({rev}) {
     setExpanded((prevExpanded) => !prevExpanded)
   }
 
-  console.log("is explanded", isExpanded)
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, []);
+
+
+
+
   return (
       <div id="card" className="dracula-review-card" key={rev.id}>
           <hr/>
