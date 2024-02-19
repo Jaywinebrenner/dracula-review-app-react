@@ -4,6 +4,8 @@ import {useAuth} from '../contexts/AuthContext';
 import Rate from './Rate.js'
  /* eslint-disable */ 
  import firebase from "./firebase"
+ import SignupModal from './SignupModal';
+import LoginModal from './LoginModal';
 
 function AddReviewModal({toggleModal, thisDraculaId, thisDracula, starAverage, size}) {
 
@@ -15,6 +17,12 @@ function AddReviewModal({toggleModal, thisDraculaId, thisDracula, starAverage, s
     const reviewsRef = firebase.firestore().collection("reviews")
 
     const submitForm = async () => {
+
+        console.log("CURRENT USER ON ADD REVEW", currentUser.multiFactor.user.displayName)
+
+        if(!currentUser){
+            return alert("Please sign up to review a Dracula")
+        }
         if(!reviewTitle){
             return alert("Add a title!")
         }
@@ -24,7 +32,7 @@ function AddReviewModal({toggleModal, thisDraculaId, thisDracula, starAverage, s
         if(!rating){
             return alert("Rate that Draucla first!")
         }
-        const review = { title: reviewTitle, description: reviewBody, score: rating, dracula_id: thisDraculaId}
+        const review = { title: reviewTitle, description: reviewBody, score: rating, dracula_id: thisDraculaId, reviewerName: currentUser.multiFactor.user.displayName}
 
         reviewsRef.doc().set(review)
             .catch(function(error) {
@@ -55,6 +63,7 @@ function AddReviewModal({toggleModal, thisDraculaId, thisDracula, starAverage, s
         // photoURL field on the currentUser object is what acutally stores the amout of reviews a user had made.
         let reviewNumber = null
         if(currentUser.photoURL){
+    
             reviewNumber = parseInt(currentUser.photoURL) - 1;
             currentUser.updateProfile({
                 photoURL: reviewNumber
@@ -63,6 +72,8 @@ function AddReviewModal({toggleModal, thisDraculaId, thisDracula, starAverage, s
       }
 
   return (
+    <>
+
       <div className="modal-page">
             <div className="modal-wrapper">
                 <div className="modal-content">
@@ -104,9 +115,13 @@ function AddReviewModal({toggleModal, thisDraculaId, thisDracula, starAverage, s
                     </div>
                     </div>
 
+
                 </div>
             </div>
       </div>
+
+
+      </>
   );
 }
 

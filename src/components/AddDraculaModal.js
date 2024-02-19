@@ -36,14 +36,14 @@ function AddDraculaModal({toggleAddDraculaModal}) {
             return alert("Add a cool dracula pic!")
         }
         if (name.toLowerCase().indexOf("dracula") === -1 && name.toLowerCase().indexOf("draculas") === -1) {
-            console.log("DOES")
+            // console.log("DOES")
             alert('Sorry, your dracula name needs to contain the word "Dracula" or "Draculas". This is Dracula Review after all.')
             setIsLoading(false);
             return;
         }
 
         let file = image;
-        console.log("file", file)
+        // console.log("file", file)
         if(image) {
             let storageRef = firebase.storage().ref('/dracula_image/' + file.name);
             await storageRef.put(file);
@@ -56,12 +56,12 @@ function AddDraculaModal({toggleAddDraculaModal}) {
         let dracUrl = null;
         await imgRef.getDownloadURL()
         .then((url) => {
-          console.log("DOWNLOAD URL", url)
+        //   console.log("DOWNLOAD URL", url)
             dracUrl = url
             return url;
         })
         .catch((error) => {
-            console.log("Error", error)
+            // console.log("Error", error)
          });
 
         const dracula = { 
@@ -74,7 +74,7 @@ function AddDraculaModal({toggleAddDraculaModal}) {
         // Add dracula, then add Firebase ID to the dracula document
         draculasRef.add(dracula)
         .then(function(docRef) {
-            console.log("Document written with ID: ", docRef.id);
+            // console.log("Document written with ID: ", docRef.id);
             draculasRef.doc(docRef.id).update({
                 id: docRef.id
             })

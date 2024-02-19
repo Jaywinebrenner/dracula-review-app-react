@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap');
+
+
 #root {
   /* height: 100vh; */
 }
@@ -10,32 +13,34 @@ body {
   text-align: center;
   /* height: 100vh; */
   background-color: black;
+
 }
 
 .title-wrapper{
   background-color: maroon;
   text-align: left;
-  padding-left: 30px;
+  padding: 30px 10%;
 }
 
 .title-wrapper h2 {
   margin: 0;
   padding-bottom: 2px;
   color: #f8f8ff;
-  font-size: 20px;
+  font-size: 24px;
 }
 
 .title-wrapper p {
   margin: 0;
   padding-bottom: 20px;
   color: #f8f8ff;
-  font-size: xx-small;
+  font-size: 16px;
 }
 
 .app-title{
   font-size: 7rem;
   margin: 0;
   line-height: 1;
+  font-family: 'Protest Strike', sans-serif;
 }
 
 .App-logo {
@@ -77,7 +82,6 @@ body {
 /* HOME */
 
 .home {
-  margin: 20px;
   height: 100vh;
 }
 
@@ -91,6 +95,7 @@ body {
 
 .subheader-wrapper {
   position: relative;
+  padding: 0 10%;
 }
 
 .dracula-wrap {
@@ -98,8 +103,16 @@ body {
   margin-top: 30px;
   display: grid;
   grid-gap: 25px;
+  padding-bottom: 80px;
+  text-align: center;
 }
 
+
+.about  {
+  margin: 0;
+  margin-right: 38px;
+  cursor: pointer;
+}
 .dracula-wrap p{
   color: #f8f8ff;
   margin-bottom: 5px;
@@ -202,7 +215,7 @@ hr {
 
 .dracula-review-card p {
   display: inline-block;
-  margin-left: 5px;
+
 }
 
 .dracula-review-card h3 {
@@ -220,13 +233,30 @@ hr {
 
 .review-top {
   cursor: pointer;
-  padding: 3px;
+  padding: 10px;
   background-color: #f8f8ff;
   transition: .3s
 }
 
 .review-bottom {
   background-color: #f8f8ff;
+  padding: 10px;
+}
+
+
+.review-bottom .description {
+  display: block;
+}
+
+.reviewed-by {
+  display: block;
+  margin-top: 0;
+  /* padding: 0 10px 10px 10px; */
+}
+
+.chevron.expanded {
+  transition: transform 0.3s ease;
+  transform: rotate(-90deg);
 }
 
 .review-top h3{
@@ -415,6 +445,7 @@ hr {
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  padding: 0 10%;
 }
 
 .subnav-top h3 {
@@ -435,8 +466,8 @@ hr {
   display: flex;
   flex-wrap: wrap;
   justify-content: right;
-  align-items: right;
-  padding-right: 10px;
+  align-items: center;
+  padding-right: 10%;
 }
 
 .user-icon {
@@ -658,6 +689,7 @@ hr {
 
 .welcome {
   margin: 0;
+  font-size: 36px;
 }
 
 .trash-wrapper {
@@ -774,3 +806,10 @@ hr {
 }
 
 
+.please-sign-in {
+  background-color: white;
+}
+
+.App.modal-showing {
+  display: none;
+}

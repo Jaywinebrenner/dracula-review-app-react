@@ -15,43 +15,45 @@ function SignupModal({toggleSignupModal}) {
     const [nickname, setNickname] = useState('')
 
 
-    const handleSignup = async() => {
-        if(!nickname){
-            setNickname("Generic Dracula Review User")
+    const handleSignup = async () => {
+        console.log("SIGN UP");
+        if (!nickname) {
+            setNickname("Generic Dracula Review User");
         }
-        if(!email){
-            alert("Put in an email")
+        if (!email) {
+            alert("Put in an email");
             return;
         }
-        if(!password){
-            alert("Put in a password")
+        if (!password) {
+            alert("Put in a password");
             return;
         }
-        if(password !== passwordConfirmation){
-            alert("Passwords don't match. Darn it.")
+        if (password !== passwordConfirmation) {
+            alert("Passwords don't match. Darn it.");
             return;
         }
         try {
-            setLoading(true)
-            await signup(email, password)
-            .then(function(result) {
-                return result.user.updateProfile({
-                  displayName: nickname,
-                  photoURL: 3
-                })
-              }).catch(function(error) {
-                console.log(error);
-              });
-
-        } catch(error){
-            alert("It didn't work. Try again please.")
-            setLoading(false)
-            return;
+            setLoading(true);
+            await signup(email, password);
+            const user = firebase.auth().currentUser;
+            if (user) {
+                await user.updateProfile({
+                    displayName: nickname,
+                    // photoURL: 3
+                });
+                console.log("User profile updated successfully.");
+            } else {
+                console.log("No user found.");
+            }
+            toggleSignupModal();
+        } catch (error) {
+            console.error("Signup error:", error);
+            alert("It didn't work. Try again please.");
+        } finally {
+            setLoading(false);
         }
-
-        setLoading(false)
-        toggleSignupModal()
-    }
+    };
+    
   
 
   return (

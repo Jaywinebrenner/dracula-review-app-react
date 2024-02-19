@@ -15,6 +15,7 @@ import { useAuth } from './contexts/AuthContext';
 import Popup from './components/Popup';
 
 
+
 function App() {
 
   const [isExpanded, setExpanded] = useState(false);
@@ -31,9 +32,10 @@ function App() {
   const [dropDownValue, setDropdownValue] = useState('Filter Draculas');
 
   const defaultOption = 'Filter Draculas';
+
+  const [anyModalOpen, setAnyModalOpen] = useState(false)
   const { currentUser, logout } = useAuth();
   console.log("CURRENT USER", currentUser);
-
   const handleLoading = (toggle) => {
     setLoading(toggle)
   }
@@ -60,12 +62,14 @@ function App() {
   const handleLogout = () => {
     logout()
   }
-
+  console.log("CURRENT USER", currentUser)
   return (
-  
-    <div className="App">
-      {popupOpen && <Popup handleOpenPopup={handleOpenPopup}/>}
+  <>
+<div className={`App ${isLoginModalShowing || isSignupModalShowing || anyModalOpen ? 'modal-showing' : null}`}>
+
+      {/* {popupOpen && <Popup handleOpenPopup={handleOpenPopup}/>} */}
       <div onMouseEnter={toggleHoverDiv} onMouseLeave={toggleHoverDiv} className="nav">
+
         <div className="user-icon-wrapper">
             <FontAwesomeIcon  className="user-icon" size='2x' icon={faUser} />
         </div>
@@ -80,7 +84,7 @@ function App() {
       <div className="title-wrapper">
         {currentUser && <h5 className="welcome">Welcome {currentUser.displayName}</h5>}
         <h1 className="app-title">Dracula Review</h1>
-        <h2>Find, Rate and Upload Draculas</h2>
+        <h2>Find, Rate, Review and Upload Draculas</h2>
         <p>Full CRUD Portfolio piece powered by Firebase and React by Jay Winebrenner</p>
       </div>
 
@@ -116,12 +120,12 @@ function App() {
 
 
 
-      {!loading && <Home dropDownValue={dropDownValue} handleLoading={handleLoading}/>}
-      {loading && <Loading/>}
-      {isLoginModalShowing && <LoginModal toggleLoginModal={toggleLoginModal}/>}
-      {isSignupModalShowing && <SignupModal toggleSignupModal={toggleSignupModal}/>}
     </div>
-
+      {!loading && <Home setAnyModalOpen={setAnyModalOpen} dropDownValue={dropDownValue} handleLoading={handleLoading}/>}
+      {loading && <Loading/>}
+      {isLoginModalShowing && <LoginModal setAnyModalOpen toggleLoginModal={toggleLoginModal}/>}
+      {isSignupModalShowing && <SignupModal setAnyModalOpen toggleSignupModal={toggleSignupModal}/>}
+</>
  
   );
 }

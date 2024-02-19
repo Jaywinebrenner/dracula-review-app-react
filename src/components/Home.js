@@ -13,7 +13,7 @@ import AreYouSure from "./AreYouSure"
  /* eslint-disable */ 
 
 
-function Home({dropDownValue, handleLoading}) {
+function Home({dropDownValue, handleLoading, setAnyModalOpen}) {
 
   const { currentUser } = useAuth();
   const [ allDraculas, setAllDraculas] = useState('')
@@ -22,7 +22,7 @@ function Home({dropDownValue, handleLoading}) {
   const [isAreYouSureShowing, setIsAreYouSureShowing] = useState(false);
   const [draculaToDelete, setDraculaToDelete] = useState()
 
-  console.log("dropDown V", allDraculas)
+  // console.log("dropDown V", allDraculas)
 
   const toggleAddDraculaModal = () => {
       setIsAddDraculaModalShowing((prevExpanded) => !prevExpanded)
@@ -34,11 +34,14 @@ function Home({dropDownValue, handleLoading}) {
   const draculasRef = firebase.firestore().collection("draculas");
   const reviewsRef = firebase.firestore().collection("reviews");
   const auth = firebase.auth();
+
+ 
   
     useEffect(() => {
 
       draculasRef.onSnapshot(snap => {
         const data = snap.docs.map(doc => doc.data() )
+        console.log("data", data)
         setAllDraculas(data)
         allDraculas && console.log("ALL DRACULAS", allDraculas)
         handleLoading(false)
@@ -114,7 +117,8 @@ function Home({dropDownValue, handleLoading}) {
               pathname: `/detail/${dracula.id}`,
               state: {
                 allDraculas: allDraculas,
-                thisDraculaId: dracula.id
+                thisDraculaId: dracula.id,
+                // setAnyModalOpen: setAnyModalOpen 
               }
 
             }}>
@@ -137,8 +141,8 @@ function Home({dropDownValue, handleLoading}) {
           </div>
      ))}
         </div>
-      {isAddDraculaModalShowing && <AddDraculaModal toggleAddDraculaModal={toggleAddDraculaModal}/>}
-      {isAreYouSureShowing && <AreYouSure draculaToDelete={draculaToDelete} deleteDracula={deleteDracula} toggleAreYouSure={toggleAreYouSure}/>}
+      {isAddDraculaModalShowing && <AddDraculaModal setAnyModalOpen toggleAddDraculaModal={toggleAddDraculaModal}/>}
+      {isAreYouSureShowing && <AreYouSure setAnyModalOpen draculaToDelete={draculaToDelete} deleteDracula={deleteDracula} toggleAreYouSure={toggleAreYouSure}/>}
       </div>
   );
 }

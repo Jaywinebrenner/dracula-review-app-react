@@ -18,6 +18,8 @@ import firebase from "./firebase"
 function Detail() {
     const location = useLocation()
     const { thisDraculaId } = location.state
+    // const {setAnyModalOpen} = location.state
+    // console.log("setAny", setAnyModalOpen)
 
    
     
@@ -40,7 +42,7 @@ function Detail() {
         //     }
         //   };
         //   fetchAllDraculas();
-        console.log("THIS DRAC ID", thisDraculaId)
+        // console.log("THIS DRAC ID", thisDraculaId)
         const getDraculas = async () => {
             draculasRef.onSnapshot(snap => {
                 const draculas = snap.docs.map(doc => doc.data())
@@ -82,14 +84,14 @@ function Detail() {
 
     const getAverageRating = async () => {
         thisDracsReviews.map((rev) => {
-            console.log("SOCRE",rev.score)
+            // console.log("SOCRE",rev.score)
         })
         const total = await thisDracsReviews.reduce((total, obj) => parseInt(obj.score) + total,0)
-        console.log("total", total)
+        // console.log("total", total)
         const length = thisDracsReviews.length
         const average = Math.round(total / length)
         setStarAverage(average)
-        console.log("star average", starAverage)
+        // console.log("star average", starAverage)
     }
     thisDracsReviews && getAverageRating()
     
@@ -111,7 +113,7 @@ function Detail() {
     } 
 
     const deleteDracula = () => {
-        console.log("delete")
+        // console.log("delete")
     }
 
 

@@ -33,13 +33,15 @@ function LoginModal({toggleLoginModal}) {
             await login(email, password)
 
         } catch(error){
-            alert("It didn't work. Try again please.")
+            console.log("error", error);
+            alert(`${error}`)
             setLoading(false)
             return;
         }
         setLoading(false)
         toggleLoginModal()
     }
+
   
 
   return (
