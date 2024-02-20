@@ -72,7 +72,8 @@ function App() {
       <div onMouseEnter={toggleHoverDiv} onMouseLeave={toggleHoverDiv} className="nav">
 
         <div className="user-icon-wrapper">
-            <FontAwesomeIcon  className="user-icon" size='2x' icon={faUser} />
+            {/* <FontAwesomeIcon  className="user-icon" size='2x' icon={faUser} /> */}
+            <img src="/dracula-icon.png"/>
         </div>
       </div>
       {isHoverDivShowing && 
@@ -85,38 +86,45 @@ function App() {
 
         <div class="content">
 
-	<div class="col"></div>
-	<div class="col"></div>
-	<div class="col"></div>
-	<div class="col"></div>
-	<div class="col"></div>
-	<div class="col"></div>
-	<div class="col"></div>
-	<div class="col"></div>
-	<div class="col"></div>
-	<div class="col"></div>
+        <div className='logo-wrapper'>
+          <img src="/teeth-logo.png"/>
+        </div>
+        <div className='logo-wrapper-two'>
+          <img src="/teeth-logo.png"/>
+        </div>
 
-	<div class="col"></div>
-	<div class="col"></div>
-	<div class="col"></div>
-	<div class="col"></div>
-	<div class="col"></div>
-	<div class="col"></div>
-	<div class="col"></div>
-	<div class="col"></div>
-	<div class="col"></div>
-	<div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
 
-	<div class="col"></div>
-	<div class="col"></div>
-	<div class="col"></div>
-	<div class="col"></div>
-	<div class="col"></div>
-	<div class="col"></div>
-	<div class="col"></div>
-	<div class="col"></div>
-	<div class="col"></div>
-	<div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
 
   <div className="title-wrapper text">
           {currentUser ? <h5 className="welcome">Welcome {currentUser.displayName}</h5> : <h5 className="welcome">Welcome to</h5>}

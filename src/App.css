@@ -99,20 +99,23 @@ body {
 
 .home {
   height: 100vh;
-  margin-top: 91px;
+  margin-top: 7%;
 }
 
 .home h1 {
-  color: #f8f8ff;
+  color: #dddddd;
 }
 
 .subheader {
   font-size: 3rem;
+  font-family: 'Protest Strike', sans-serif;
+  margin-bottom: 10px;
 }
 
 .subheader-wrapper {
   position: relative;
   padding: 0 10%;
+  margin-bottom: 3%;
 }
 
 .dracula-wrap {
@@ -123,6 +126,39 @@ body {
   padding-bottom: 80px;
   text-align: center;
   padding: 0 10%;
+  padding-bottom: 100px;
+}
+.single-dracula img {
+    transition: .3s;
+}
+.single-dracula:hover img{
+  transform: scale(1.1);
+}
+.svg-inline--fa:hover {
+  transition: .3s;
+  opacity: .6;
+}
+
+.logo-wrapper {
+  position: absolute;
+  z-index: 100;
+  left: 10%;
+  top: 40%;
+
+}
+.logo-wrapper img {
+  width: 80px;
+}
+.logo-wrapper-two {
+  position: absolute;
+  z-index: 100;
+  right: 10%;
+  top: 40%;
+}
+.logo-wrapper-two img {
+  width: 80px;
+  transform: scaleX(-1);
+  
 }
 
 
@@ -323,6 +359,8 @@ hr {
 
 .modal-top h1 {
   color: black;
+  font-size: 5rem;
+  font-family: "Trade Winds", Arial, Helvetica, serif;
 }
 
 .modal-wrapper {
@@ -340,6 +378,10 @@ hr {
   cursor: pointer;
   margin-right: 20px;
   transition: .3s;
+}
+.x img {
+  width: 30px;
+  transform: rotate(45deg);
 }
 
 .x:hover {
@@ -361,7 +403,6 @@ hr {
 
 .modal-wrapper {
   width: 100%;
-  margin-top: 15%;
   height: 100vh;
   /* background: #f8f8ff; */
   box-shadow: -2rem 2rem 2rem rgba(black, 0.2);
@@ -371,9 +412,10 @@ hr {
 .modal-content {
   border: 1px black solid;
   width: 70%;
-  height: 60%;
+  min-height: 60%;
   margin: auto;
   background-color: #f8f8ff;
+  padding: 32px;
 }
 
 .modal-top {
@@ -440,12 +482,61 @@ hr {
   justify-content: center;
 }
 
-.reg-form input{
+input {
   margin: 10px 0;
-  padding: 5px;
-  width: 250px;
+  padding: 15px;
+  width: 350px;
+}
+button {
+  padding: 10px;
+  width: 120px;
+  border: 1px solid black;
+  background-color: #f8f8ff;
+  transition: .3s;
+  cursor: pointer;
+  margin-top: 12px;
+  width: 382px!important;
+  height: 70px;
+  background-color: black!important;
+  color: white;
+  font-family: "Trade Winds", Arial, Helvetica, serif;
+  font-size: 20px;
+}
+button:hover {
+  background-color: #9f0000!important;
+  color: white;
+}
+input:focus, textarea {
+  outline: none !important;
+  font-size: 20px;
+  border:3px solid rgb(228, 31, 31);
+  font-family: "Trade Winds", Arial, Helvetica, serif;
 }
 
+.review-title-textbox{
+  margin-top: 10px;
+}
+
+.form p {
+  margin-top: 10px;
+}
+
+input[type="text"], input[type="password"]
+{
+    font-size:24px!important;
+
+}
+.svg-inline--fa {
+  cursor: pointer;
+}
+.detail-page .modal-wrapper {
+  margin-top: 10%;
+}
+
+.modal-body h3 {
+  margin-top: 0;
+  font-family: 'Protest Strike', sans-serif;
+}
 .reg-password {
 
 }
@@ -504,6 +595,10 @@ hr {
   position: absolute;
 }
 
+.user-icon-wrapper img {
+  width: 50px;
+}
+
 
 .hover-wrapper {
   background-color: black;
@@ -522,7 +617,7 @@ transition: .3s;
   color: white;
   font-size: 20px;
   padding: 8px 0;
-
+  font-family: 'Protest Strike', sans-serif;
 }
 
 .login-button:hover, .logout-button:hover, .signup-button:hover {
@@ -569,9 +664,10 @@ transition: .3s;
 }
 
 .arrow-closed {
-  top: 10px;
+  top: 7px;
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
+  color:#dddddd!important;
 }
 
 .arrow-open {
@@ -587,11 +683,11 @@ transition: .3s;
 .Dropdown-control {
   position: relative;
   overflow: hidden;
-  background-color: darkgray !important;
-  border: 1px solid #ccc;
+  background-color: #9f0000 !important;
+  border: 1px solid #9f0000 !important;
+  color:#dddddd!important;
   border-radius: 2px;
   box-sizing: border-box;
-  color: black !important;
   cursor: pointer!important;
   outline: none;
   padding: 2px 10px !important;
@@ -833,7 +929,7 @@ transition: .3s;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 15%;
+
 }
 
 

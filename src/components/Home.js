@@ -135,7 +135,7 @@ function Home({handleLoading, setAnyModalOpen}) {
       </div>
       <div className="dracula-wrap">
         {allDraculas && allDraculas.map((dracula) => (
-          <div key={dracula.id}>
+          <div className='single-dracula' key={dracula.id}>
             <Link to={{
               pathname: `/detail/${dracula.id}`,
               state: {

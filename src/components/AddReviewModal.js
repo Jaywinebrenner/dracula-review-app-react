@@ -79,7 +79,9 @@ function AddReviewModal({toggleModal, thisDraculaId, thisDracula, starAverage, s
                 <div className="modal-content">
                    <div className="modal-top">
                         <h1>Add a Review</h1>
-                        <div onClick={() => toggleModal()} className="x">x</div>
+
+                        <div onClick={() => toggleModal()} className="x"><img src="/cross.png"/></div>
+                        
                    </div>
 
                    <div className="modal-body">

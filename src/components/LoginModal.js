@@ -50,7 +50,8 @@ function LoginModal({toggleLoginModal}) {
                 <div className="modal-content">
                    <div className="modal-top">
                         <h1>Login</h1>
-                        <div onClick={() => toggleLoginModal()} className="x">x</div>
+
+                        <div onClick={() => toggleLoginModal()} className="x"><img src="cross.png"/></div>
                    </div>
 
                    <div className="modal-body">

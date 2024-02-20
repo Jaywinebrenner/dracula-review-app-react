@@ -48,7 +48,7 @@ function SignupModal({toggleSignupModal}) {
             toggleSignupModal();
         } catch (error) {
             console.error("Signup error:", error);
-            alert("It didn't work. Try again please.");
+            alert("Signup error:" + error);
         } finally {
             setLoading(false);
         }
@@ -62,7 +62,7 @@ function SignupModal({toggleSignupModal}) {
                 <div className="modal-content">
                    <div className="modal-top">
                         <h1>Sign Up</h1>
-                        <div onClick={() => toggleSignupModal()} className="x">x</div>
+                        <div onClick={() => toggleSignupModal()} className="x"><img src="cross.png"/></div>
                    </div>
 
                    <div className="modal-body">
