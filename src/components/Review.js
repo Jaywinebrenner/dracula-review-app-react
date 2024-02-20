@@ -5,7 +5,7 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import AverageRating from './AverageRating';
 
 function Review({ rev }) {
-    console.log("REV", rev)
+
 
     const [isExpanded, setExpanded] = useState(true);
     const { getCollapseProps } = useCollapse({ isExpanded, setExpanded });

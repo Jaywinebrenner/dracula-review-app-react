@@ -18,7 +18,7 @@ function AddReviewModal({toggleModal, thisDraculaId, thisDracula, starAverage, s
 
     const submitForm = async () => {
 
-        console.log("CURRENT USER ON ADD REVEW", currentUser.multiFactor.user.displayName)
+
 
         if(!currentUser){
             return alert("Please sign up to review a Dracula")

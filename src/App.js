@@ -63,6 +63,7 @@ function App() {
     logout()
   }
   console.log("CURRENT USER", currentUser)
+
   return (
   <>
 <div className={`App ${isLoginModalShowing || isSignupModalShowing || anyModalOpen ? 'modal-showing' : null}`}>

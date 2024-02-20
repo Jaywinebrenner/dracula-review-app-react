@@ -17,7 +17,7 @@ import firebase from "./firebase"
 
 function Detail() {
     const location = useLocation()
-    const { thisDraculaId } = location.state
+    const { thisDraculaId } = location.state && location.state
     // const {setAnyModalOpen} = location.state
     // console.log("setAny", setAnyModalOpen)
 

@@ -73,7 +73,7 @@ function Home({dropDownValue, handleLoading, setAnyModalOpen}) {
           console.log("id", id)
           draculasRef.doc(id).delete();
           const revs = allReviews.filter((rev) => rev.dracula_id === id)
-          console.log("REVS", revs)
+
         }
 
 

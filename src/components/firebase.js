@@ -27,7 +27,7 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/storage'; // Import the storage service
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDKIAiprzYz1GT7QFoCTgZNvaoVjW-Tcb4",
+    apiKey: process.env.REACT_APP_FIREBASE,
     authDomain: "dracula-review.firebaseapp.com",
     projectId: "dracula-review",
     storageBucket: "dracula-review.appspot.com",

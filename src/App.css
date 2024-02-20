@@ -20,6 +20,17 @@ body {
   background-color: maroon;
   text-align: left;
   padding: 30px 10%;
+  position: relative;
+}
+
+.title-wrapper #pixels {
+  width: 100%;
+  height: 100%;
+}
+
+.pixel {
+  background-color: #000;
+  float: left;
 }
 
 .title-wrapper h2 {
@@ -175,7 +186,7 @@ body {
   margin: 0 auto;
   top: 0;
   width: 100vw;
-  height: 100vh
+  min-height: 180vh
 }
 
 
@@ -299,7 +310,7 @@ hr {
 .arrow-link {
   position: absolute;
   top: 20px;
-  right: 20px;
+  right: 16%;
 }
 
 .modal-top h1 {
@@ -813,3 +824,6 @@ hr {
 .App.modal-showing {
   display: none;
 }
+
+
+
