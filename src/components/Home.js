@@ -8,12 +8,13 @@ import AverageRating from './AverageRating';
 import firebase from "./firebase"
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../contexts/AuthContext';
-import AreYouSure from "./AreYouSure"
+import AreYouSure from "./AreYouSure";
+import Dropdown from 'react-dropdown';
 
  /* eslint-disable */ 
 
 
-function Home({dropDownValue, handleLoading, setAnyModalOpen}) {
+function Home({handleLoading, setAnyModalOpen}) {
 
   const { currentUser } = useAuth();
   const [ allDraculas, setAllDraculas] = useState('')
@@ -35,8 +36,15 @@ function Home({dropDownValue, handleLoading, setAnyModalOpen}) {
   const reviewsRef = firebase.firestore().collection("reviews");
   const auth = firebase.auth();
 
- 
-  
+  const [dropDownValue, setDropdownValue] = useState('Filter Draculas');
+  const defaultOption = 'Filter Draculas';
+  const handleDropdownChange = (e) => {
+    setDropdownValue(e.value);
+  }
+  const [options, setOptions ]= useState([
+    'Alphabetize Draculas', 'Most Popular Draculas', 'Least Popular Draculas'
+  ]);
+
     useEffect(() => {
 
       draculasRef.onSnapshot(snap => {
@@ -109,6 +117,21 @@ function Home({dropDownValue, handleLoading, setAnyModalOpen}) {
       <div className="subheader-wrapper">
         <h1 className="subheader">Draculas to Review</h1>
         <FontAwesomeIcon onClick={toggleAddDraculaModal} className="plus-drac" size='3x' icon={currentUser && faPlusCircle} />
+        <div className="filter-wrapper">
+              <Dropdown 
+                className="dropdown"
+                options={options} 
+                onChange={handleDropdownChange} 
+                value={defaultOption} 
+                placeholder="Select an option" 
+                controlClassName='dropdown-control'
+                placeholderClassName='dropdown-placeholder'
+                menuClassName='dropdown-menu'
+                arrowClassName='dropdown-arrow'
+                arrowClosed={<span className="arrow-closed" />}
+                arrowOpen={<span className="arrow-open" />}
+               />
+            </div>   
       </div>
       <div className="dracula-wrap">
         {allDraculas && allDraculas.map((dracula) => (

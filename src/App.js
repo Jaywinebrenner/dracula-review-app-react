@@ -81,17 +81,56 @@ function App() {
         {currentUser && <div onClick={() => handleLogout()} className="logout-button"><p>Logout</p></div>}
         {!currentUser && <div onClick={() => toggleSignupModal()} className="signup-button"><p>Sign Up</p></div>}
       </div>}
-  
-      <div className="title-wrapper">
-        {currentUser && <h5 className="welcome">Welcome {currentUser.displayName}</h5>}
-        <h1 className="app-title">Dracula Review</h1>
-        <h2>Find, Rate, Review and Upload Draculas</h2>
-        <p>Full CRUD Portfolio piece powered by Firebase and React by Jay Winebrenner</p>
-      </div>
+
+
+        <div class="content">
+
+	<div class="col"></div>
+	<div class="col"></div>
+	<div class="col"></div>
+	<div class="col"></div>
+	<div class="col"></div>
+	<div class="col"></div>
+	<div class="col"></div>
+	<div class="col"></div>
+	<div class="col"></div>
+	<div class="col"></div>
+
+	<div class="col"></div>
+	<div class="col"></div>
+	<div class="col"></div>
+	<div class="col"></div>
+	<div class="col"></div>
+	<div class="col"></div>
+	<div class="col"></div>
+	<div class="col"></div>
+	<div class="col"></div>
+	<div class="col"></div>
+
+	<div class="col"></div>
+	<div class="col"></div>
+	<div class="col"></div>
+	<div class="col"></div>
+	<div class="col"></div>
+	<div class="col"></div>
+	<div class="col"></div>
+	<div class="col"></div>
+	<div class="col"></div>
+	<div class="col"></div>
+
+  <div className="title-wrapper text">
+          {currentUser ? <h5 className="welcome">Welcome {currentUser.displayName}</h5> : <h5 className="welcome">Welcome to</h5>}
+          <h1 className="app-title">Dracula Review</h1>
+          <h2>Find, Rate, Review and Upload Draculas</h2>
+          <p>Full CRUD Portfolio piece powered by Firebase and React by Jay Winebrenner</p>
+        </div>
+
+</div>
+
 
       <div id="subnav" className="subnav-bar">
           <div className="subnav-top"> 
-          <div className="filter-wrapper">
+          {/* <div className="filter-wrapper">
               <Dropdown 
                 className="dropdown"
                 options={options} 
@@ -105,13 +144,8 @@ function App() {
                 arrowClosed={<span className="arrow-closed" />}
                 arrowOpen={<span className="arrow-open" />}
                />
-               {/* <CustomDropDown/> */}
-              {/* <p>{message}</p> */}
-            </div>       
-              {/* <h3 {...getToggleProps({
-                  onClick: () => openNav(),
-                  })}>Filter Draculas</h3> */}  
-              {/* <FontAwesomeIcon className="chevron" size='1x' icon={faChevronLeft} /> */}
+            </div>        */}
+   
           </div>
           {<section className="subnav-bottom" {...getCollapseProps()}>   
            {/* <Registration/> */}
