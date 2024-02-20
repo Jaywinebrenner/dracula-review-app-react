@@ -59,6 +59,23 @@ body {
   font-family: 'Protest Strike', sans-serif;
 }
 
+@media (max-width: 1200px) {
+  .app-title {
+    font-size: 5rem;
+  }
+}
+@media (max-width: 900px) {
+  .app-title {
+    font-size: 4rem;
+  }
+}
+
+@media (max-width: 780px) {
+  .app-title {
+    font-size: 3rem;
+  }
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -101,6 +118,11 @@ body {
   height: 100vh;
   margin-top: 7%;
 }
+@media (max-width: 700px) {
+  .subheader  {
+    margin-top: 18%;
+  }
+}
 
 .home h1 {
   color: #dddddd;
@@ -110,6 +132,12 @@ body {
   font-size: 3rem;
   font-family: 'Protest Strike', sans-serif;
   margin-bottom: 10px;
+}
+
+@media (max-width: 800px) {
+  .subheader  {
+    font-size: 2rem!important;
+  }
 }
 
 .subheader-wrapper {
@@ -144,7 +172,6 @@ body {
   z-index: 100;
   left: 10%;
   top: 40%;
-
 }
 .logo-wrapper img {
   width: 80px;
@@ -158,7 +185,18 @@ body {
 .logo-wrapper-two img {
   width: 80px;
   transform: scaleX(-1);
-  
+}
+
+@media (max-width: 550px) {
+  .logo-wrapper, .logo-wrapper-two {
+    top: 64%;
+  }
+}
+
+@media (max-width: 900px) {
+  .logo-wrapper img, .logo-wrapper-two img {
+    width: 40px;
+  }
 }
 
 
@@ -241,6 +279,18 @@ body {
   align-items: center;
   background-color: #f8f8ff;
 }
+@media (max-width: 800px) {
+  .detail-header {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 800px) {
+  .detail {
+    margin: 0%;
+    margin-top: 25%;
+  }
+}
 
 .detail-header h6 {
   display: inline-block;
@@ -254,6 +304,11 @@ body {
 
 .dracula-detail-image {
   width: 90px;
+}
+@media (max-width: 800px) {
+  .dracula-detail-image {
+    width: 100%;
+  }
 }
 
 .dracula-review-card {
@@ -355,6 +410,12 @@ hr {
   position: absolute;
   top: 20px;
   right: 16%;
+}
+
+@media (max-width: 800px) {
+  .arrow-link {
+    top: 33px;
+  }
 }
 
 .modal-top h1 {
@@ -978,6 +1039,12 @@ body {
 	justify-content: center;
 }
 
+@media (max-width: 600px) {
+  .content  {
+    height: 350px;
+  }
+}
+
 .col {
 	width: 3vmax;
 	height: 0;
@@ -1214,4 +1281,9 @@ body {
 	.col:before {
 		height: 3vmin;
 	}
+}
+
+
+.modal-open {
+  /* overflow: hidden!important; */
 }

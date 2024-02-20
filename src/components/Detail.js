@@ -18,10 +18,7 @@ import firebase from "./firebase"
 function Detail() {
     const location = useLocation()
     const { thisDraculaId } = location.state && location.state
-    // const {setAnyModalOpen} = location.state
-    // console.log("setAny", setAnyModalOpen)
 
-   
     
     const [thisDracula, setThisDracula] = useState({name: '', image_url: ''})
     const [thisDracsReviews, setThisDracsReviews] = useState([]);
@@ -31,18 +28,7 @@ function Detail() {
     const reviewsRef = firebase.firestore().collection("reviews")
 
     useEffect(() => {
-        // const fetchAllDraculas = async () => {
-        //     try{
-        //         const response = await fetch(`http://localhost:3000/api/v1/draculas`);
-        //         const draculas = await response.json();
-        //         let thisDrac = await draculas.filter((drac) => drac.id === thisDraculaId)
-        //         setThisDracula(thisDrac)
-        //     } catch (error) {
-        //         console.log(error)
-        //     }
-        //   };
-        //   fetchAllDraculas();
-        // console.log("THIS DRAC ID", thisDraculaId)
+
         const getDraculas = async () => {
             draculasRef.onSnapshot(snap => {
                 const draculas = snap.docs.map(doc => doc.data())
@@ -57,43 +43,23 @@ function Detail() {
                 const reviews = snap.docs.map(doc => doc.data())
                 let dracReviews = reviews.filter((rev) => rev.dracula_id === thisDraculaId)
                 setThisDracsReviews([...dracReviews])
-                // let length = dracReviews.length
-                // setHowManyThisDracsReviews(length)
+
             });
         }
 
         getReviews();
-
-
-
-        // const fetchAllReviews = async () => {
-        //     try {
-        //         const response = await fetch(`http://localhost:3000/api/v1/reviews`);
-        //         const reviews = await response.json();
-        //         let dracReviews = await reviews.filter((rev) => rev.dracula_id === thisDraculaId)
-        //         setThisDracsReviews([...dracReviews])
-        //         let length = dracReviews.length
-        //         setHowManyThisDracsReviews(length)
-        //         console.log("HOWE MANY REVIEWS", howManyThisDracsReviews)
-        //     } catch (error) {
-        //         console.log(error)
-        //     }
-        // }
-        // fetchAllReviews()
     }, [starAverage]);
 
     const getAverageRating = async () => {
         thisDracsReviews.map((rev) => {
-            // console.log("SOCRE",rev.score)
         })
         const total = await thisDracsReviews.reduce((total, obj) => parseInt(obj.score) + total,0)
-        // console.log("total", total)
         const length = thisDracsReviews.length
         const average = Math.round(total / length)
         setStarAverage(average)
-        // console.log("star average", starAverage)
     }
     thisDracsReviews && getAverageRating()
+
     
     const renderDracula = () => {
         return (
