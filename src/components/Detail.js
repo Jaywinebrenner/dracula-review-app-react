@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import Review from './Review'
 import { useLocation } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,10 +12,18 @@ import AddReviewModal from './AddReviewModal'
 import AverageRating from './AverageRating'
 import firebase from "./firebase"
 
-
+import { ModalContext } from '../contexts/ModalContext.js';
  /* eslint-disable */ 
 
-function Detail({handleDetailIsOpen}) {
+function Detail() {
+
+    const { 
+        handleAddDetailOpen, 
+        addDetailIsOpen,        
+        addReviewIsOpen,
+        handleAddReviewOpen,
+    } = useContext(ModalContext);
+
     const location = useLocation()
     const { thisDraculaId } = location.state && location.state
 
@@ -85,8 +93,7 @@ function Detail({handleDetailIsOpen}) {
 
   return (
       <div className="detail-page">
-        <Link onClick={()=> handleDetailIsOpen()} className="arrow-link" to={{ pathname: `/` }}>
-            {/* <FontAwesomeIcon className="arrow" size='3x' icon={faArrowLeft} /> */}
+        <Link onClick={()=> handleAddDetailOpen()} className="arrow-link" to={{ pathname: `/` }}>
             <img className='cross-side' src="/cross.png"/>
         </Link>
         <div className="detail">
@@ -97,7 +104,7 @@ function Detail({handleDetailIsOpen}) {
                     <h3>Dracula Reviews</h3>
                     <div className="add-wrapper">
                         <p>Add Review</p>
-                        <div className="plus-wrapper" onClick={() => toggleModal()}>
+                        <div className="plus-wrapper" onClick={() => handleAddReviewOpen()}>
                             <FontAwesomeIcon className="plus" size='3x' icon={faPlusCircle} />
                         </div>
   
@@ -110,10 +117,8 @@ function Detail({handleDetailIsOpen}) {
                 />
                 ) : <div><hr/><div style={{textAlign: "center"}}className="review-top">No one has reviewed this Dracula</div></div>}
                 
-
-
         </div>
-        {isModalShowing &&<AddReviewModal 
+        {addReviewIsOpen &&<AddReviewModal 
             toggleModal={toggleModal} 
             thisDraculaId={thisDraculaId} 
             thisDracula={thisDracula}

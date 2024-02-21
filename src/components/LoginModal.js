@@ -1,10 +1,12 @@
 
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import {useAuth} from '../contexts/AuthContext'
 
-function LoginModal({toggleLoginModal}) {
-    const {login} = useAuth()
+import { ModalContext } from '../contexts/ModalContext.js';
 
+function LoginModal() {
+    const {login} = useAuth()
+    const { handleLoginIsOpen } = useContext(ModalContext);
 
       const refreshPage = () => {
         window.location.reload(false);
@@ -39,7 +41,7 @@ function LoginModal({toggleLoginModal}) {
             return;
         }
         setLoading(false)
-        toggleLoginModal()
+        handleLoginIsOpen()
     }
 
   
@@ -51,7 +53,7 @@ function LoginModal({toggleLoginModal}) {
                    <div className="modal-top">
                         <h1>Login</h1>
 
-                        <div onClick={() => toggleLoginModal()} className="x"><img src="cross.png"/></div>
+                        <div onClick={() => handleLoginIsOpen()} className="x"><img src="cross.png"/></div>
                    </div>
 
                    <div className="modal-body">

@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import {useAuth} from '../contexts/AuthContext';
 import Rate from './Rate.js'
  /* eslint-disable */ 
@@ -7,7 +7,11 @@ import Rate from './Rate.js'
  import SignupModal from './SignupModal';
 import LoginModal from './LoginModal';
 
-function AddReviewModal({toggleModal, thisDraculaId, thisDracula, starAverage, size}) {
+import { ModalContext } from '../contexts/ModalContext.js';
+
+function AddReviewModal({ thisDraculaId, thisDracula, starAverage, size}) {
+
+    const { handleAddReviewOpen } = useContext(ModalContext);
 
     const [reviewTitle, setReviewTitle] = useState('')
     const [reviewBody, setReviewBody] = useState('')
@@ -17,8 +21,6 @@ function AddReviewModal({toggleModal, thisDraculaId, thisDracula, starAverage, s
     const reviewsRef = firebase.firestore().collection("reviews")
 
     const submitForm = async () => {
-
-
 
         if(!currentUser){
             return alert("Please sign up to review a Dracula")
@@ -38,7 +40,7 @@ function AddReviewModal({toggleModal, thisDraculaId, thisDracula, starAverage, s
             .catch(function(error) {
                 console.error("Error adding review: ", error);
             });
-        toggleModal();
+            handleAddReviewOpen();
 
         const getNewAverage = () => {
             let newAverage = null;
@@ -80,7 +82,7 @@ function AddReviewModal({toggleModal, thisDraculaId, thisDracula, starAverage, s
                    <div className="modal-top">
                         <h1>Add a Review</h1>
 
-                        <div onClick={() => toggleModal()} className="x"><img src="/cross.png"/></div>
+                        <div onClick={() => handleAddReviewOpen()} className="x"><img src="/cross.png"/></div>
                         
                    </div>
 

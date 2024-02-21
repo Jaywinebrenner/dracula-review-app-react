@@ -1,11 +1,13 @@
 
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import axios from 'axios'
 import {useAuth} from '../contexts/AuthContext';
 import firebase from "./firebase"
+import { ModalContext } from '../contexts/ModalContext.js';
 
+function SignupModal() {
 
-function SignupModal({toggleSignupModal}) {
+    const { handleSignupIsOpen } = useContext(ModalContext);
 
     const {signup, currentUser} = useAuth()
     const [email, setEmail] = useState('')
@@ -45,7 +47,7 @@ function SignupModal({toggleSignupModal}) {
             } else {
                 console.log("No user found.");
             }
-            toggleSignupModal();
+            handleSignupIsOpen();
         } catch (error) {
             console.error("Signup error:", error);
             alert("Signup error:" + error);
@@ -62,7 +64,7 @@ function SignupModal({toggleSignupModal}) {
                 <div className="modal-content">
                    <div className="modal-top">
                         <h1>Sign Up</h1>
-                        <div onClick={() => toggleSignupModal()} className="x"><img src="cross.png"/></div>
+                        <div onClick={() => handleSignupIsOpen()} className="x"><img src="cross.png"/></div>
                    </div>
 
                    <div className="modal-body">

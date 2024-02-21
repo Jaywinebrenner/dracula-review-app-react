@@ -4,7 +4,7 @@ import Home from './components/Home.js'
 import Registration from './components/Registration';
 import Loading from './components/Loading';
 import useCollapse from 'react-collapsed';
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 import SignupModal from './components/SignupModal';
@@ -15,8 +15,20 @@ import { useAuth } from './contexts/AuthContext';
 import Popup from './components/Popup';
 
 
+import { ModalContext } from './contexts/ModalContext.js';
 
-function App({detailIsOpen, handleDetailIsOpen, loginIsOpen, handleLoginIsOpen, handleSignupIsOpen, signupIsOpen}) {
+
+
+function App({detailIsOpen, handleDetailIsOpen}) {
+
+  const { 
+    loginIsOpen, 
+    handleLoginIsOpen, 
+    signupIsOpen, 
+    handleSignupIsOpen 
+  } = useContext(ModalContext);
+
+  console.log("login is open CONTEXT", loginIsOpen)
 
   const [isExpanded, setExpanded] = useState(false);
   const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded, setExpanded });
@@ -53,7 +65,6 @@ function App({detailIsOpen, handleDetailIsOpen, loginIsOpen, handleLoginIsOpen, 
     handleSignupIsOpen()
   } 
   const toggleLoginModal = () => {
-    setIsLoginModalShowing((prevExpanded) => !prevExpanded)
     setIsHoverDivShowing(false)
     handleLoginIsOpen()
   } 
@@ -165,8 +176,8 @@ function App({detailIsOpen, handleDetailIsOpen, loginIsOpen, handleLoginIsOpen, 
     </div>
       {!loading && <Home dropDownValue={dropDownValue} handleLoading={handleLoading} handleDetailIsOpen={handleDetailIsOpen} detailIsOpen={detailIsOpen} loginIsOpen={loginIsOpen} signupIsOpen={signupIsOpen}/>}
       {loading && <Loading/>}
-      {isLoginModalShowing && <LoginModal toggleLoginModal={toggleLoginModal}/>}
-      {isSignupModalShowing && <SignupModal toggleSignupModal={toggleSignupModal}/>}
+      {loginIsOpen && <LoginModal />}
+      {signupIsOpen && <SignupModal />}
 </>
  
   );

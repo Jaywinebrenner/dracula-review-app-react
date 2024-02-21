@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import { Link } from "react-router-dom";
@@ -12,23 +12,28 @@ import AreYouSure from "./AreYouSure";
 import Dropdown from 'react-dropdown';
 
  /* eslint-disable */ 
+ import { ModalContext } from '../contexts/ModalContext.js';
 
+function Home({handleLoading, handleDetailIsOpen, detailIsOpen}) {
 
-function Home({handleLoading, handleDetailIsOpen, detailIsOpen, loginIsOpen, signupIsOpen}) {
+  const { 
+    addDraculaModalIsOpen,
+    handleAddDraculaModalOpen,
+    handleAddDetailOpen,
 
-  console.log("LOGIN IS OPEN ON HOME", loginIsOpen)
+  } = useContext(ModalContext);
 
   const { currentUser } = useAuth();
   const [ allDraculas, setAllDraculas] = useState('')
-  const [ isAddDraculaModalShowing, setIsAddDraculaModalShowing] = useState(false)
+  // const [ isAddDraculaModalShowing, setIsAddDraculaModalShowing] = useState(false)
   const [allReviews, setAllReviews] = useState();
   const [isAreYouSureShowing, setIsAreYouSureShowing] = useState(false);
   const [draculaToDelete, setDraculaToDelete] = useState()
 
 
-  const toggleAddDraculaModal = () => {
-      setIsAddDraculaModalShowing((prevExpanded) => !prevExpanded)
-  } 
+  // const toggleAddDraculaModal = () => {
+  //     setIsAddDraculaModalShowing((prevExpanded) => !prevExpanded)
+  // } 
   const toggleAreYouSure = () => {
     setDraculaToDelete()
     setIsAreYouSureShowing((prevExpanded) => !prevExpanded)
@@ -104,11 +109,13 @@ function Home({handleLoading, handleDetailIsOpen, detailIsOpen, loginIsOpen, sig
       filterSet();
 
   return (
-<div className={`home ${detailIsOpen || loginIsOpen || signupIsOpen ? 'modal-showing' : null}`}>
+    <div className={`home ${detailIsOpen ? 'modal-showing' : null}`}> 
+  {/* <div className={`home ${detailIsOpen || loginIsOpen || signupIsOpen ? 'modal-showing' : null}`}>  */}
+
      
       <div className="subheader-wrapper">
         <h1 className="subheader">Draculas to Review</h1>
-        <FontAwesomeIcon onClick={toggleAddDraculaModal} className="plus-drac" size='3x' icon={currentUser && faPlusCircle} />
+        <FontAwesomeIcon onClick={() => handleAddDraculaModalOpen()} className="plus-drac" size='3x' icon={currentUser && faPlusCircle} />
         <div className="filter-wrapper">
               <Dropdown 
                 className="dropdown"
@@ -127,7 +134,7 @@ function Home({handleLoading, handleDetailIsOpen, detailIsOpen, loginIsOpen, sig
       </div>
       <div className="dracula-wrap">
         {allDraculas && allDraculas.map((dracula) => (
-          <div onClick={()=> handleDetailIsOpen()} className='single-dracula' key={dracula.id}>
+          <div onClick={() => handleAddDetailOpen()} className='single-dracula' key={dracula.id}>
             <Link to={{
               pathname: `/detail/${dracula.id}`,
               state: {
@@ -152,7 +159,7 @@ function Home({handleLoading, handleDetailIsOpen, detailIsOpen, loginIsOpen, sig
           </div>
      ))}
         </div>
-      {isAddDraculaModalShowing && <AddDraculaModal setAnyModalOpen toggleAddDraculaModal={toggleAddDraculaModal}/>}
+      {addDraculaModalIsOpen && <AddDraculaModal />}
       {isAreYouSureShowing && <AreYouSure setAnyModalOpen draculaToDelete={draculaToDelete} deleteDracula={deleteDracula} toggleAreYouSure={toggleAreYouSure}/>}
       </div>
   );
