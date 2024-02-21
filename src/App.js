@@ -73,9 +73,7 @@ function App({detailIsOpen, handleDetailIsOpen, loginIsOpen, handleLoginIsOpen, 
 
       {/* {popupOpen && <Popup handleOpenPopup={handleOpenPopup}/>} */}
       <div onMouseEnter={toggleHoverDiv} onMouseLeave={toggleHoverDiv} className="nav">
-
         <div className="user-icon-wrapper">
-            {/* <FontAwesomeIcon  className="user-icon" size='2x' icon={faUser} /> */}
             <img src="/dracula-icon.png"/>
         </div>
       </div>
@@ -129,7 +127,7 @@ function App({detailIsOpen, handleDetailIsOpen, loginIsOpen, handleLoginIsOpen, 
         <div class="col"></div>
         <div class="col"></div>
 
-  <div className="title-wrapper text">
+        <div className="title-wrapper text">
           {currentUser ? <h5 className="welcome">Welcome {currentUser.displayName}</h5> : <h5 className="welcome">Welcome to</h5>}
           <h1 className="app-title">Dracula Review</h1>
           <h2>Find, Rate, Review and Upload Draculas</h2>
