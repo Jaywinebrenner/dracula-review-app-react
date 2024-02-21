@@ -12,7 +12,7 @@ const Index = () => {
   const [loginIsOpen, setLoginIsOpen] = useState(false);
   const [signupIsOpen, setSignupIsOpen] = useState(false);
   const [addDraculaIsOpen, setAddDraculaIsOpen] = useState(false);
-
+  const [areYouSureIsOpen, setAreYouSureIsOpen] = useState(false);
 
   const handleDetailIsOpen = () => {
     setDetailIsOpen(prev => !prev);
@@ -28,6 +28,10 @@ const Index = () => {
 
   const handleAddDraculaIsOpen = () => {
     setAddDraculaIsOpen(prev => !prev);
+  };
+
+  const handleAreYouSureIsOpen = () => {
+    setAreYouSureIsOpen(prev => !prev);
   };
 
   return (

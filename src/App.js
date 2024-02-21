@@ -18,8 +18,6 @@ import Popup from './components/Popup';
 
 function App({detailIsOpen, handleDetailIsOpen, loginIsOpen, handleLoginIsOpen, handleSignupIsOpen, signupIsOpen}) {
 
-  console.log("DETAIL IS OPEN ON APP", detailIsOpen)
-
   const [isExpanded, setExpanded] = useState(false);
   const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded, setExpanded });
   const [isSignupModalShowing, setIsSignupModalShowing] = useState(false);
