@@ -15,7 +15,7 @@ import firebase from "./firebase"
 
  /* eslint-disable */ 
 
-function Detail() {
+function Detail({handleDetailIsOpen}) {
     const location = useLocation()
     const { thisDraculaId } = location.state && location.state
 
@@ -85,8 +85,9 @@ function Detail() {
 
   return (
       <div className="detail-page">
-        <Link className="arrow-link" to={{ pathname: `/` }}>
-            <FontAwesomeIcon className="arrow" size='3x' icon={faArrowLeft} />
+        <Link onClick={()=> handleDetailIsOpen()} className="arrow-link" to={{ pathname: `/` }}>
+            {/* <FontAwesomeIcon className="arrow" size='3x' icon={faArrowLeft} /> */}
+            <img className='cross-side' src="/cross.png"/>
         </Link>
         <div className="detail">
 

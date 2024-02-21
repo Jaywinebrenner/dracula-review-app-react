@@ -16,7 +16,9 @@ import Popup from './components/Popup';
 
 
 
-function App() {
+function App({detailIsOpen, handleDetailIsOpen, loginIsOpen, handleLoginIsOpen, handleSignupIsOpen, signupIsOpen}) {
+
+  console.log("DETAIL IS OPEN ON APP", detailIsOpen)
 
   const [isExpanded, setExpanded] = useState(false);
   const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded, setExpanded });
@@ -33,7 +35,6 @@ function App() {
 
   const defaultOption = 'Filter Draculas';
 
-  const [anyModalOpen, setAnyModalOpen] = useState(false)
   const { currentUser, logout } = useAuth();
   console.log("CURRENT USER", currentUser);
   const handleLoading = (toggle) => {
@@ -51,10 +52,12 @@ function App() {
   const toggleSignupModal = () => {
     setIsSignupModalShowing((prevExpanded) => !prevExpanded)
     setIsHoverDivShowing(false)
+    handleSignupIsOpen()
   } 
   const toggleLoginModal = () => {
     setIsLoginModalShowing((prevExpanded) => !prevExpanded)
     setIsHoverDivShowing(false)
+    handleLoginIsOpen()
   } 
   const toggleHoverDiv = () => {
     setIsHoverDivShowing((prevExpanded) => !prevExpanded)
@@ -62,11 +65,11 @@ function App() {
   const handleLogout = () => {
     logout()
   }
-  console.log("CURRENT USER", currentUser)
+
 
   return (
   <>
-<div className={`App ${isLoginModalShowing || isSignupModalShowing || anyModalOpen ? 'modal-showing' : null}`}>
+<div className={`App`}>
 
       {/* {popupOpen && <Popup handleOpenPopup={handleOpenPopup}/>} */}
       <div onMouseEnter={toggleHoverDiv} onMouseLeave={toggleHoverDiv} className="nav">
@@ -164,10 +167,10 @@ function App() {
 
 
     </div>
-      {!loading && <Home setAnyModalOpen={setAnyModalOpen} dropDownValue={dropDownValue} handleLoading={handleLoading}/>}
+      {!loading && <Home dropDownValue={dropDownValue} handleLoading={handleLoading} handleDetailIsOpen={handleDetailIsOpen} detailIsOpen={detailIsOpen} loginIsOpen={loginIsOpen} signupIsOpen={signupIsOpen}/>}
       {loading && <Loading/>}
-      {isLoginModalShowing && <LoginModal setAnyModalOpen toggleLoginModal={toggleLoginModal}/>}
-      {isSignupModalShowing && <SignupModal setAnyModalOpen toggleSignupModal={toggleSignupModal}/>}
+      {isLoginModalShowing && <LoginModal toggleLoginModal={toggleLoginModal}/>}
+      {isSignupModalShowing && <SignupModal toggleSignupModal={toggleSignupModal}/>}
 </>
  
   );

@@ -256,7 +256,7 @@ body {
 /* DETAIL */
 
 .detail {
-  margin: 15%;
+  margin: 10%;
   border: 1px solid black;
   border-radius: 3px;
 }
@@ -267,7 +267,7 @@ body {
   margin: 0 auto;
   top: 0;
   width: 100vw;
-  min-height: 180vh;
+  /* min-height: 180vh; */
   z-index: 2000;
 }
 
@@ -428,6 +428,8 @@ hr {
   width: 100vw;
   height: 100vh;
   background-color: lightgray;
+  margin-top: 6%;
+  z-index: 5000;
 }
 
 
@@ -460,6 +462,7 @@ hr {
   right: 0;
   right: 0;
   background-color: black;
+  z-index: 5000;
 }
 
 .modal-wrapper {
@@ -502,13 +505,13 @@ hr {
   width: 350px;
   margin-bottom: 20px;
   padding: 5px;
-  border: 1px solid black;
+  border: 3px solid black;
 }
 
 .review-textarea {
   width: 350px;
   margin-bottom: 30px;
-  border: 1px solid black;
+  border: 3px solid black;
 }
 
 .submit-review-button {
@@ -547,6 +550,7 @@ input {
   margin: 10px 0;
   padding: 15px;
   width: 350px;
+  border: 3px solid black;
 }
 button {
   padding: 10px;
@@ -573,10 +577,31 @@ input:focus, textarea {
   border:3px solid rgb(228, 31, 31);
   font-family: "Trade Winds", Arial, Helvetica, serif;
 }
+textarea:focus {
+  border:3px solid rgb(228, 31, 31);
+}
 
 .review-title-textbox{
-  margin-top: 10px;
+  margin-top: 10px!important;
+  margin-bottom: 10px!important;
 }
+
+.rate {
+  margin-bottom: 10px!important;
+}
+.review-title {
+margin-top: 20px!important;
+}
+.review {
+  margin-bottom: 10px!important;
+}
+
+.cross-side {
+  filter: invert(100%);
+    transform: rotate(270deg);
+    width: 50px;
+}
+
 
 .form p {
   margin-top: 10px;
@@ -585,13 +610,14 @@ input:focus, textarea {
 input[type="text"], input[type="password"]
 {
     font-size:24px!important;
+    font-family: "Trade Winds", Arial, Helvetica, serif;
 
 }
 .svg-inline--fa {
   cursor: pointer;
 }
 .detail-page .modal-wrapper {
-  margin-top: 10%;
+  margin-top: 6%;
 }
 
 .modal-body h3 {
@@ -998,7 +1024,7 @@ transition: .3s;
   background-color: white;
 }
 
-.App.modal-showing {
+.modal-showing {
   display: none;
 }
 

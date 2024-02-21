@@ -14,7 +14,9 @@ import Dropdown from 'react-dropdown';
  /* eslint-disable */ 
 
 
-function Home({handleLoading, setAnyModalOpen}) {
+function Home({handleLoading, handleDetailIsOpen, detailIsOpen, loginIsOpen, signupIsOpen}) {
+
+  console.log("LOGIN IS OPEN ON HOME", loginIsOpen)
 
   const { currentUser } = useAuth();
   const [ allDraculas, setAllDraculas] = useState('')
@@ -23,7 +25,6 @@ function Home({handleLoading, setAnyModalOpen}) {
   const [isAreYouSureShowing, setIsAreYouSureShowing] = useState(false);
   const [draculaToDelete, setDraculaToDelete] = useState()
 
-  // console.log("dropDown V", allDraculas)
 
   const toggleAddDraculaModal = () => {
       setIsAddDraculaModalShowing((prevExpanded) => !prevExpanded)
@@ -49,7 +50,6 @@ function Home({handleLoading, setAnyModalOpen}) {
 
       draculasRef.onSnapshot(snap => {
         const data = snap.docs.map(doc => doc.data() )
-        console.log("data", data)
         setAllDraculas(data)
         allDraculas && console.log("ALL DRACULAS", allDraculas)
         handleLoading(false)
@@ -58,14 +58,7 @@ function Home({handleLoading, setAnyModalOpen}) {
       reviewsRef.onSnapshot(snap => {
         const reviews = snap.docs.map(doc => doc.data())
         setAllReviews(reviews)
-        console.log("all reviews", allReviews)
-        // console.log("this Drac ID", thisDraculaId)
         let scores = reviews.map((rev) => rev.score)
-        console.log("scores", scores)
-        // let dracReviews = reviews.filter((rev) => rev.dracula_id === thisDraculaId)
-        // setThisDracsReviews([...dracReviews])
-        // console.log("FB reviews", allDraculas)
-        // handleLoading(false)
         });
     
       return null
@@ -92,7 +85,6 @@ function Home({handleLoading, setAnyModalOpen}) {
             if(a.name.toLowerCase() > b.name.toLowerCase()) { return 1; }
             return 0;
         })
-          // setAllDraculas(allDraculas);
         }
         if(dropDownValue === "Most Popular Draculas") {
           allDraculas.sort(function(a, b){
@@ -112,7 +104,7 @@ function Home({handleLoading, setAnyModalOpen}) {
       filterSet();
 
   return (
-    <div className="home">
+<div className={`home ${detailIsOpen || loginIsOpen || signupIsOpen ? 'modal-showing' : null}`}>
      
       <div className="subheader-wrapper">
         <h1 className="subheader">Draculas to Review</h1>
@@ -135,23 +127,19 @@ function Home({handleLoading, setAnyModalOpen}) {
       </div>
       <div className="dracula-wrap">
         {allDraculas && allDraculas.map((dracula) => (
-          <div className='single-dracula' key={dracula.id}>
+          <div onClick={()=> handleDetailIsOpen()} className='single-dracula' key={dracula.id}>
             <Link to={{
               pathname: `/detail/${dracula.id}`,
               state: {
                 allDraculas: allDraculas,
                 thisDraculaId: dracula.id,
-                // setAnyModalOpen: setAnyModalOpen 
               }
 
             }}>
             <img className="dracula-image" src={dracula.image_url} />
             </Link>
-            {/* <div className="trash-wrapper" onClick={() => deleteDracula(dracula.id)}> */}
             <div className="trash-wrapper" onClick={() => clickDelete(dracula.id)}>
                 <p className="drac-name">{dracula.name}</p>
-                {/* {currentuser && currentUser.uid === dracula.userId ? <FontAwesomeIcon className="drac-trash" size='1x' icon={faTrashAlt}/> : null } */}
-           
                   { 
                     currentUser &&
                     (currentUser.uid === dracula.userId)

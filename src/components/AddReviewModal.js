@@ -87,12 +87,12 @@ function AddReviewModal({toggleModal, thisDraculaId, thisDracula, starAverage, s
                    <div className="modal-body">
                       
                    <div className="form">
-                        <p>Rate this Dracula</p>
+                        <p className='rate'>Rate this Dracula</p>
                         <Rate 
                             rating={rating} 
                             onRating={(rate)=> setRating(rate)}
                         />
-                        <p>Review Title</p>
+                        <p className='review-title'>Review Title</p>
                         <input
                         className="review-title-textbox"
                             type="text"
@@ -100,7 +100,7 @@ function AddReviewModal({toggleModal, thisDraculaId, thisDracula, starAverage, s
                             onChange={e => setReviewTitle(e.target.value)}
                         />
 
-                        <p>Review</p>
+                        <p className='review'>Review</p>
                         <textarea 
                             className="review-textarea" 
                             name="review" 
