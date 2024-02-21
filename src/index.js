@@ -11,19 +11,23 @@ const Index = () => {
   const [detailIsOpen, setDetailIsOpen] = useState(false);
   const [loginIsOpen, setLoginIsOpen] = useState(false);
   const [signupIsOpen, setSignupIsOpen] = useState(false);
+  const [addDraculaIsOpen, setAddDraculaIsOpen] = useState(false);
+
 
   const handleDetailIsOpen = () => {
     setDetailIsOpen(prev => !prev);
   };
 
   const handleLoginIsOpen = () => {
-    console.log("handle LOGIN IS OPEN CLICKED")
     setLoginIsOpen(prev => !prev);
   };
 
   const handleSignupIsOpen = () => {
-    console.log("handle SIGNUP IS OPEN CLICKED")
     setSignupIsOpen(prev => !prev);
+  };
+
+  const handleAddDraculaIsOpen = () => {
+    setAddDraculaIsOpen(prev => !prev);
   };
 
   return (

@@ -103,7 +103,7 @@ function AddDraculaModal({toggleAddDraculaModal}) {
                 {!isLoading && <div className="modal-content">
                     <div className="modal-top">
                         <h1>Add a Dracula</h1>
-                        <div onClick={() => toggleAddDraculaModal()} className="x">x</div>
+                        <div onClick={() => toggleAddDraculaModal()} className="x"><img src="/cross.png"/></div>
                     </div>
                     {(currentUser.photoURL === "1" || currentUser.photoURL === "2" || currentUser.photoURL === "3")  && renderReviewRequirements()}
                    <div className="modal-body">
