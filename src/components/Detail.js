@@ -126,19 +126,22 @@ function Detail() {
                     // console.log("when rev is made",rev); 
                     // console.log("currentuser", currentUser);
                     const isCurrentUsersReviewDeterminer = () => {
-
+                        // Check if currentUser exists and has the displayName property
                         if(currentUser && currentUser.displayName && currentUser.displayName === rev.reviewerName) {
                             return true;
                         } else {
                             return false;
                         }
                     };
+                
+                    // Call the function to determine if the review belongs to the current user
+                    const isCurrentUserReview = isCurrentUsersReviewDeterminer();
                     
                     return (
                         <Review 
                             key={rev.id}
                             rev={rev} 
-                            isCurrentUsersReview={isCurrentUsersReviewDeterminer()}
+                            isCurrentUsersReview={isCurrentUserReview}
                         />
                     );
                 }) : (
