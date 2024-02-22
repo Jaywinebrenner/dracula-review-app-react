@@ -1,165 +1,124 @@
-
-import React, {useState, useEffect, useContext} from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
+import React, { useState, useEffect, useContext } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlusCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 import AddDraculaModal from './AddDraculaModal';
 import AverageRating from './AverageRating';
-import firebase from "./firebase"
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { useAuth } from '../contexts/AuthContext';
-import AreYouSure from "./AreYouSure";
+import firebase from "./firebase";
 import Dropdown from 'react-dropdown';
+import { ModalContext } from '../contexts/ModalContext.js';
+import { useAuth } from '../contexts/AuthContext';
 
- /* eslint-disable */ 
- import { ModalContext } from '../contexts/ModalContext.js';
+function Home({ handleLoading }) {
+    const { handleAddDraculaModalOpen, handleAddDetailOpen, handleAreYouSureOpen, setDraculaToDelete, draculaToDelete, removeHome } = useContext(ModalContext);
+    const { currentUser } = useAuth();
+    const [allDraculas, setAllDraculas] = useState([]);
+    const [allReviews, setAllReviews] = useState([]);
+    const [dropDownValue, setDropdownValue] = useState('Filter Draculas');
+    const [draculasToDisplay, setDraculasToDisplay] = useState(9);
 
-function Home({handleLoading}) {
+    const draculasRef = firebase.firestore().collection("draculas");
+    const reviewsRef = firebase.firestore().collection("reviews");
 
-  const { 
-    handleAddDraculaModalOpen,
-    handleAddDetailOpen,
-    removeHome,
-    handleAreYouSureOpen,
-    draculaToDelete,
-    setDraculaToDelete
-  } = useContext(ModalContext);
-
-  const { currentUser } = useAuth();
-  const [ allDraculas, setAllDraculas] = useState('')
-  const [allReviews, setAllReviews] = useState();
-  const [isAreYouSureShowing, setIsAreYouSureShowing] = useState(false);
-
-
-  const toggleAreYouSure = () => {
-    setDraculaToDelete()
-    setIsAreYouSureShowing((prevExpanded) => !prevExpanded)
-} 
-  const draculasRef = firebase.firestore().collection("draculas");
-  const reviewsRef = firebase.firestore().collection("reviews");
-  const auth = firebase.auth();
-
-  const [dropDownValue, setDropdownValue] = useState('Filter Draculas');
-  const defaultOption = 'Filter Draculas';
-  const handleDropdownChange = (e) => {
-    setDropdownValue(e.value);
-  }
-  const [options, setOptions ]= useState([
-    'Alphabetize Draculas', 'Most Popular Draculas', 'Least Popular Draculas'
-  ]);
+    const handleDropdownChange = (e) => {
+        setDropdownValue(e.value);
+    }
 
     useEffect(() => {
-
-      draculasRef.onSnapshot(snap => {
-        const data = snap.docs.map(doc => doc.data() )
-        setAllDraculas(data)
-        allDraculas && console.log("ALL DRACULAS", allDraculas)
-        handleLoading(false)
-      });
-
-      reviewsRef.onSnapshot(snap => {
-        const reviews = snap.docs.map(doc => doc.data())
-        setAllReviews(reviews)
-        let scores = reviews.map((rev) => rev.score)
+        const unsubscribe = draculasRef.onSnapshot(snapshot => {
+            const data = snapshot.docs.map(doc => doc.data());
+            setAllDraculas(data);
+            handleLoading(false);
         });
-    
-      return null
-    
-      }, []);
 
-      const clickDelete = (id) => {
-        console.log("CLICK DELETE ID ON HOME", id)
-        setDraculaToDelete(id)
-        handleAreYouSureOpen()
-      }
+        reviewsRef.onSnapshot(snapshot => {
+            const reviews = snapshot.docs.map(doc => doc.data());
+            setAllReviews(reviews);
+        });
 
-        // const deleteDracula = (id) => {
-        //   console.log("id", id)
-        //   draculasRef.doc(id).delete();
-        //   const revs = allReviews.filter((rev) => rev.dracula_id === id)
-        // }
+        return () => {
+            unsubscribe();
+        };
+    }, []);
 
+    const clickDelete = (id) => {
+        setDraculaToDelete(id);
+        handleAreYouSureOpen();
+    }
 
-      const filterSet = () => {
-        if(dropDownValue === "Alphabetize Draculas") {
-          allDraculas.sort(function(a, b){
-            if(a.name.toLowerCase() < b.name.toLowerCase()) { return -1; }
-            if(a.name.toLowerCase() > b.name.toLowerCase()) { return 1; }
-            return 0;
-        })
+    const loadMoreDraculas = () => {
+        setDraculasToDisplay(prevCount => prevCount + 9);
+    }
+
+    const filteredDraculas = () => {
+        let filtered = [...allDraculas];
+
+        if (dropDownValue === "Alphabetize Draculas") {
+            filtered.sort((a, b) => a.name.localeCompare(b.name));
+        } else if (dropDownValue === "Most Popular Draculas") {
+            filtered.sort((a, b) => b.scores - a.scores);
+        } else if (dropDownValue === "Least Popular Draculas") {
+            filtered.sort((a, b) => a.scores - b.scores);
         }
-        if(dropDownValue === "Most Popular Draculas") {
-          allDraculas.sort(function(a, b){
-            if(b.scores < a.scores) { return -1; }
-            if(b.scores > a.score) { return 1; }
-            return 0;
-        })
-        }        
-        if(dropDownValue === "Least Popular Draculas") {
-          allDraculas.sort(function(a, b){
-            if(a.scores < b.scores) { return -1; }
-            if(a.scores > b.score) { return 1; }
-            return 0;
-        })
-        }
-      }
-      filterSet();
 
-  return (
-    <div className={`home ${removeHome() ? 'modal-showing' : null}`}> 
+        return filtered.slice(0, draculasToDisplay);
+    }
 
-      <div className="subheader-wrapper">
-        <h1 className="subheader">Draculas to Review</h1>
-        <FontAwesomeIcon onClick={() => handleAddDraculaModalOpen()} className="plus-drac" size='3x' icon={currentUser && faPlusCircle} />
-        <div className="filter-wrapper">
-              <Dropdown 
-                className="dropdown"
-                options={options} 
-                onChange={handleDropdownChange} 
-                value={defaultOption} 
-                placeholder="Select an option" 
-                controlClassName='dropdown-control'
-                placeholderClassName='dropdown-placeholder'
-                menuClassName='dropdown-menu'
-                arrowClassName='dropdown-arrow'
-                arrowClosed={<span className="arrow-closed" />}
-                arrowOpen={<span className="arrow-open" />}
-               />
-            </div>   
-      </div>
-      <div className="dracula-wrap">
-        {allDraculas && allDraculas.map((dracula) => (
-          <div className='single-dracula' key={dracula.id}>
-            <Link 
-            onClick={() => handleAddDetailOpen()} 
-            to={{
-              pathname: `/detail/${dracula.id}`,
-              state: {
-                allDraculas: allDraculas,
-                thisDraculaId: dracula.id,
-              }
-
-            }}>
-            <img className="dracula-image" src={dracula.image_url} />
-            </Link>
-            <div className="trash-wrapper" >
-                <p className="drac-name">{dracula.name}</p>
-                  { 
-                    currentUser &&
-                    (currentUser.uid === dracula.userId)
-                      ? <FontAwesomeIcon onClick={() => clickDelete(dracula.id)} className="drac-trash" size='1x' icon={faTrashAlt}/>
-                      : null
-                  }
-              
+    return (
+        <div className={`home ${removeHome() ? 'modal-showing' : null}`}>
+            <div className="subheader-wrapper">
+                <h1 className="subheader">Draculas to Review</h1>
+                <div className='add-dracula-icon-wrapper'>
+                  <FontAwesomeIcon onClick={() => handleAddDraculaModalOpen()} className="plus-drac" size='3x' icon={currentUser && faPlusCircle} />
+                  <p>Add Dracula</p>
+                </div>
+                <div className="filter-wrapper">
+                    <Dropdown
+                        className="dropdown"
+                        options={['Alphabetize Draculas', 'Most Popular Draculas', 'Least Popular Draculas']}
+                        onChange={handleDropdownChange}
+                        value={dropDownValue}
+                        placeholder="Select an option"
+                        controlClassName='dropdown-control'
+                        placeholderClassName='dropdown-placeholder'
+                        menuClassName='dropdown-menu'
+                        arrowClassName='dropdown-arrow'
+                        arrowClosed={<span className="arrow-closed" />}
+                        arrowOpen={<span className="arrow-open" />}
+                    />
+                </div>
             </div>
-            <div style={{pointerEvents: "none"}}>
-              <AverageRating size={"1x"} rating={dracula.scores}/>
+            <div className="dracula-wrap">
+                {filteredDraculas().map((dracula) => (
+                    <div className='single-dracula' key={dracula.id}>
+                        <Link
+                            onClick={() => handleAddDetailOpen()}
+                            to={{
+                                pathname: `/detail/${dracula.id}`,
+                                state: {
+                                    allDraculas: allDraculas,
+                                    thisDraculaId: dracula.id,
+                                }
+                            }}>
+                            <img className="dracula-image" src={dracula.image_url} />
+                        </Link>
+                        <div className="trash-wrapper">
+                            <p className="drac-name">{dracula.name}</p>
+                            {currentUser && currentUser.uid === dracula.userId && (
+                                <FontAwesomeIcon onClick={() => clickDelete(dracula.id)} className="drac-trash" size='1x' icon={faTrashAlt} />
+                            )}
+                        </div>
+                        <div style={{ pointerEvents: "none" }}>
+                            <AverageRating size={"1x"} rating={dracula.scores} />
+                        </div>
+                    </div>
+                ))}
             </div>
-          </div>
-     ))}
+            {allDraculas.length > draculasToDisplay && (
+                <button onClick={loadMoreDraculas}>Load More</button>
+            )}
         </div>
-      </div>
-  );
+    );
 }
 
 export default Home;

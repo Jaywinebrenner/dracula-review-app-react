@@ -152,24 +152,10 @@ console.log("areYouSureDeleteReviewOpen:", areYouSureDeleteReviewOpen);
 
 
       <div id="subnav" className="subnav-bar">
-          <div className="subnav-top"> 
-          {/* <div className="filter-wrapper">
-              <Dropdown 
-                className="dropdown"
-                options={options} 
-                onChange={handleDropdownChange} 
-                value={defaultOption} 
-                placeholder="Select an option" 
-                controlClassName='dropdown-control'
-                placeholderClassName='dropdown-placeholder'
-                menuClassName='dropdown-menu'
-                arrowClassName='dropdown-arrow'
-                arrowClosed={<span className="arrow-closed" />}
-                arrowOpen={<span className="arrow-open" />}
-               />
-            </div>        */}
-   
-          </div>
+          {/* <div className="subnav-top"> 
+
+  
+          </div> */}
           {<section className="subnav-bottom" {...getCollapseProps()}>   
            {/* <Registration/> */}
           

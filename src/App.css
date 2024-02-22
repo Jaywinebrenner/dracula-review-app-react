@@ -123,6 +123,19 @@ body {
     margin-top: 18%;
   }
 }
+.add-dracula-icon-wrapper {
+  color: white;
+  position: absolute;
+  right: 10%;
+  top: 10px;
+  text-align: center;
+}
+.add-dracula-icon-wrapper p{
+  position: absolute;
+  top: 35px;
+  width: 100px;
+  right: -23px;
+}
 
 .home h1 {
   color: #dddddd;
@@ -211,7 +224,7 @@ body {
 }
 
 .plus-drac {
-  position: absolute;
+  /* position: absolute; */
   color: white;
   top: 10px;
   right: 180px;
