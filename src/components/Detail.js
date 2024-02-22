@@ -7,15 +7,19 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 
+
 import { Link } from "react-router-dom";
 import AddReviewModal from './AddReviewModal'
 import AverageRating from './AverageRating'
 import firebase from "./firebase"
+import { useAuth } from '../contexts/AuthContext';
 
 import { ModalContext } from '../contexts/ModalContext.js';
  /* eslint-disable */ 
 
 function Detail() {
+
+    const { currentUser, logout } = useAuth();
 
     const { 
         handleAddDetailOpen, 
@@ -106,12 +110,30 @@ function Detail() {
   
                     </div>
                 </div>
-                {thisDracsReviews.length > 0 ? thisDracsReviews.map( rev =>
-                    <Review 
-                    key={rev.id}
-                    rev={rev} 
-                />
-                ) : <div><hr/><div style={{textAlign: "center"}}className="review-top">No one has reviewed this Dracula</div></div>}
+                {thisDracsReviews.length > 0 ? thisDracsReviews.map(rev => {
+                    console.log(rev); 
+                    console.log("currentuser", currentUser);
+                    const isCurrentUsersReviewDeterminer = () => {
+                        if(currentUser.displayName === rev.reviewerName){
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                    return (
+                        <Review 
+                            key={rev.id}
+                            rev={rev} 
+                            isCurrentUsersReview={isCurrentUsersReviewDeterminer()}
+                        />
+                    );
+                }) : (
+                    <div>
+                        <hr />
+                        <div style={{ textAlign: "center" }} className="review-top">No one has reviewed this Dracula</div>
+                    </div>
+                )}
+
                 
         </div>
         {addReviewIsOpen &&<AddReviewModal 

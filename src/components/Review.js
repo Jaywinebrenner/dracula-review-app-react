@@ -9,7 +9,7 @@ import AverageRating from './AverageRating';
 
 import { ModalContext } from '../contexts/ModalContext.js';
 
-function Review({ rev }) {
+function Review({ rev, isCurrentUsersReview }) {
 
     const { 
         editReviewIsOpen,
@@ -17,7 +17,7 @@ function Review({ rev }) {
         setClickedReviewToEdit
     } = useContext(ModalContext);
 
-    console.log("REV", rev)
+    console.log("isCurrentUsersReview", isCurrentUsersReview)
 
 
     const [isExpanded, setExpanded] = useState(true);
@@ -58,16 +58,16 @@ function Review({ rev }) {
                             <span style={{ fontWeight: '600' }}>{rev.reviewerName}</span>
                         </p>
                     ) : null}
+                {isCurrentUsersReview && 
                 <div className='edit-wrapper'>
-                <img
-                    onClick={() => {
-                        handleEditReviewOpen();
-                        setClickedReviewToEdit(rev);
-                    }}
-                    src="/edit.png"
-                    />
-
-                </div>
+                    <img
+                        onClick={() => {
+                            handleEditReviewOpen();
+                            setClickedReviewToEdit(rev);
+                        }}
+                        src="/edit.png"
+                        />
+                </div>}
 
                 </section>
             }
