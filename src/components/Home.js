@@ -16,6 +16,7 @@ function Home({ handleLoading }) {
     const [allReviews, setAllReviews] = useState([]);
     const [dropDownValue, setDropdownValue] = useState('Filter Draculas');
     const [draculasToDisplay, setDraculasToDisplay] = useState(9);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const draculasRef = firebase.firestore().collection("draculas");
     const reviewsRef = firebase.firestore().collection("reviews");
@@ -73,7 +74,7 @@ function Home({ handleLoading }) {
                   <p>Add Dracula</p>
                 </div>
                 <div className="filter-wrapper">
-                    <Dropdown
+                <Dropdown
                         className="dropdown"
                         options={['Alphabetize Draculas', 'Most Popular Draculas', 'Least Popular Draculas']}
                         onChange={handleDropdownChange}
@@ -82,9 +83,11 @@ function Home({ handleLoading }) {
                         controlClassName='dropdown-control'
                         placeholderClassName='dropdown-placeholder'
                         menuClassName='dropdown-menu'
-                        arrowClassName='dropdown-arrow'
+                        arrowClassName={`dropdown-arrow ${isDropdownOpen ? 'open' : ''}`}
                         arrowClosed={<span className="arrow-closed" />}
                         arrowOpen={<span className="arrow-open" />}
+                        onOpen={() => setIsDropdownOpen(true)}
+                        onClose={() => setIsDropdownOpen(false)}
                     />
                 </div>
             </div>

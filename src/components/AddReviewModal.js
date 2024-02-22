@@ -89,7 +89,7 @@ function AddReviewModal({ thisDraculaId, thisDracula, starAverage, size}) {
 
                         <div onClick={() => {
                             handleAddReviewOpen()
-                            setAddDetailIsOpen()
+                            handleAddDetailOpen()
                             }} className="x"><img src="/cross.png"/></div>
                         
                    </div>

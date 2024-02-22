@@ -17,6 +17,23 @@ body {
   position: relative;
 }
 
+@media (max-width: 700px) {
+  h1 {
+    font-size: 35px!important;
+  }
+  input, textarea {
+    width: 100%!important;
+  }
+  button {
+    width: 100%!important;
+  }
+}
+
+.arrow-open {
+  top: 9px!important;
+}
+
+
 .title-wrapper{
   /* background-color: maroon; */
   text-align: left;
