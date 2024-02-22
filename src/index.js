@@ -10,6 +10,9 @@ import { ModalProvider } from './contexts/ModalContext';
 
 const Index = () => {
 
+
+
+
   return (
     <React.StrictMode>
       <BrowserRouter>

@@ -19,6 +19,7 @@ import EditReviewModal from './components/EditReviewModal.js';
 
 
 import { ModalContext } from './contexts/ModalContext.js';
+import AreYouSureDeleteReview from './components/AreYouSureDeleteReview.js';
 
 
 
@@ -33,8 +34,23 @@ function App({detailIsOpen, handleDetailIsOpen}) {
     handleAddDraculaModalOpen,
     areYouSureIsOpen,
     handleAreYouSureOpen,
-    editReviewIsOpen
+    editReviewIsOpen,
+    handleAreYouSureDeleteReviewOpen,
+    areYouSureDeleteReviewOpen,
+
+    addDetailIsOpen,
+    addReviewIsOpen
   } = useContext(ModalContext);
+
+  console.log("loginIsOpen:", loginIsOpen);
+console.log("signupIsOpen:", signupIsOpen);
+console.log("addDraculaModalIsOpen:", addDraculaModalIsOpen);
+console.log("addDetailIsOpen:", addDetailIsOpen);
+console.log("addReviewIsOpen:", addReviewIsOpen);
+console.log("areYouSureIsOpen:", areYouSureIsOpen);
+console.log("editReviewIsOpen:", editReviewIsOpen);
+console.log("areYouSureDeleteReviewOpen:", areYouSureDeleteReviewOpen);
+
 
   console.log("login is open CONTEXT", loginIsOpen)
 
@@ -170,6 +186,7 @@ function App({detailIsOpen, handleDetailIsOpen}) {
       {addDraculaModalIsOpen && <AddDraculaModal />}
       {/* {areYouSureIsOpen && <AreYouSure draculaToDelete={draculaToDelete} deleteDracula={deleteDracula}/>} */}
       {areYouSureIsOpen && <AreYouSure />}
+      {areYouSureDeleteReviewOpen &&  <AreYouSureDeleteReview />}
       {editReviewIsOpen && <EditReviewModal/>}
 
 </>

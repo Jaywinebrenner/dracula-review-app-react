@@ -11,7 +11,12 @@ import { ModalContext } from '../contexts/ModalContext.js';
 
 function AddReviewModal({ thisDraculaId, thisDracula, starAverage, size}) {
 
-    const { handleAddReviewOpen } = useContext(ModalContext);
+    const { 
+        handleAddReviewOpen,
+        handleAddDetailOpen,
+        setAddDetailIsOpen
+    
+    } = useContext(ModalContext);
 
     const [reviewTitle, setReviewTitle] = useState('')
     const [reviewBody, setReviewBody] = useState('')
@@ -82,7 +87,10 @@ function AddReviewModal({ thisDraculaId, thisDracula, starAverage, size}) {
                    <div className="modal-top">
                         <h1>Add a Review</h1>
 
-                        <div onClick={() => handleAddReviewOpen()} className="x"><img src="/cross.png"/></div>
+                        <div onClick={() => {
+                            handleAddReviewOpen()
+                            setAddDetailIsOpen()
+                            }} className="x"><img src="/cross.png"/></div>
                         
                    </div>
 
@@ -115,7 +123,11 @@ function AddReviewModal({ thisDraculaId, thisDracula, starAverage, size}) {
                         
                         </textarea>
                         
-                        <button onClick={submitForm} className="submit-review-button" type="button">Submit Review</button>
+                        <button onClick={() => {
+                            submitForm();
+                            handleAddDetailOpen();
+                        }} className="submit-review-button" type="button">Submit Review</button>
+
                     </div>
                     </div>
 

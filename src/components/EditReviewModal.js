@@ -4,15 +4,21 @@ import Rate from './Rate.js';
 import firebase from "./firebase.js";
 import { ModalContext } from '../contexts/ModalContext.js';
 
-function EditReviewModal({ thisDraculaId, starAverage }) {
-    const { handleEditReviewOpen, clickedReviewToEdit } = useContext(ModalContext);
+function EditReviewModal() {
+
+    const { 
+        handleEditReviewOpen, 
+        clickedReviewToEdit,
+        thisDraculaStarAverage,
+        thisDraculaId
+     } = useContext(ModalContext);
+
     const { currentUser } = useAuth();
     const draculasRef = firebase.firestore().collection("draculas");
     const reviewsRef = firebase.firestore().collection("reviews"); 
 
     const reviewRef = reviewsRef.doc(clickedReviewToEdit.id);
-    console.log("reviewREf", reviewRef);
-
+    console.log("reviewRef", reviewRef);
     console.log("clickedReviewToEdit", clickedReviewToEdit);
 
     const [reviewTitle, setReviewTitle] = useState(clickedReviewToEdit.title);
@@ -20,62 +26,52 @@ function EditReviewModal({ thisDraculaId, starAverage }) {
     const [rating, setRating] = useState(clickedReviewToEdit.score);
 
     const submitForm = async () => {
-        if (!currentUser) {
-            return alert("Please sign up to review a Dracula");
-        }
-        if (!reviewTitle) {
-            return alert("Add a title!");
-        }
-        if (!reviewBody) {
-            return alert("Add a review!");
-        }
-        if (!rating) {
-            return alert("Rate that Dracula first!");
+        if (!currentUser || !reviewTitle || !reviewBody || !rating) {
+            return alert("Please fill out all fields before submitting the review.");
         }
     
-        const reviewData = {
-            title: reviewTitle,
-            description: reviewBody,
-            score: rating,
-            reviewerName: currentUser.multiFactor.user.displayName
-        };
+        try {
+            // Check if the document exists before attempting to update it
+            const reviewSnapshot = await reviewRef.get();
+            console.log("reviewSnapshot.exists", reviewSnapshot.exists)
     
-        // Update the review in Firestore
-        reviewRef.update(reviewData)
-            .then(() => {
-                console.log("Review updated successfully!");
-                handleEditReviewOpen();
-            })
-            .catch((error) => {
-                console.error("Error updating review: ", error);
+            if (!reviewSnapshot.exists) {
+                // No need to log an error if the document doesn't exist
+                return;
+            }
+    
+            // Document exists, proceed with updating it
+            await reviewRef.update({
+                title: reviewTitle,
+                description: reviewBody,
+                score: rating,
+                reviewerName: currentUser.multiFactor.user.displayName
             });
     
-        // Calculate new average rating and update the Dracula document
-        const newAverage = starAverage ? (starAverage + rating) / 2 : rating;
-        draculasRef.doc(thisDraculaId).update({
-            scores: newAverage
-        })
-        .then(() => {
-            console.log("Dracula average score updated successfully!");
-        })
-        .catch((error) => {
-            alert("Error updating Dracula average score: ", error);
-        });
+            // Calculate new average rating and update the Dracula document
+            // const newAverage = thisDraculaStarAverage ? (thisDraculaStarAverage + rating) / 2 : rating;
+
+            // await draculasRef.doc(thisDraculaId).update({
+            //     scores: newAverage
+            // });
     
-        // Update the review count on the currentUser object
-        if (currentUser.photoURL) {
-            const reviewNumber = parseInt(currentUser.photoURL, 10) - 1;
-            currentUser.updateProfile({
-                photoURL: reviewNumber.toString()
-            })
-            .then(() => {
-                console.log("User review count updated successfully!");
-            })
-            .catch((error) => {
-                console.error("Error updating user review count: ", error);
-            });
+            // Update the review count on the currentUser object
+            if (currentUser.photoURL) {
+                const reviewNumber = parseInt(currentUser.photoURL, 10) - 1;
+                await currentUser.updateProfile({
+                    photoURL: reviewNumber.toString()
+                });
+            }
+    
+            // Close the edit review modal
+            handleEditReviewOpen();
+            console.log("Review updated successfully!");
+        } catch (error) {
+            console.error("Error updating review and/or Dracula: ", error);
+            alert("An error occurred while updating the review and/or Dracula. Please try again later.");
         }
     };
+    
     
 
   return (

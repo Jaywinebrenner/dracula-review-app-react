@@ -131,7 +131,6 @@ function AddDraculaModal() {
                             />
                         </div>}
                             
-                        {/* <button disabled={isLoading || ((currentUser.photoURL === "1" || currentUser.photoURL === "2" || currentUser.photoURL === "3"))} onClick={submitForm} className="submit-review-button" type="button">Submit Dracula</button> */}
                         <button onClick={submitForm} className="submit-review-button" type="button">Submit Dracula</button> 
                 
                         </div>

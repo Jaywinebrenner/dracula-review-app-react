@@ -899,6 +899,23 @@ input[type="text"], input[type="password"]
   margin-left: 30px;
 }
 
+.edit-delete-review-icon-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.delete-review-trash-wrapper {
+  font-size: 20px;
+  margin-left: 10px;
+}
+.edit-wrapper img {
+  transition: .3s;
+  margin-top: 2px;
+  }
+.edit-wrapper img:hover {
+opacity: .6;
+}
+
 .upload-buttons-wrapper {
   display: flex;
     justify-content: center;

@@ -5,6 +5,7 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import AverageRating from './AverageRating';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 
 import { ModalContext } from '../contexts/ModalContext.js';
@@ -14,10 +15,11 @@ function Review({ rev, isCurrentUsersReview }) {
     const { 
         editReviewIsOpen,
         handleEditReviewOpen,
-        setClickedReviewToEdit
+        setClickedReviewToEdit,
+        handleAreYouSureDeleteReviewOpen,
+        areYouSureDeleteReviewOpen,
     } = useContext(ModalContext);
 
-    console.log("isCurrentUsersReview", isCurrentUsersReview)
 
 
     const [isExpanded, setExpanded] = useState(true);
@@ -30,6 +32,10 @@ function Review({ rev, isCurrentUsersReview }) {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
+    const deleteReview = () => {
+        console.log("DELTE CLICK")
+    }
 
     return (
         <div id="card" className="dracula-review-card" key={rev.id}>
@@ -59,6 +65,7 @@ function Review({ rev, isCurrentUsersReview }) {
                         </p>
                     ) : null}
                 {isCurrentUsersReview && 
+                <div className='edit-delete-review-icon-wrapper'>
                 <div className='edit-wrapper'>
                     <img
                         onClick={() => {
@@ -67,9 +74,24 @@ function Review({ rev, isCurrentUsersReview }) {
                         }}
                         src="/edit.png"
                         />
-                </div>}
+                </div>
 
-                </section>
+                <div className="delete-review-trash-wrapper" >
+                    <FontAwesomeIcon 
+                    onClick={() => {
+                        setClickedReviewToEdit(rev);
+                        handleAreYouSureDeleteReviewOpen();
+                    }} 
+                    className="drac-trash" 
+                    size='1x' 
+                    icon={faTrashAlt}
+                    style={{ color: 'black' }}
+                />
+                </div>
+                </div>
+                }
+
+            </section>
             }
         </div>
     );

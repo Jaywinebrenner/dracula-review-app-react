@@ -12,6 +12,12 @@ export const ModalProvider = ({ children }) => {
   const [addReviewIsOpen, setAddReviewIsOpen] = useState(false);
   const [editReviewIsOpen, setEditReviewIsOpen] = useState(false);
   const [areYouSureIsOpen, setAreYouSureIsOpen] = useState(false);
+  const [areYouSureDeleteReviewOpen, setAreYouSureDeleteReviewOpen] = useState(false);
+  const [thisDraculaId, setThisDraculaId] = useState();
+  const [thisDracula, setThisDracula] = useState(false);
+  const [thisDraculaStarAverage, setThisDraculaStarAverage] = useState(false);
+
+
 
   const [clickedReviewToEdit, setClickedReviewToEdit] = useState()
 
@@ -57,6 +63,10 @@ export const ModalProvider = ({ children }) => {
     setAreYouSureIsOpen(prev => !prev);
   };
 
+  const handleAreYouSureDeleteReviewOpen = () => {
+    setAreYouSureDeleteReviewOpen(prev => !prev);
+  };
+
 
 
 
@@ -78,11 +88,21 @@ export const ModalProvider = ({ children }) => {
           removeHome,
           setDraculaToDelete,
           draculaToDelete,
+          handleAreYouSureDeleteReviewOpen,
+          areYouSureDeleteReviewOpen,
 
           areYouSureIsOpen,
           handleAreYouSureOpen,
           setClickedReviewToEdit,
-          clickedReviewToEdit
+          clickedReviewToEdit,
+          setThisDraculaStarAverage,
+          thisDraculaStarAverage,
+          thisDracula,
+          setThisDracula,
+          setThisDraculaId,
+          thisDraculaId,
+          setAddDetailIsOpen
+
       }}
     >
       {children}
