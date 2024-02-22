@@ -126,12 +126,14 @@ function Detail() {
                     // console.log("when rev is made",rev); 
                     // console.log("currentuser", currentUser);
                     const isCurrentUsersReviewDeterminer = () => {
-                        if(currentUser.displayName && currentUser.displayName === rev.reviewerName){
+
+                        if(currentUser && currentUser.displayName && currentUser.displayName === rev.reviewerName) {
                             return true;
                         } else {
                             return false;
                         }
-                    }
+                    };
+                    
                     return (
                         <Review 
                             key={rev.id}
