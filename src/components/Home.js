@@ -71,7 +71,7 @@ function Home({ handleLoading }) {
                 <h1 className="subheader">Draculas to Review</h1>
                 <div className='add-dracula-icon-wrapper'>
                   <FontAwesomeIcon onClick={() => handleAddDraculaModalOpen()} className="plus-drac" size='3x' icon={currentUser && faPlusCircle} />
-                  <p>Add Dracula</p>
+                  {currentUser && <p>Add Dracula</p>}
                 </div>
                 <div className="filter-wrapper">
                 <Dropdown
