@@ -54,9 +54,10 @@ function Detail() {
         const getReviews = () => {
             reviewsRef.onSnapshot(snap => {
                 const reviews = snap.docs.map(doc => doc.data())
+                console.log("reviews when made from FB", reviews)
                 let dracReviews = reviews.filter((rev) => rev.dracula_id === thisDraculaId)
                 setThisDracsReviews([...dracReviews])
-
+                
             });
         }
 
@@ -111,8 +112,8 @@ function Detail() {
                     </div>
                 </div>
                 {thisDracsReviews.length > 0 ? thisDracsReviews.map(rev => {
-                    console.log(rev); 
-                    console.log("currentuser", currentUser);
+                    console.log("when rev is made",rev); 
+                    // console.log("currentuser", currentUser);
                     const isCurrentUsersReviewDeterminer = () => {
                         if(currentUser.displayName === rev.reviewerName){
                             return true;

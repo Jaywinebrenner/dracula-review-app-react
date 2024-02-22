@@ -16,7 +16,7 @@ function AreYouSure() {
         draculaToDelete
         
     } = useContext(ModalContext);
-    console.log("drac to delete", draculaToDelete)
+    // console.log("drac to delete", draculaToDelete)
 
     const [isLoading, setIsLoading] = useState(false)
 

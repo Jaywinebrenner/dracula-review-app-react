@@ -52,8 +52,8 @@ function App({detailIsOpen, handleDetailIsOpen}) {
   const defaultOption = 'Filter Draculas';
 
   const { currentUser, logout } = useAuth();
-  console.log("CURRENT USER", currentUser);
-  
+  // console.log("CURRENT USER", currentUser);
+
   const handleLoading = (toggle) => {
     setLoading(toggle)
   }

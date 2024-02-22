@@ -1,82 +1,82 @@
-
-import React, { useState, useContext } from 'react'
-import {useAuth} from '../contexts/AuthContext.js';
-import Rate from './Rate.js'
- /* eslint-disable */ 
- import firebase from "./firebase.js"
-
-
+import React, { useState, useContext } from 'react';
+import { useAuth } from '../contexts/AuthContext.js';
+import Rate from './Rate.js';
+import firebase from "./firebase.js";
 import { ModalContext } from '../contexts/ModalContext.js';
 
 function EditReviewModal({ thisDraculaId, starAverage }) {
+    const { handleEditReviewOpen, clickedReviewToEdit } = useContext(ModalContext);
+    const { currentUser } = useAuth();
+    const draculasRef = firebase.firestore().collection("draculas");
+    const reviewsRef = firebase.firestore().collection("reviews"); 
 
-    const { 
-        handleEditReviewOpen, 
-        clickedReviewToEdit
-    
-    } = useContext(ModalContext);
+    const reviewRef = reviewsRef.doc(clickedReviewToEdit.id);
+    console.log("reviewREf", reviewRef);
 
-    console.log("clickedReviewToEdit",clickedReviewToEdit)
+    console.log("clickedReviewToEdit", clickedReviewToEdit);
 
-    const [reviewTitle, setReviewTitle] = useState(clickedReviewToEdit.title)
-    const [reviewBody, setReviewBody] = useState(clickedReviewToEdit.description)
-    const [rating, setRating] = useState(0)
-    const {currentUser} = useAuth()
-    const draculasRef = firebase.firestore().collection("draculas")
-    const reviewsRef = firebase.firestore().collection("reviews")
+    const [reviewTitle, setReviewTitle] = useState(clickedReviewToEdit.title);
+    const [reviewBody, setReviewBody] = useState(clickedReviewToEdit.description);
+    const [rating, setRating] = useState(clickedReviewToEdit.score);
 
     const submitForm = async () => {
-
-        if(!currentUser){
-            return alert("Please sign up to review a Dracula")
+        if (!currentUser) {
+            return alert("Please sign up to review a Dracula");
         }
-        if(!reviewTitle){
-            return alert("Add a title!")
+        if (!reviewTitle) {
+            return alert("Add a title!");
         }
-        if(!reviewBody){
-            return alert("Add a review!")
+        if (!reviewBody) {
+            return alert("Add a review!");
         }
-        if(!rating){
-            return alert("Rate that Draucla first!")
+        if (!rating) {
+            return alert("Rate that Dracula first!");
         }
-        const review = { title: reviewTitle, description: reviewBody, score: rating, dracula_id: thisDraculaId, reviewerName: currentUser.multiFactor.user.displayName}
-
-        reviewsRef.doc().set(review)
-            .catch(function(error) {
-                console.error("Error adding review: ", error);
+    
+        const reviewData = {
+            title: reviewTitle,
+            description: reviewBody,
+            score: rating,
+            reviewerName: currentUser.multiFactor.user.displayName
+        };
+    
+        // Update the review in Firestore
+        reviewRef.update(reviewData)
+            .then(() => {
+                console.log("Review updated successfully!");
+                handleEditReviewOpen();
+            })
+            .catch((error) => {
+                console.error("Error updating review: ", error);
             });
-            handleEditReviewOpen();
-
-        const getNewAverage = () => {
-            let newAverage = null;
-            if(!starAverage){
-                newAverage = rating;
-                return newAverage
-            } else {
-                newAverage = (starAverage + rating) / 2
-                return newAverage 
-            }
-        }
-        let newAverage = getNewAverage()
-
+    
+        // Calculate new average rating and update the Dracula document
+        const newAverage = starAverage ? (starAverage + rating) / 2 : rating;
         draculasRef.doc(thisDraculaId).update({
             scores: newAverage
         })
-        .catch(function(error) {
-            console.error("Error adding Star Average to the Dracula: ", error);
+        .then(() => {
+            console.log("Dracula average score updated successfully!");
+        })
+        .catch((error) => {
+            alert("Error updating Dracula average score: ", error);
         });
-
-
-        // photoURL field on the currentUser object is what acutally stores the amout of reviews a user had made.
-        let reviewNumber = null
-        if(currentUser.photoURL){
     
-            reviewNumber = parseInt(currentUser.photoURL) - 1;
+        // Update the review count on the currentUser object
+        if (currentUser.photoURL) {
+            const reviewNumber = parseInt(currentUser.photoURL, 10) - 1;
             currentUser.updateProfile({
-                photoURL: reviewNumber
+                photoURL: reviewNumber.toString()
             })
-        } 
-      }
+            .then(() => {
+                console.log("User review count updated successfully!");
+            })
+            .catch((error) => {
+                console.error("Error updating user review count: ", error);
+            });
+        }
+    };
+    
 
   return (
     <>
