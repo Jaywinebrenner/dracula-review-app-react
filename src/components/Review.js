@@ -1,10 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import useCollapse from 'react-collapsed';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import AverageRating from './AverageRating';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
-function Review({ rev }) {
+
+import { ModalContext } from '../contexts/ModalContext.js';
+
+function Review({ rev, isCurrentUsersReview }) {
+
+    const { 
+        editReviewIsOpen,
+        handleEditReviewOpen,
+        setClickedReviewToEdit,
+        handleAreYouSureDeleteReviewOpen,
+        areYouSureDeleteReviewOpen,
+    } = useContext(ModalContext);
+
 
 
     const [isExpanded, setExpanded] = useState(true);
@@ -17,6 +32,10 @@ function Review({ rev }) {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
+    const deleteReview = () => {
+        console.log("DELTE CLICK")
+    }
 
     return (
         <div id="card" className="dracula-review-card" key={rev.id}>
@@ -34,7 +53,9 @@ function Review({ rev }) {
             </div>
             {
                 <section className="review-bottom" {...getCollapseProps()}>
+                    <div style={{pointerEvents: "none"}}>
                     <AverageRating rating={rev.score} size={'1x'} />
+                    </div>
                     {/* <p><strong>Score: {rev.score}</strong></p> */}
                     <p className="description">{rev.description}</p>
                     {rev.reviewerName ? (
@@ -43,7 +64,34 @@ function Review({ rev }) {
                             <span style={{ fontWeight: '600' }}>{rev.reviewerName}</span>
                         </p>
                     ) : null}
-                </section>
+                {isCurrentUsersReview && 
+                <div className='edit-delete-review-icon-wrapper'>
+                <div className='edit-wrapper'>
+                    <img
+                        onClick={() => {
+                            handleEditReviewOpen();
+                            setClickedReviewToEdit(rev);
+                        }}
+                        src="/edit.png"
+                        />
+                </div>
+
+                <div className="delete-review-trash-wrapper" >
+                    <FontAwesomeIcon 
+                    onClick={() => {
+                        setClickedReviewToEdit(rev);
+                        handleAreYouSureDeleteReviewOpen();
+                    }} 
+                    className="drac-trash" 
+                    size='1x' 
+                    icon={faTrashAlt}
+                    style={{ color: 'black' }}
+                />
+                </div>
+                </div>
+                }
+
+            </section>
             }
         </div>
     );

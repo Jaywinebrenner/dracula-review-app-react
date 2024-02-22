@@ -1,10 +1,12 @@
 
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import {useAuth} from '../contexts/AuthContext'
 
-function LoginModal({toggleLoginModal}) {
-    const {login} = useAuth()
+import { ModalContext } from '../contexts/ModalContext.js';
 
+function LoginModal() {
+    const {login} = useAuth()
+    const { handleLoginIsOpen } = useContext(ModalContext);
 
       const refreshPage = () => {
         window.location.reload(false);
@@ -24,10 +26,10 @@ function LoginModal({toggleLoginModal}) {
             alert("Put in a password")
             return;
         }
-        if(password !== passwordConfirmation){
-            alert("Passwords don't match. Darn it.")
-            return;
-        }
+        // if(password !== passwordConfirmation){
+        //     alert("Passwords don't match. Darn it.")
+        //     return;
+        // }
         try {
             setLoading(true)
             await login(email, password)
@@ -39,7 +41,7 @@ function LoginModal({toggleLoginModal}) {
             return;
         }
         setLoading(false)
-        toggleLoginModal()
+        handleLoginIsOpen()
     }
 
   
@@ -51,7 +53,7 @@ function LoginModal({toggleLoginModal}) {
                    <div className="modal-top">
                         <h1>Login</h1>
 
-                        <div onClick={() => toggleLoginModal()} className="x"><img src="cross.png"/></div>
+                        <div onClick={() => handleLoginIsOpen()} className="x"><img src="cross.png"/></div>
                    </div>
 
                    <div className="modal-body">
@@ -73,16 +75,16 @@ function LoginModal({toggleLoginModal}) {
                                 onChange={e => setPassword(e.target.value)}
                                 required
                             />
-                        <input
+                        {/* <input
                             className="reg-password-confirmation"
                                 type="password"
                                 placeholder="Password Confirmation"
                                 value={passwordConfirmation}
                                 onChange={e => setPasswordConfirmation(e.target.value)}
                                 required
-                            />
+                            /> */}
 
-                            <button onClick={handleLogin} className="submit-review-button" type="button">Login</button>
+                            <button onClick={handleLogin} className="submit-review-button login-submit-button" type="button">Login</button>
                         </div>
                     </div>
 

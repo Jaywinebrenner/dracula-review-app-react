@@ -1,12 +1,17 @@
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import firebase from "./firebase"
 import { useAuth } from '../contexts/AuthContext';
 import loadingGif from '../assets/loadingGif.gif'
 <img src={loadingGif} alt="loading..." /> 
  /* eslint-disable */ 
 
-function AddDraculaModal({toggleAddDraculaModal}) {
+
+ import { ModalContext } from '../contexts/ModalContext.js';
+
+function AddDraculaModal() {
+
+    const { handleAddDraculaModalOpen } = useContext(ModalContext);
 
     const { currentUser } = useAuth();
     const [name, setName] = useState('');
@@ -84,7 +89,7 @@ function AddDraculaModal({toggleAddDraculaModal}) {
         });
         setIsLoading(false);
         setName('')
-        toggleAddDraculaModal();
+        handleAddDraculaModalOpen();
     }
 
     const renderReviewRequirements = () => {
@@ -103,7 +108,7 @@ function AddDraculaModal({toggleAddDraculaModal}) {
                 {!isLoading && <div className="modal-content">
                     <div className="modal-top">
                         <h1>Add a Dracula</h1>
-                        <div onClick={() => toggleAddDraculaModal()} className="x"><img src="/cross.png"/></div>
+                        <div onClick={() => handleAddDraculaModalOpen()} className="x"><img src="/cross.png"/></div>
                     </div>
                     {(currentUser.photoURL === "1" || currentUser.photoURL === "2" || currentUser.photoURL === "3")  && renderReviewRequirements()}
                    <div className="modal-body">
@@ -120,13 +125,12 @@ function AddDraculaModal({toggleAddDraculaModal}) {
                         {<div>
                             <p>Image from Computer</p>
                                 <input
-                                    className="review-title-textbox"
+                                    className="review-title-textbox file-input"
                                     type="file"
                                     onChange={fileSelectedHandler}
                             />
                         </div>}
                             
-                        {/* <button disabled={isLoading || ((currentUser.photoURL === "1" || currentUser.photoURL === "2" || currentUser.photoURL === "3"))} onClick={submitForm} className="submit-review-button" type="button">Submit Dracula</button> */}
                         <button onClick={submitForm} className="submit-review-button" type="button">Submit Dracula</button> 
                 
                         </div>

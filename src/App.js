@@ -4,7 +4,7 @@ import Home from './components/Home.js'
 import Registration from './components/Registration';
 import Loading from './components/Loading';
 import useCollapse from 'react-collapsed';
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 import SignupModal from './components/SignupModal';
@@ -13,15 +13,49 @@ import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import { useAuth } from './contexts/AuthContext';
 import Popup from './components/Popup';
+import AddDraculaModal from './components/AddDraculaModal.js';
+import AreYouSure from './components/AreYouSure.js';
+import EditReviewModal from './components/EditReviewModal.js';
+
+
+import { ModalContext } from './contexts/ModalContext.js';
+import AreYouSureDeleteReview from './components/AreYouSureDeleteReview.js';
 
 
 
-function App({detailIsOpen, handleDetailIsOpen, loginIsOpen, handleLoginIsOpen, handleSignupIsOpen, signupIsOpen}) {
+function App({detailIsOpen, handleDetailIsOpen}) {
+
+  const { 
+    loginIsOpen, 
+    handleLoginIsOpen, 
+    signupIsOpen, 
+    handleSignupIsOpen,
+    addDraculaModalIsOpen,
+    handleAddDraculaModalOpen,
+    areYouSureIsOpen,
+    handleAreYouSureOpen,
+    editReviewIsOpen,
+    handleAreYouSureDeleteReviewOpen,
+    areYouSureDeleteReviewOpen,
+
+    addDetailIsOpen,
+    addReviewIsOpen
+  } = useContext(ModalContext);
+
+  console.log("loginIsOpen:", loginIsOpen);
+console.log("signupIsOpen:", signupIsOpen);
+console.log("addDraculaModalIsOpen:", addDraculaModalIsOpen);
+console.log("addDetailIsOpen:", addDetailIsOpen);
+console.log("addReviewIsOpen:", addReviewIsOpen);
+console.log("areYouSureIsOpen:", areYouSureIsOpen);
+console.log("editReviewIsOpen:", editReviewIsOpen);
+console.log("areYouSureDeleteReviewOpen:", areYouSureDeleteReviewOpen);
+
+
+  console.log("login is open CONTEXT", loginIsOpen)
 
   const [isExpanded, setExpanded] = useState(false);
   const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded, setExpanded });
-  const [isSignupModalShowing, setIsSignupModalShowing] = useState(false);
-  const [isLoginModalShowing, setIsLoginModalShowing] = useState(false);
   const [ isHoverDivShowing, setIsHoverDivShowing ] = useState(false);
   const [options, setOptions ]= useState([
     'Alphabetize Draculas', 'Most Popular Draculas', 'Least Popular Draculas'
@@ -34,29 +68,11 @@ function App({detailIsOpen, handleDetailIsOpen, loginIsOpen, handleLoginIsOpen, 
   const defaultOption = 'Filter Draculas';
 
   const { currentUser, logout } = useAuth();
-  console.log("CURRENT USER", currentUser);
+  // console.log("CURRENT USER", currentUser);
+
   const handleLoading = (toggle) => {
     setLoading(toggle)
   }
-
-  const handleDropdownChange = (e) => {
-    setDropdownValue(e.value);
-  }
-
-  const handleOpenPopup = () => {
-    setPopupOpen(false)
-  }
-
-  const toggleSignupModal = () => {
-    setIsSignupModalShowing((prevExpanded) => !prevExpanded)
-    setIsHoverDivShowing(false)
-    handleSignupIsOpen()
-  } 
-  const toggleLoginModal = () => {
-    setIsLoginModalShowing((prevExpanded) => !prevExpanded)
-    setIsHoverDivShowing(false)
-    handleLoginIsOpen()
-  } 
   const toggleHoverDiv = () => {
     setIsHoverDivShowing((prevExpanded) => !prevExpanded)
   } 
@@ -77,9 +93,9 @@ function App({detailIsOpen, handleDetailIsOpen, loginIsOpen, handleLoginIsOpen, 
       </div>
       {isHoverDivShowing && 
       <div onMouseEnter={toggleHoverDiv} onMouseLeave={toggleHoverDiv} className="hover-wrapper">
-        {!currentUser && <div onClick={() => toggleLoginModal()} className="login-button"><p>Login</p></div>}
+        {!currentUser && <div onClick={() => handleLoginIsOpen()} className="login-button"><p>Login</p></div>}
         {currentUser && <div onClick={() => handleLogout()} className="logout-button"><p>Logout</p></div>}
-        {!currentUser && <div onClick={() => toggleSignupModal()} className="signup-button"><p>Sign Up</p></div>}
+        {!currentUser && <div onClick={() => handleSignupIsOpen()} className="signup-button"><p>Sign Up</p></div>}
       </div>}
 
 
@@ -136,24 +152,10 @@ function App({detailIsOpen, handleDetailIsOpen, loginIsOpen, handleLoginIsOpen, 
 
 
       <div id="subnav" className="subnav-bar">
-          <div className="subnav-top"> 
-          {/* <div className="filter-wrapper">
-              <Dropdown 
-                className="dropdown"
-                options={options} 
-                onChange={handleDropdownChange} 
-                value={defaultOption} 
-                placeholder="Select an option" 
-                controlClassName='dropdown-control'
-                placeholderClassName='dropdown-placeholder'
-                menuClassName='dropdown-menu'
-                arrowClassName='dropdown-arrow'
-                arrowClosed={<span className="arrow-closed" />}
-                arrowOpen={<span className="arrow-open" />}
-               />
-            </div>        */}
-   
-          </div>
+          {/* <div className="subnav-top"> 
+
+  
+          </div> */}
           {<section className="subnav-bottom" {...getCollapseProps()}>   
            {/* <Registration/> */}
           
@@ -165,8 +167,14 @@ function App({detailIsOpen, handleDetailIsOpen, loginIsOpen, handleLoginIsOpen, 
     </div>
       {!loading && <Home dropDownValue={dropDownValue} handleLoading={handleLoading} handleDetailIsOpen={handleDetailIsOpen} detailIsOpen={detailIsOpen} loginIsOpen={loginIsOpen} signupIsOpen={signupIsOpen}/>}
       {loading && <Loading/>}
-      {isLoginModalShowing && <LoginModal toggleLoginModal={toggleLoginModal}/>}
-      {isSignupModalShowing && <SignupModal toggleSignupModal={toggleSignupModal}/>}
+      {loginIsOpen && <LoginModal />}
+      {signupIsOpen && <SignupModal />}
+      {addDraculaModalIsOpen && <AddDraculaModal />}
+      {/* {areYouSureIsOpen && <AreYouSure draculaToDelete={draculaToDelete} deleteDracula={deleteDracula}/>} */}
+      {areYouSureIsOpen && <AreYouSure />}
+      {areYouSureDeleteReviewOpen &&  <AreYouSureDeleteReview />}
+      {editReviewIsOpen && <EditReviewModal/>}
+
 </>
  
   );
