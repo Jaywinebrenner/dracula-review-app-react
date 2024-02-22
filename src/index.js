@@ -9,43 +9,18 @@ import { AuthProvider } from './contexts/AuthContext';
 import { ModalProvider } from './contexts/ModalContext'; 
 
 const Index = () => {
-  const [detailIsOpen, setDetailIsOpen] = useState(false);
-  const [loginIsOpen, setLoginIsOpen] = useState(false);
-  const [signupIsOpen, setSignupIsOpen] = useState(false);
-  const [addDraculaIsOpen, setAddDraculaIsOpen] = useState(false);
-  const [areYouSureIsOpen, setAreYouSureIsOpen] = useState(false);
-
-  const handleDetailIsOpen = () => {
-    setDetailIsOpen(prev => !prev);
-  };
-
-  const handleLoginIsOpen = () => {
-    setLoginIsOpen(prev => !prev);
-  };
-
-  const handleSignupIsOpen = () => {
-    setSignupIsOpen(prev => !prev);
-  };
-
-  const handleAddDraculaIsOpen = () => {
-    setAddDraculaIsOpen(prev => !prev);
-  };
-
-  const handleAreYouSureIsOpen = () => {
-    setAreYouSureIsOpen(prev => !prev);
-  };
 
   return (
     <React.StrictMode>
       <BrowserRouter>
         <AuthProvider>
-          <ModalProvider> {/* Wrap your components with ModalProvider here */}
+          <ModalProvider> 
             <Switch>
-              <Route path="/" render={(props) => <App {...props} detailIsOpen={detailIsOpen} handleDetailIsOpen={handleDetailIsOpen} handleLoginIsOpen={handleLoginIsOpen} loginIsOpen={loginIsOpen} handleSignupIsOpen={handleSignupIsOpen} signupIsOpen={signupIsOpen} handleAddDraculaIsOpen={handleAddDraculaIsOpen} addDraculaIsOpen={addDraculaIsOpen} handleAreYouSureIsOpen={handleAreYouSureIsOpen} areYouSureIsOpen={areYouSureIsOpen} />} />
+              <Route path="/" render={(props) => <App {...props} />} />
             </Switch>
 
             <Switch>
-              <Route path="/detail/:slug" render={(props) => <Detail {...props} detailIsOpen={detailIsOpen} handleDetailIsOpen={handleDetailIsOpen} />} />
+              <Route path="/detail/:slug" render={(props) => <Detail {...props}/>} />
             </Switch>
           </ModalProvider>
         </AuthProvider>

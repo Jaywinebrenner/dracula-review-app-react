@@ -26,10 +26,10 @@ function LoginModal() {
             alert("Put in a password")
             return;
         }
-        if(password !== passwordConfirmation){
-            alert("Passwords don't match. Darn it.")
-            return;
-        }
+        // if(password !== passwordConfirmation){
+        //     alert("Passwords don't match. Darn it.")
+        //     return;
+        // }
         try {
             setLoading(true)
             await login(email, password)
@@ -75,16 +75,16 @@ function LoginModal() {
                                 onChange={e => setPassword(e.target.value)}
                                 required
                             />
-                        <input
+                        {/* <input
                             className="reg-password-confirmation"
                                 type="password"
                                 placeholder="Password Confirmation"
                                 value={passwordConfirmation}
                                 onChange={e => setPasswordConfirmation(e.target.value)}
                                 required
-                            />
+                            /> */}
 
-                            <button onClick={handleLogin} className="submit-review-button" type="button">Login</button>
+                            <button onClick={handleLogin} className="submit-review-button login-submit-button" type="button">Login</button>
                         </div>
                     </div>
 

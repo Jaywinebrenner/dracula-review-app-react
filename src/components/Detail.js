@@ -21,6 +21,7 @@ function Detail() {
         handleAddDetailOpen, 
         addDetailIsOpen,        
         addReviewIsOpen,
+        editReviewIsOpen,
         handleAddReviewOpen,
     } = useContext(ModalContext);
 
@@ -86,13 +87,8 @@ function Detail() {
         setIsModalShowing((prevExpanded) => !prevExpanded)
     } 
 
-    const deleteDracula = () => {
-        // console.log("delete")
-    }
-
-
   return (
-      <div className="detail-page">
+    <div className={`detail-page ${editReviewIsOpen ? 'hide-detail-page' : ''}`}>
         <Link onClick={()=> handleAddDetailOpen()} className="arrow-link" to={{ pathname: `/` }}>
             <img className='cross-side' src="/cross.png"/>
         </Link>

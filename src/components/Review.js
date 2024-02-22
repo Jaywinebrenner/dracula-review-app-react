@@ -1,10 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import useCollapse from 'react-collapsed';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import AverageRating from './AverageRating';
 
+
+import { ModalContext } from '../contexts/ModalContext.js';
+
 function Review({ rev }) {
+
+    const { 
+        editReviewIsOpen,
+        handleEditReviewOpen,
+        setClickedReviewToEdit
+    } = useContext(ModalContext);
+
+    console.log("REV", rev)
 
 
     const [isExpanded, setExpanded] = useState(true);
@@ -34,7 +47,9 @@ function Review({ rev }) {
             </div>
             {
                 <section className="review-bottom" {...getCollapseProps()}>
+                    <div style={{pointerEvents: "none"}}>
                     <AverageRating rating={rev.score} size={'1x'} />
+                    </div>
                     {/* <p><strong>Score: {rev.score}</strong></p> */}
                     <p className="description">{rev.description}</p>
                     {rev.reviewerName ? (
@@ -43,6 +58,17 @@ function Review({ rev }) {
                             <span style={{ fontWeight: '600' }}>{rev.reviewerName}</span>
                         </p>
                     ) : null}
+                <div className='edit-wrapper'>
+                <img
+                    onClick={() => {
+                        handleEditReviewOpen();
+                        setClickedReviewToEdit(rev);
+                    }}
+                    src="/edit.png"
+                    />
+
+                </div>
+
                 </section>
             }
         </div>

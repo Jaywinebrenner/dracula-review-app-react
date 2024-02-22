@@ -125,7 +125,7 @@ function AddDraculaModal() {
                         {<div>
                             <p>Image from Computer</p>
                                 <input
-                                    className="review-title-textbox"
+                                    className="review-title-textbox file-input"
                                     type="file"
                                     onChange={fileSelectedHandler}
                             />

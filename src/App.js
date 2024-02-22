@@ -13,6 +13,9 @@ import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import { useAuth } from './contexts/AuthContext';
 import Popup from './components/Popup';
+import AddDraculaModal from './components/AddDraculaModal.js';
+import AreYouSure from './components/AreYouSure.js';
+import EditReviewModal from './components/EditReviewModal.js';
 
 
 import { ModalContext } from './contexts/ModalContext.js';
@@ -25,15 +28,18 @@ function App({detailIsOpen, handleDetailIsOpen}) {
     loginIsOpen, 
     handleLoginIsOpen, 
     signupIsOpen, 
-    handleSignupIsOpen 
+    handleSignupIsOpen,
+    addDraculaModalIsOpen,
+    handleAddDraculaModalOpen,
+    areYouSureIsOpen,
+    handleAreYouSureOpen,
+    editReviewIsOpen
   } = useContext(ModalContext);
 
   console.log("login is open CONTEXT", loginIsOpen)
 
   const [isExpanded, setExpanded] = useState(false);
   const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded, setExpanded });
-  const [isSignupModalShowing, setIsSignupModalShowing] = useState(false);
-  const [isLoginModalShowing, setIsLoginModalShowing] = useState(false);
   const [ isHoverDivShowing, setIsHoverDivShowing ] = useState(false);
   const [options, setOptions ]= useState([
     'Alphabetize Draculas', 'Most Popular Draculas', 'Least Popular Draculas'
@@ -47,27 +53,10 @@ function App({detailIsOpen, handleDetailIsOpen}) {
 
   const { currentUser, logout } = useAuth();
   console.log("CURRENT USER", currentUser);
+  
   const handleLoading = (toggle) => {
     setLoading(toggle)
   }
-
-  const handleDropdownChange = (e) => {
-    setDropdownValue(e.value);
-  }
-
-  const handleOpenPopup = () => {
-    setPopupOpen(false)
-  }
-
-  const toggleSignupModal = () => {
-    setIsSignupModalShowing((prevExpanded) => !prevExpanded)
-    setIsHoverDivShowing(false)
-    handleSignupIsOpen()
-  } 
-  const toggleLoginModal = () => {
-    setIsHoverDivShowing(false)
-    handleLoginIsOpen()
-  } 
   const toggleHoverDiv = () => {
     setIsHoverDivShowing((prevExpanded) => !prevExpanded)
   } 
@@ -88,9 +77,9 @@ function App({detailIsOpen, handleDetailIsOpen}) {
       </div>
       {isHoverDivShowing && 
       <div onMouseEnter={toggleHoverDiv} onMouseLeave={toggleHoverDiv} className="hover-wrapper">
-        {!currentUser && <div onClick={() => toggleLoginModal()} className="login-button"><p>Login</p></div>}
+        {!currentUser && <div onClick={() => handleLoginIsOpen()} className="login-button"><p>Login</p></div>}
         {currentUser && <div onClick={() => handleLogout()} className="logout-button"><p>Logout</p></div>}
-        {!currentUser && <div onClick={() => toggleSignupModal()} className="signup-button"><p>Sign Up</p></div>}
+        {!currentUser && <div onClick={() => handleSignupIsOpen()} className="signup-button"><p>Sign Up</p></div>}
       </div>}
 
 
@@ -178,6 +167,11 @@ function App({detailIsOpen, handleDetailIsOpen}) {
       {loading && <Loading/>}
       {loginIsOpen && <LoginModal />}
       {signupIsOpen && <SignupModal />}
+      {addDraculaModalIsOpen && <AddDraculaModal />}
+      {/* {areYouSureIsOpen && <AreYouSure draculaToDelete={draculaToDelete} deleteDracula={deleteDracula}/>} */}
+      {areYouSureIsOpen && <AreYouSure />}
+      {editReviewIsOpen && <EditReviewModal/>}
+
 </>
  
   );

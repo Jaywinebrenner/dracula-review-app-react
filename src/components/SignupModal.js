@@ -104,7 +104,7 @@ function SignupModal() {
                                 required
                             />
 
-                            <button disabled={loading} onClick={handleSignup} className="submit-review-button" type="button">Sign Up</button>
+                            <button disabled={loading} onClick={handleSignup} className="submit-review-button signup-submit-button" type="button">Sign Up</button>
                         </div>
                     </div>
 

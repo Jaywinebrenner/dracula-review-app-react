@@ -14,26 +14,23 @@ import Dropdown from 'react-dropdown';
  /* eslint-disable */ 
  import { ModalContext } from '../contexts/ModalContext.js';
 
-function Home({handleLoading, handleDetailIsOpen, detailIsOpen}) {
+function Home({handleLoading}) {
 
   const { 
-    addDraculaModalIsOpen,
     handleAddDraculaModalOpen,
     handleAddDetailOpen,
-
+    removeHome,
+    handleAreYouSureOpen,
+    draculaToDelete,
+    setDraculaToDelete
   } = useContext(ModalContext);
 
   const { currentUser } = useAuth();
   const [ allDraculas, setAllDraculas] = useState('')
-  // const [ isAddDraculaModalShowing, setIsAddDraculaModalShowing] = useState(false)
   const [allReviews, setAllReviews] = useState();
   const [isAreYouSureShowing, setIsAreYouSureShowing] = useState(false);
-  const [draculaToDelete, setDraculaToDelete] = useState()
 
 
-  // const toggleAddDraculaModal = () => {
-  //     setIsAddDraculaModalShowing((prevExpanded) => !prevExpanded)
-  // } 
   const toggleAreYouSure = () => {
     setDraculaToDelete()
     setIsAreYouSureShowing((prevExpanded) => !prevExpanded)
@@ -71,16 +68,16 @@ function Home({handleLoading, handleDetailIsOpen, detailIsOpen}) {
       }, []);
 
       const clickDelete = (id) => {
+        console.log("CLICK DELETE ID ON HOME", id)
         setDraculaToDelete(id)
-        toggleAreYouSure(true)
+        handleAreYouSureOpen()
       }
 
-        const deleteDracula = (id) => {
-          console.log("id", id)
-          draculasRef.doc(id).delete();
-          const revs = allReviews.filter((rev) => rev.dracula_id === id)
-
-        }
+        // const deleteDracula = (id) => {
+        //   console.log("id", id)
+        //   draculasRef.doc(id).delete();
+        //   const revs = allReviews.filter((rev) => rev.dracula_id === id)
+        // }
 
 
       const filterSet = () => {
@@ -109,10 +106,8 @@ function Home({handleLoading, handleDetailIsOpen, detailIsOpen}) {
       filterSet();
 
   return (
-    <div className={`home ${detailIsOpen ? 'modal-showing' : null}`}> 
-  {/* <div className={`home ${detailIsOpen || loginIsOpen || signupIsOpen ? 'modal-showing' : null}`}>  */}
+    <div className={`home ${removeHome() ? 'modal-showing' : null}`}> 
 
-     
       <div className="subheader-wrapper">
         <h1 className="subheader">Draculas to Review</h1>
         <FontAwesomeIcon onClick={() => handleAddDraculaModalOpen()} className="plus-drac" size='3x' icon={currentUser && faPlusCircle} />
@@ -134,8 +129,10 @@ function Home({handleLoading, handleDetailIsOpen, detailIsOpen}) {
       </div>
       <div className="dracula-wrap">
         {allDraculas && allDraculas.map((dracula) => (
-          <div onClick={() => handleAddDetailOpen()} className='single-dracula' key={dracula.id}>
-            <Link to={{
+          <div className='single-dracula' key={dracula.id}>
+            <Link 
+            onClick={() => handleAddDetailOpen()} 
+            to={{
               pathname: `/detail/${dracula.id}`,
               state: {
                 allDraculas: allDraculas,
@@ -145,22 +142,22 @@ function Home({handleLoading, handleDetailIsOpen, detailIsOpen}) {
             }}>
             <img className="dracula-image" src={dracula.image_url} />
             </Link>
-            <div className="trash-wrapper" onClick={() => clickDelete(dracula.id)}>
+            <div className="trash-wrapper" >
                 <p className="drac-name">{dracula.name}</p>
                   { 
                     currentUser &&
                     (currentUser.uid === dracula.userId)
-                      ? <FontAwesomeIcon className="drac-trash" size='1x' icon={faTrashAlt}/>
+                      ? <FontAwesomeIcon onClick={() => clickDelete(dracula.id)} className="drac-trash" size='1x' icon={faTrashAlt}/>
                       : null
                   }
               
             </div>
-            <AverageRating size={"1x"} rating={dracula.scores}/>
+            <div style={{pointerEvents: "none"}}>
+              <AverageRating size={"1x"} rating={dracula.scores}/>
+            </div>
           </div>
      ))}
         </div>
-      {addDraculaModalIsOpen && <AddDraculaModal />}
-      {isAreYouSureShowing && <AreYouSure setAnyModalOpen draculaToDelete={draculaToDelete} deleteDracula={deleteDracula} toggleAreYouSure={toggleAreYouSure}/>}
       </div>
   );
 }
